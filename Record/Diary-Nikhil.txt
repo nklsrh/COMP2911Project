@@ -1,0 +1,11 @@
+27th April 2013, 1600 hrs
+
+So far we have accomplished the following:
+- I created a GitHub repo
+- I added Ryan Tan and Nicholas Ho as collaborators to the repo
+- Nicholas and I set up GitHub for Windows; Ryan is using SourceTree
+- Ryan has suggested the use of MVC (Model-View-Controller) pattern for developing this project
+- Ryan is also interested in the D3 Javascript library for making graphs (I'm not entirely sure why)
+- I am about to begin creating a project log file for committing, this will be edited by the others as well to work as a basis for our development diaries
+
+==========================
