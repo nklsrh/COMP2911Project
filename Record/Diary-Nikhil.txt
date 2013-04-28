@@ -9,3 +9,12 @@ So far we have accomplished the following:
 - I am about to begin creating a project log file for committing, this will be edited by the others as well to work as a basis for our development diaries
 
 ==========================
+
+29th April 2013, 1000 hrs
+
+Have not started any design or code work so far, still working out the Project Management tools
+- GitHub is cool but I fear it may not be as productive as DropBox, for example
+- Definitely the branch system of Git is useful for coding
+- I have uninstalled GitHub for Windows and SourceTree after trying them for a while. TortoiseGit is the best tool I've seen so far: It has context-menus in Explorer, simple oneclick commands and uncluttered interface. Also its not tied only to GitHub
+- Nicholas and I have spent the last few days working on our Lab tasks (BFS searches, Strategy patterns) so have not yet begun work on this
+- We need to get a move on and decide on who is doing what
