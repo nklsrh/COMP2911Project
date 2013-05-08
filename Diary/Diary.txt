@@ -1,17 +1,21 @@
 /++ 24 April 2013 ++\
 
-Set up git account
-Set up github
-Tried git tutorial
-Joined group repo
+-Set up git account
+-Set up github
+-Tried git tutorial
+-Joined group repo
 
 /++ 25 April 2013 ++\
 
-Met with Ryan to discuss strategies
-We will use JavaScript in addition to normal java?
+-Met with Ryan to discuss strategies
+-We will use JavaScript in addition to normal java?
 
 /++ 6 May 2013 ++\
 
-Made my first and second test commits!
-Learned about merging branches.
-Produced and committed this Diary for the first time.
+-Made my first and second test commits!
+-Learned about merging branches.
+-Produced and committed this Diary for the first time.
+
+/++ 8 May 2013 ++\
+
+-Made my first proper contribution to the project, uploaded interfaces  for Cell, Grid and Puzzle.
