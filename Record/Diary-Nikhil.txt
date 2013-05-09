@@ -1,0 +1,30 @@
+27th April 2013, 1600 hrs
+
+So far we have accomplished the following:
+- I created a GitHub repo
+- I added Ryan Tan and Nicholas Ho as collaborators to the repo
+- Nicholas and I set up GitHub for Windows; Ryan is using SourceTree
+- Ryan has suggested the use of MVC (Model-View-Controller) pattern for developing this project
+- Ryan is also interested in the D3 Javascript library for making graphs (I'm not entirely sure why)
+- I am about to begin creating a project log file for committing, this will be edited by the others as well to work as a basis for our development diaries
+
+==========================
+
+29th April 2013, 1000 hrs
+
+Have not started any design or code work so far, still working out the Project Management tools
+- GitHub is cool but I fear it may not be as productive as DropBox, for example
+- Definitely the branch system of Git is useful for coding
+- I have uninstalled GitHub for Windows and SourceTree after trying them for a while. TortoiseGit is the best tool I've seen so far: It has context-menus in Explorer, simple oneclick commands and uncluttered interface. Also its not tied only to GitHub
+- Nicholas and I have spent the last few days working on our Lab tasks (BFS searches, Strategy patterns) so have not yet begun work on this
+- We need to get a move on and decide on who is doing what
+
+==========================
+
+9th May 2013, 1100 hrs
+
+Started some design (graphical) work in Inkscape for the UI interactions and general layout of the game.
+- Had a conversation with Ryan and Nicholas regarding the next step in the project. It seems we are starting with creating Interfaces for the grid and squares, with Nicholas coding some of it last night.
+- I've taken charge of the user interface and layout so the other two can focus on the back-end and controller. We are utilising the MVC (Model-View-Controller) method of design, so it only makes sense that each of use take charge of one aspect of it.
+- I should be able to complete a few sketches of layouts and compile a list of user interaction flow diagrams by this weekend, but there's a massive assignment in the way, so it might be tricky.
+- I'm now using GitHub for Mac and I took Nicholas through the process of committing, branching and merging the other day. Check the git log for details.
