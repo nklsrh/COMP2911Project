@@ -19,3 +19,8 @@
 /++ 8 May 2013 ++\
 
 -Made my first proper contribution to the project, uploaded interfaces  for Cell, Grid and Puzzle.
+
+/++ 14 May 2013 ++\
+
+-Extended the interfaces to contain more methods
+-implemented the methods.
