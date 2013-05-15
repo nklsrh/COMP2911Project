@@ -4,7 +4,7 @@ package model;
  * of a Sudoku game, and has coordinates for its position within a 3x3 Grid within a Sudoku puzzle.
  * @author Nicholas Ho, Ryan Tan, Nikhil Suresh
  */
-public interface iCell {
+public interface CellInterface {
 	/**
 	 * getNumber is called as a getter for the number contained in the cell (from 1-9), for the purposes of a 
 	 * Sudoku game. If there is no contained number, it shall be 0.
