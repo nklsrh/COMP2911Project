@@ -47,4 +47,19 @@ public class Grid {
 		}
 		return doesIt;
 	}
+	
+	@Override
+	public String toString(){
+		StringBuffer string = new StringBuffer();
+		string.append("-------------\n");
+		for(int i=0; i< NUM_GRID_ROW; i++){
+			string.append("| ");
+			for(int j=0; j< NUM_GRID_COLUMN; j++){
+				string.append(gridTable.get(i).get(j).getNumber() + " | ");
+			}
+			string.append("\n-------------\n");
+		}
+		string.append("\n");
+		return string.toString();
+	}
 }

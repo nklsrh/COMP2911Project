@@ -13,7 +13,7 @@ public class Cell {
 	
 	//for a changing cell
 	public Cell() {
-		this.number = null;
+		this.number = 0;
 		this.isFixed = false;
 	}
 	
@@ -21,7 +21,15 @@ public class Cell {
 		return isFixed;
 	}
 	
+	public void setFixed(boolean set){
+		this.isFixed = set;
+	}
+	
 	public int getNumber() {
 		return number;
-	}	
+	}
+	
+	public void setNumber(int num){
+		this.number = num;
+	}
 }
