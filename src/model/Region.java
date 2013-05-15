@@ -1,4 +1,4 @@
-package SudokuModel;
+package model;
 
 import java.util.ArrayList;
 

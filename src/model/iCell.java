@@ -1,4 +1,4 @@
-package SudokuModel;
+package model;
 /**
  * This is an abstract interface for the implementation of the Cell class which contains a number for the purposes
  * of a Sudoku game, and has coordinates for its position within a 3x3 Grid within a Sudoku puzzle.
