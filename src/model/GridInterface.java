@@ -6,7 +6,7 @@ package model;
  * of Region objects. Together, the 9 regions with the cells that they contain make up the entire Sudoku Puzzle.
  * @author Nicholas Ho, Ryan Tan, Nikhil Suresh
  */
-public interface iRegion {
+public interface GridInterface {
 	/**
 	 * addCell is called as a method during initialisation of the Sudoku game board, where cells are to be added
 	 * to its parent region. A containing number, column, row and index positions as well as its "solved" status

@@ -1,6 +1,6 @@
 package model;
 
-public class Cell implements iCell {
+public class Cell implements CellInterface {
 	private int number;
 	private int columnPos;
 	private int rowPos;

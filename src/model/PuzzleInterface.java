@@ -6,7 +6,7 @@ package model;
  * Together, they compose the structure of a standard 9x9-cell Sudoku puzzle.
  * @author Nicholas Ho, Ryan Tan, Nikhil Suresh
  */
-public interface iPuzzle {
+public interface PuzzleInterface {
 	/**
 	 * getCell is called as a getter for the cell that is located at a provided row and column position, 
 	 * relative to the <b>puzzle</b> that contains it.
@@ -33,5 +33,5 @@ public interface iPuzzle {
 	 * @param column The numerical column position of the desired cell. Ranges from 0 to 2.
 	 * @return The <b>Cell</b>, located at a provided row and column.
 	 */
-	public Region getRegion(int column, int row);
+	public Grid getRegion(int column, int row);
 }

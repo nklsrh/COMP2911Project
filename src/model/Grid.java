@@ -2,13 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
-public class Region implements iRegion {
+public class Grid implements GridInterface {
 	private int columnPos;
 	private int rowPos;
 	private int index;
 	private ArrayList <Cell> cells;
 	
-	public Region(int columnPos, int rowPos, int index) {
+	public Grid(int columnPos, int rowPos, int index) {
 		cells = new ArrayList <Cell>(9);
 		this.columnPos = columnPos;
 		this.rowPos = rowPos;
