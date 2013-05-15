@@ -3,8 +3,8 @@ package model;
 import java.util.ArrayList;
 
 public class Grid implements GridInterface {
-	private static final int NUM_GRID_WIDTH = 3;
-	private static final int NUM_GRID_HEIGHT = 3;
+	private static final int NUM_GRID_ROW = 3;
+	private static final int NUM_GRID_COLUMN = 3;
 	
 	private int gridIndex;
 	private ArrayList<ArrayList<Cell>> gridTable;
@@ -29,8 +29,8 @@ public class Grid implements GridInterface {
 	
 	@Override
 	public Cell getCell(int index){
-		for (int i = 0; i < (index+1)/3; i++){
-			for (int j = 0; j < (index+1)%3; j++){
+		for (int i = 0; i < (index+1) / NUM_GRID_ROW; i++){
+			for (int j = 0; j < (index+1) % NUM_GRID_COLUMN; j++){
 				return gridTable.get(i).get(j);
 			}
 		}
