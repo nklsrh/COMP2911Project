@@ -20,7 +20,8 @@ public class FrameMain extends JFrame {
 	private Integer padding;
 	private Integer textboxWidth;
 	private Integer widthBetweenTextBoxes;
-	
+	private Integer totalWidthOfGrid;
+	private Integer widthOfSidebar;
 	/**
 	 * Create the frame.
 	 */
@@ -29,11 +30,14 @@ public class FrameMain extends JFrame {
 		padding = 6;
 		textboxWidth = 28;
 		widthBetweenTextBoxes = 31;
+		widthOfSidebar = 300;
+		
+		totalWidthOfGrid = padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth;
 		
 		setResizable(false);
 		setBackground(SystemColor.window);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 100, 800, 480);
+		setBounds(300, 100, totalWidthOfGrid + widthOfSidebar, totalWidthOfGrid + textboxWidth);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -46,9 +50,25 @@ public class FrameMain extends JFrame {
 		
 		JPanel sidebarPanel = new JPanel();
 		sidebarPanel.setBackground(SystemColor.windowBorder);
-		sidebarPanel.setBounds(padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding, 291, 436);
+		sidebarPanel.setBounds(totalWidthOfGrid, 0, widthOfSidebar, totalWidthOfGrid);
 		fullPanel.add(sidebarPanel);
 		sidebarPanel.setLayout(null);
+		
+		JTabbedPane timerPane = new JTabbedPane(JTabbedPane.TOP);
+		timerPane.setBounds(0, 6, 288, 301);
+		sidebarPanel.add(timerPane);
+		
+		JLabel lblNewLabel = new JLabel("TIMER:");
+		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+		timerPane.addTab("TIMER", null, lblNewLabel, null);
+		
+		JLabel lblStats = new JLabel("STATS:");
+		timerPane.addTab("STATS", null, lblStats, null);
+		lblStats.setVerticalAlignment(SwingConstants.TOP);
+		
+		JLabel lblHint = new JLabel("HINT:");
+		timerPane.addTab("HINT", null, lblHint, null);
+		lblHint.setVerticalAlignment(SwingConstants.TOP);
 		
 		JPanel gridPanel = new JPanel();
 		gridPanel.setBounds(padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
