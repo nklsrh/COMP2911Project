@@ -14,6 +14,7 @@ public class Cell implements CellInterface {
 	//for a changing cell
 	public Cell() {
 		this.number = null;
+		this.isFixed = false;
 	}
 	
 	public boolean isFixed(){
