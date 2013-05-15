@@ -7,12 +7,15 @@ public class Puzzle implements PuzzleInterface {
 	private static final int NUM_COLUMNS = 9;
 	private static final int NUM_ROWS = 9;
 	
+	private ArrayList<Grid> gridStore;
+	private ArrayList<Row> rowStore;
 	private int difficulty;
-	private ArrayList<Grid> puzzelGridStore;
+	
 	
 	public Puzzle(int difficulty) {
 		this.difficulty = difficulty;
-		puzzelGridStore = new ArrayList<Grid>();
+		gridStore = new ArrayList<Grid>();
+		rowStore = new ArrayList<Row>();
 		puzzelInit();
 	}
 	
@@ -20,8 +23,10 @@ public class Puzzle implements PuzzleInterface {
 	private void puzzelInit(){
 		//make 9 grids
 		for(int i=0; i < NUM_GRIDS; i++){
-			puzzelGridStore.add(gridInit(i));
+			gridStore.add(gridInit(i));
 		}
+		
+		rowInit();
 	}
 	
 	//initialises & creates the grid cells
@@ -37,6 +42,33 @@ public class Puzzle implements PuzzleInterface {
 		return grid;
 	}
 	
+	
+	private void rowInit(){
+		for(int i=0; i < NUM_ROWS; i++){
+			Row row = new Row();
+			rowBuilder(gridStore, row, i);
+			rowStore.add(new Row());
+		}
+		
+	}
+	
+	//rowIndex represent the Row number
+	private Row rowBuilder(ArrayList<Grid> gridStore, Row row, int rowNumber){
+		int numSide = Grid.NUM_GRID_ROW; //number of rows
+		int lower = (rowNumber/numSide);
+		int upper = lower + numSide;
+		
+		//first 3 rows == grid 0-2
+		for(int i=lower; i < upper; i++){
+			Grid curGrid = gridStore.get(i);
+			for(int j=0; i < numSide; j++){
+				Cell cell = curGrid.getGridTable().get(rowNumber%numSide).get(j);
+				row.getRow().add(cell);
+			}
+		}
+		return row;
+	}
+	
 	@Override
 	public Cell getCell(int row, int column){
 		return null;
@@ -47,9 +79,9 @@ public class Puzzle implements PuzzleInterface {
 		return difficulty;
 	}
 	
-//	@Override
+	@Override
 	public Grid getGrid(int gridIndex) {
-		return puzzelGridStore.get(gridIndex);
+		return gridStore.get(gridIndex);
 	}
 
 

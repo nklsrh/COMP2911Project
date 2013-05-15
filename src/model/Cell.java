@@ -1,6 +1,6 @@
 package model;
 
-public class Cell implements CellInterface {
+public class Cell {
 	
 	private Integer number;
 	private boolean isFixed;
@@ -17,12 +17,10 @@ public class Cell implements CellInterface {
 		this.isFixed = false;
 	}
 	
-	@Override
 	public boolean isFixed(){
 		return isFixed;
 	}
 	
-	@Override
 	public int getNumber() {
 		return number;
 	}	

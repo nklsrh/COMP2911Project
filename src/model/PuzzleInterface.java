@@ -25,7 +25,7 @@ public interface PuzzleInterface {
 	 * @return <b>true</b> if all cells have been correctly guessed and/or revealed. <b>false</b> if not all cells
 	 * have been correctly guessed and/or revealed. 
 	 */
-//	public boolean isSolved();
+
 	/**
 	 * getRegion is called as a getter for the region that is located at a provided row and column position,
 	 * relative to the <b>Puzzle</b> that contains it.
