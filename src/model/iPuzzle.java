@@ -1,4 +1,4 @@
-package SudokuModel;
+package model;
 
 /**
  * This is an abstract interface for the implementation of the Puzzle class which contains 9 grids of cells, 

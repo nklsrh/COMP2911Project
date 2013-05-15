@@ -1,4 +1,4 @@
-package SudokuModel;
+package model;
 
 public class Cell implements iCell {
 	private int number;

@@ -1,4 +1,4 @@
-package SudokuModel;
+package model;
 
 /**
  * This is an abstract interface for the implementation of the Region class which contains 9 cells in a 3x3 grid 
