@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Puzzle implements PuzzleInterface {
 	private static final int NUM_GRIDS = 9;
-	private static final int NUM_COLUMNS = 9;
 	private static final int NUM_ROWS = 9;
+	private static final int NUM_COLUMNS = 9;
 	
 	private ArrayList<Grid> gridStore;
 	private ArrayList<Row> rowStore;
@@ -26,7 +26,7 @@ public class Puzzle implements PuzzleInterface {
 			gridStore.add(gridInit(i));
 		}
 		
-		rowInit();
+//		rowInit();
 	}
 	
 	//initialises & creates the grid cells
@@ -83,6 +83,9 @@ public class Puzzle implements PuzzleInterface {
 	public Grid getGrid(int gridIndex) {
 		return gridStore.get(gridIndex);
 	}
-
+	
+	public ArrayList<Grid> getGridList(){
+		return gridStore;
+	}
 
 }
