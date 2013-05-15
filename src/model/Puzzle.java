@@ -37,6 +37,10 @@ public class Puzzle implements PuzzleInterface {
 		return grid;
 	}
 	
+	@Override
+	public Cell getCell(int row, int column){
+		return null;
+	}
 	
 	@Override
 	public int getDifficulty() {
@@ -44,8 +48,9 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 //	@Override
-	public Grid getRegion(int gridIndex) {
+	public Grid getGrid(int gridIndex) {
 		return puzzelGridStore.get(gridIndex);
 	}
+
 
 }
