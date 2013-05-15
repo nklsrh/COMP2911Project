@@ -17,6 +17,7 @@ public class Cell implements CellInterface {
 		this.isFixed = false;
 	}
 	
+	@Override
 	public boolean isFixed(){
 		return isFixed;
 	}
