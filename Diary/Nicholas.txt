@@ -24,3 +24,13 @@
 
 -Extended the interfaces to contain more methods
 -implemented the methods.
+
+/++ 15 May 2013 ++\ 
+
+-Ryan has moved somet things around, renamed some things, deleted some things. Not sure what's happening and i'm not being told. 
+-Tried to merge Master branch into my branch, but it's getting conflicts.Need to get this sorted out.
+
+/++ 16 May 2013 ++\
+
+-Finally managed to succesfully merge Master into my branch.
+-Created packages for Controller and the main Sudoku game in an effort to understand how the rest of the game should be structured. Not very successful.

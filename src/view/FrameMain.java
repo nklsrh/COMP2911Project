@@ -1,18 +1,16 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.*;
 
 import java.awt.GridLayout;
-import java.awt.Color;
 import java.awt.SystemColor;
 import java.util.ArrayList;
+import java.awt.Font;
+import java.awt.event.*;
 
 public class FrameMain extends JFrame {
-
 	private JPanel contentPane;
 	private ArrayList<ArrayList<JTextField>> boxes;
 	
@@ -54,20 +52,31 @@ public class FrameMain extends JFrame {
 		fullPanel.add(sidebarPanel);
 		sidebarPanel.setLayout(null);
 		
-		JTabbedPane timerPane = new JTabbedPane(JTabbedPane.TOP);
-		timerPane.setBounds(0, 6, 288, 301);
-		sidebarPanel.add(timerPane);
+		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
+		tabs.setBounds(0, 6, 288, 301);
+		sidebarPanel.add(tabs);
 		
-		JLabel lblNewLabel = new JLabel("TIMER:");
-		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		timerPane.addTab("TIMER", null, lblNewLabel, null);
+		JPanel tabTimer = new JPanel();
+		tabs.addTab("TIMER", null, tabTimer, null);
 		
-		JLabel lblStats = new JLabel("STATS:");
-		timerPane.addTab("STATS", null, lblStats, null);
+		JLabel lblNewLabel = new JLabel("TIME SINCE PUZZLE STARTED");
+		tabTimer.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+		
+		JPanel tabStats = new JPanel();
+		tabs.addTab("STATISTICS", null, tabStats, null);
+		
+		JLabel lblStats = new JLabel("STATISTICS");
+		lblStats.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+		tabStats.add(lblStats);
 		lblStats.setVerticalAlignment(SwingConstants.TOP);
 		
-		JLabel lblHint = new JLabel("HINT:");
-		timerPane.addTab("HINT", null, lblHint, null);
+		JPanel tabHints = new JPanel();
+		tabs.addTab("HINTS", null, tabHints, null);
+		
+		JLabel lblHint = new JLabel("HINTS");
+		lblHint.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+		tabHints.add(lblHint);
 		lblHint.setVerticalAlignment(SwingConstants.TOP);
 		
 		JPanel gridPanel = new JPanel();
@@ -78,14 +87,22 @@ public class FrameMain extends JFrame {
 		boxes = new ArrayList<ArrayList<JTextField>>();
 		for (int y = 0; y < numberOfRows; y++)
 		{
+			final int thisY = y;
 			boxes.add(new ArrayList<JTextField>());
 			for (int x = 0; x < numberOfRows; x++)
 			{
-				boxes.get(y).add(new JTextField());
+				final int thisX = x;
+				boxes.get(y).add(new JTextField(1));
 				boxes.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 				boxes.get(y).get(x).setColumns(1);
 				gridPanel.add(boxes.get(y).get(x));
+				boxes.get(y).get(x).addCaretListener(new CaretListener(){
+			      public void caretUpdate(CaretEvent e) {
+			        System.out.println(e + ", at " + thisX + "," + thisY);
+			      }
+			    });
 			}
 		}
 	}
+
 }
