@@ -16,11 +16,11 @@ public class Puzzle implements PuzzleInterface {
 		this.difficulty = difficulty;
 		gridStore = new ArrayList<Grid>();
 		rowStore = new ArrayList<Row>();
-		puzzelInit();
+		puzzleInit();
 	}
 	
 	//initialises & creates the grids
-	private void puzzelInit(){
+	private void puzzleInit(){
 		//make 9 grids
 		for(int i=0; i < NUM_GRIDS; i++){
 			gridStore.add(gridInit(i));
