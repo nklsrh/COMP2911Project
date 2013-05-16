@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class TestPuzzelTest {
+public class TestPuzzleTest {
 
 	/**
 	 * @param args
@@ -45,6 +45,13 @@ public class TestPuzzelTest {
 		Iterator<Grid> git = puzzle.getGridList().iterator();
 		while(git.hasNext()){
 			System.out.print(git.next().toString());
+		}
+		
+		Iterator<Row> rit = puzzle.getRowList().iterator();
+		System.out.println(" -----------------------------------");
+		while(rit.hasNext()){
+			System.out.println(rit.next().toString());
+			System.out.println(" -----------------------------------");
 		}
 	}
 

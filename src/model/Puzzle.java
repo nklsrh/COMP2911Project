@@ -26,16 +26,16 @@ public class Puzzle implements PuzzleInterface {
 			gridStore.add(gridInit(i));
 		}
 		
-//		rowInit();
+		rowInit();
 	}
 	
 	//initialises & creates the grid cells
 	private Grid gridInit(int gridIndex){
 		Grid grid = new Grid(gridIndex);
 		
-		for(int i=0; i<3; i++){
+		for(int i=0; i<Grid.NUM_GRID_SIDE; i++){
 			grid.getGridTable().add(new ArrayList<Cell>());
-			for(int j=0; j<3; j++){
+			for(int j=0; j<Grid.NUM_GRID_SIDE; j++){
 				grid.getGridTable().get(i).add(new Cell());
 			}
 		}
@@ -46,23 +46,23 @@ public class Puzzle implements PuzzleInterface {
 	private void rowInit(){
 		for(int i=0; i < NUM_ROWS; i++){
 			Row row = new Row();
-			rowBuilder(gridStore, row, i);
-			rowStore.add(new Row());
+			row = rowBuilder(gridStore, row, i);
+			rowStore.add(row);
 		}
 		
 	}
 	
 	//rowIndex represent the Row number
 	private Row rowBuilder(ArrayList<Grid> gridStore, Row row, int rowNumber){
-		int numSide = Grid.NUM_GRID_ROW; //number of rows
+		int numSide = Grid.NUM_GRID_SIDE; //number of rows
 		int lower = (rowNumber/numSide);
 		int upper = lower + numSide;
 		
 		//first 3 rows == grid 0-2
 		for(int i=lower; i < upper; i++){
 			Grid curGrid = gridStore.get(i);
-			for(int j=0; i < numSide; j++){
-				Cell cell = curGrid.getGridTable().get(rowNumber%numSide).get(j);
+			for(int j=0; j < Grid.NUM_GRID_SIDE; j++){
+				Cell cell = curGrid.getGridTable().get(rowNumber % numSide).get(j);
 				row.getRow().add(cell);
 			}
 		}
@@ -87,5 +87,8 @@ public class Puzzle implements PuzzleInterface {
 	public ArrayList<Grid> getGridList(){
 		return gridStore;
 	}
-
+	
+	public ArrayList<Row> getRowList(){
+		return rowStore;
+	}
 }
