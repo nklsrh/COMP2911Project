@@ -33,3 +33,4 @@
 /++ 16 May 2013 ++\
 
 -Finally managed to succesfully merge Master into my branch.
+-Created packages for Controller and the main Sudoku game in an effort to understand how the rest of the game should be structured. Not very successful.
