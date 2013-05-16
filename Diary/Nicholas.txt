@@ -29,3 +29,7 @@
 
 -Ryan has moved somet things around, renamed some things, deleted some things. Not sure what's happening and i'm not being told. 
 -Tried to merge Master branch into my branch, but it's getting conflicts.Need to get this sorted out.
+
+/++ 16 May 2013 ++\
+
+-Finally managed to succesfully merge Master into my branch.
