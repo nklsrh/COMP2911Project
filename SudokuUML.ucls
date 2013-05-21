@@ -8,7 +8,7 @@
   </package>  
   <package id="2" language="java" name="sudoku" project="COMP2911project" file="/COMP2911project/src/sudoku" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="115" x="244" y="173"/>    
+    <position height="-1" width="-1" x="310" y="204"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <class id="3" language="java" name="model.Row" project="COMP2911project" file="/COMP2911project/src/model/Row.java" 
@@ -22,7 +22,7 @@
   </class>  
   <class id="4" language="java" name="controller.SudokuController" project="COMP2911project" 
     file="/COMP2911project/src/controller/SudokuController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="145" x="399" y="173"/>    
+    <position height="-1" width="-1" x="479" y="217"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -68,7 +68,7 @@
   </class>  
   <class id="10" language="java" name="model.Column" project="COMP2911project" 
     file="/COMP2911project/src/model/Column.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="593" y="898"/>    
+    <position height="-1" width="-1" x="824" y="923"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
