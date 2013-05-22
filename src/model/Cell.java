@@ -5,13 +5,20 @@ public class Cell {
 	private Integer number;
 	private boolean isFixed;
 	
-	//for non-changing cell
+	/**
+	 * A constructor for a cell of a Sudoku game that is "non-changing" i.e. provided at the start of a game.
+	 * @param number the number that shall be allocated to the cell that will already be present at the start
+	 * of a Sudoku game.
+	 */
 	public Cell(int number) {
 		this.number = number;
 		this.isFixed = true;
 	}
 	
-	//for a changing cell
+	/**
+	 * A constructor for a cell of a Sudoku game that is "changing" i.e. designated by player input while a 
+	 * game of Sudoku is being played.
+	 */
 	public Cell() {
 		this.number = 0;
 		this.isFixed = false;
