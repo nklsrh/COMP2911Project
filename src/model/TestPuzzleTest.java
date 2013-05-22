@@ -68,8 +68,6 @@ public class TestPuzzleTest {
 			System.out.println(cit.next().toString());
 			System.out.println(" -----------------------------------");
 		}
-		
-		
 	}
 
 }
