@@ -42,16 +42,16 @@ public class TestPuzzleTest {
 			gridIndex++;
 		}
 		
-		Iterator<Grid> git = puzzle.getGridList().iterator();
-		while(git.hasNext()){
-			System.out.print(git.next().toString());
-		}
-		
 		Iterator<Row> rit = puzzle.getRowList().iterator();
 		System.out.println(" -----------------------------------");
 		while(rit.hasNext()){
 			System.out.println(rit.next().toString());
 			System.out.println(" -----------------------------------");
+		}
+		
+		Iterator<Grid> git = puzzle.getGridList().iterator();
+		while(git.hasNext()){
+			System.out.print(git.next().toString());
 		}
 	}
 

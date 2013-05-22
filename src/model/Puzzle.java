@@ -9,6 +9,7 @@ public class Puzzle implements PuzzleInterface {
 	
 	private ArrayList<Grid> gridStore;
 	private ArrayList<Row> rowStore;
+	private ArrayList<Column> columnStore;
 	private int difficulty;
 	
 	
