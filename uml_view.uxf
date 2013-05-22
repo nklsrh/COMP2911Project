@@ -6,10 +6,21 @@
     <coordinates>
       <x>100</x>
       <y>60</y>
-      <w>100</w>
-      <h>20</h>
+      <w>260</w>
+      <h>180</h>
     </coordinates>
-    <panel_attributes>SimpleClass</panel_attributes>
+    <panel_attributes>FrameMain
+--
+-contentPane : JPanel
+-boxes : ArrayList&lt;ArrayList&lt;JTextField&gt;&gt;
+-numberOfRows : Integer
+-padding : Integer
+-textboxWidth : Integer
+-widthBetweenTextBoxes : Integer
+-totalWidthOfGrid : Integer
+-widthOfSidebar : Integer
+--
++FrameMain()</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
