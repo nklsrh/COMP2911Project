@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Puzzle implements PuzzleInterface {
 	private static final int NUM_GRIDS = 9;
@@ -23,8 +24,13 @@ public class Puzzle implements PuzzleInterface {
 		gridStore = new ArrayList<Grid>();
 		rowStore = new ArrayList<Row>();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		columnStore = new ArrayList<Column>();
+>>>>>>> origin/master
+=======
+		columnStore = new ArrayList<Column>();
+
 >>>>>>> origin/master
 		puzzleInit();
 	}
@@ -44,9 +50,9 @@ public class Puzzle implements PuzzleInterface {
 	private Grid gridInit(int gridIndex){
 		Grid grid = new Grid(gridIndex);
 		
-		for(int i=0; i<Grid.NUM_GRID_SIDE; i++) {
+		for(int i=0; i<Grid.NUM_CELLS_PER_SIDE; i++) {
 			grid.getGridTable().add(new ArrayList<Cell>());
-			for(int j=0; j<Grid.NUM_GRID_SIDE; j++) {
+			for(int j=0; j<Grid.NUM_CELLS_PER_SIDE; j++) {
 				grid.getGridTable().get(i).add(new Cell());
 			}
 		}
@@ -66,43 +72,69 @@ public class Puzzle implements PuzzleInterface {
 	private void columnInit() {
 		for(int i=0; i < NUM_COLUMNS; i++){
 			Column column = new Column();
-			column = columnBuilder(gridStore, column, i);
+			column = columnBuilder(rowStore, column, i);
 			columnStore.add(column);
 		}
 	}
 	
 	//rowIndex represent the Row number
 	private Row rowBuilder(ArrayList<Grid> gridStore, Row row, int rowNumber){
-		int numSide = Grid.NUM_GRID_SIDE; //number of rows
-		int lower = (rowNumber/numSide);
-		int upper = lower + numSide;
+		int numSide = Grid.NUM_CELLS_PER_SIDE; //number of rows on grid
+		
+		int firstGridNo = 0;
+		int lastGridNo = 0;
+		if(rowNumber >= 0 && rowNumber < 3){
+			firstGridNo = 0;
+			lastGridNo = 2;
+		}else if(rowNumber >= 3 && rowNumber < 6){
+			firstGridNo = 3;
+			lastGridNo = 5;
+		}else if(rowNumber >= 6 && rowNumber < 9){
+			firstGridNo = 6;
+			lastGridNo = 8;
+		}
+		
 		
 		//first 3 rows == grid 0-2
-		for(int i=lower; i < upper; i++){
-			Grid curGrid = gridStore.get(i);
-			for(int j=0; j < Grid.NUM_GRID_SIDE; j++){
-				Cell cell = curGrid.getGridTable().get(rowNumber % numSide).get(j);
-				row.getRow().add(cell);
+		int gridRowNumber = rowNumber % numSide;
+		
+		
+		for(int gridNo=firstGridNo; gridNo < (lastGridNo+1); gridNo++){
+			Grid curGrid = gridStore.get(gridNo);
+			
+			for(int j=0; j < numSide; j++){
+				Cell cell = curGrid.getGridTable().get(gridRowNumber).get(j);
+				if(gridNo >= 6 && gridNo < 8){
+					System.out.println(j);
+				}
+				row.addToList(cell);
 			}
 		}
+		
 		return row;
 	}
 	
-	//columnIndex represent the Column number
-	private Column columnBuilder(ArrayList<Grid> gridStore, Column column, int colNumber){
-		int numSide = Grid.NUM_GRID_SIDE; //number of rows
-		int lower = (colNumber/numSide);
-		int upper = lower + numSide;
+	private Column columnBuilder(ArrayList<Row> rowStore, Column column, int ColIndex){
 		
-		//first 3 rows == grid 0-2
-		for(int i=lower; i < upper; i++){
-			Grid curGrid = gridStore.get(i);
-			for(int j=0; j < Grid.NUM_GRID_SIDE; j++){
-				Cell cell = curGrid.getGridTable().get(colNumber % numSide).get(j);
-				column.getColumn().add(cell);
-			}
+		Iterator<Row> rit = rowStore.iterator();
+		while(rit.hasNext()){
+			Cell cell = rit.next().getList().get(ColIndex);
+			column.addToList(cell);
 		}
+		
 		return column;
+	}
+	
+	public ArrayList<Grid> getGridList(){
+		return gridStore;
+	}
+	
+	public ArrayList<Row> getRowList(){
+		return rowStore;
+	}
+	
+	public ArrayList<Column> getColumnList(){
+		return columnStore;
 	}
 	
 	@Override
@@ -118,13 +150,5 @@ public class Puzzle implements PuzzleInterface {
 	@Override
 	public Grid getGrid(int gridIndex) {
 		return gridStore.get(gridIndex);
-	}
-	
-	public ArrayList<Grid> getGridList(){
-		return gridStore;
-	}
-	
-	public ArrayList<Row> getRowList(){
-		return rowStore;
 	}
 }

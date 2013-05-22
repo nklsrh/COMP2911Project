@@ -22,6 +22,7 @@ public class TestPuzzleTest {
 		gridsStrings.add("7 4 1 9 6 3 5 2 8");
 		gridsStrings.add("8 5 2 1 7 4 6 3 9");
 		gridsStrings.add("9 6 3 2 8 5 7 4 1");
+
 		
 		Iterator<String> gsit = gridsStrings.iterator();
 		int gridIndex = 0;
@@ -38,9 +39,18 @@ public class TestPuzzleTest {
 					n++;
 				}
 			}
-			
 			gridIndex++;
 		}
+		
+		
+		
+		Iterator<Grid> git = puzzle.getGridList().iterator();
+		while(git.hasNext()){
+			System.out.print(git.next().toString());
+		}
+		
+		System.out.println();
+		System.out.println("Rows:");
 		
 		Iterator<Row> rit = puzzle.getRowList().iterator();
 		System.out.println(" -----------------------------------");
@@ -49,10 +59,17 @@ public class TestPuzzleTest {
 			System.out.println(" -----------------------------------");
 		}
 		
-		Iterator<Grid> git = puzzle.getGridList().iterator();
-		while(git.hasNext()){
-			System.out.print(git.next().toString());
+		System.out.println();
+		System.out.println("Columns:");
+		
+		Iterator<Column> cit = puzzle.getColumnList().iterator();
+		System.out.println(" -----------------------------------");
+		while(cit.hasNext()){
+			System.out.println(cit.next().toString());
+			System.out.println(" -----------------------------------");
 		}
+		
+		
 	}
 
 }

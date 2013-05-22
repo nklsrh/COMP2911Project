@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Grid {
-	protected static final int NUM_GRID_SIDE = 3;
+	protected static final int NUM_CELLS_PER_SIDE = 3;
 	
 	private int gridIndex;
 	private ArrayList<ArrayList<Cell>> gridTable;
@@ -26,8 +26,8 @@ public class Grid {
 	}
 	
 	public Cell getCell(int index){
-		for (int i = 0; i < (index+1) / NUM_GRID_SIDE; i++){
-			for (int j = 0; j < (index+1) % NUM_GRID_SIDE; j++){
+		for (int i = 0; i < (index+1) / NUM_CELLS_PER_SIDE; i++){
+			for (int j = 0; j < (index+1) % NUM_CELLS_PER_SIDE; j++){
 				return gridTable.get(i).get(j);
 			}
 		}
@@ -51,9 +51,9 @@ public class Grid {
 	public String toString(){
 		StringBuffer string = new StringBuffer();
 		string.append(" -----------\n");
-		for(int i=0; i< NUM_GRID_SIDE; i++){
+		for(int i=0; i< NUM_CELLS_PER_SIDE; i++){
 			string.append("| ");
-			for(int j=0; j< NUM_GRID_SIDE; j++){
+			for(int j=0; j< NUM_CELLS_PER_SIDE; j++){
 				string.append(gridTable.get(i).get(j).getNumber() + " | ");
 			}
 			string.append("\n -----------\n");

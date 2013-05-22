@@ -1,29 +1,38 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Row {
+public class Row implements RowColumnInterface{
 	private ArrayList<Cell> rowCells;
-	protected static final int NUM_ROW_SIDE = 9;
+	protected static final int NUMBER_OF_CELLS = 9;
 	
 	public Row() {
 		rowCells = new ArrayList<Cell>();
 	}
 	
-	public ArrayList<Cell> getRow() {
+	@Override
+	public ArrayList<Cell> getList() {
 		return rowCells;
 	}
 	
+	@Override
+	public void addToList(Cell cell) {
+		if(rowCells.size() <= NUMBER_OF_CELLS){
+			rowCells.add(cell);
+		}
+	}
 	
 	@Override
 	public String toString() {
 		StringBuffer string = new StringBuffer();
 		string.append("| ");
-		if(!rowCells.isEmpty()) {
-			for(int i=0; i< NUM_ROW_SIDE; i++) {
-				string.append(rowCells.get(i).getNumber() + " | ");	
-			}
+		Iterator<Cell> rCit = rowCells.iterator();
+		while(rCit.hasNext()){
+			string.append(rCit.next().getNumber() + " | ");	
 		}
 		return string.toString();
 	}
+
+	
 }
