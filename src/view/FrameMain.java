@@ -141,12 +141,17 @@ public class FrameMain extends JFrame {
 				boxes.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 				boxes.get(y).get(x).setColumns(1);
 				gridPanel.add(boxes.get(y).get(x));
+				final Puzzle pz = puzzle;
 				boxes.get(y).get(x).addCaretListener(new CaretListener(){
 			      public void caretUpdate(CaretEvent e) {
-			        System.out.println(e + ", at " + thisX + "," + thisY);
+			    	  if (boxes.get(thisY).get(thisX).getText().length() > 0)
+			    	  {
+				    	pz.setCell(thisX, thisY, Integer.valueOf(boxes.get(thisY).get(thisX).getText()));
+				        System.out.println(e + ", at " + thisX + "," + thisY);
+			    	  }
 			      }
 			    });
-				System.out.println(puzzle.getCell(x, y));
+				//System.out.println(puzzle.getCell(x, y));
 				boxes.get(y).get(x).setText(Integer.toString(puzzle.getCell(x, y).getNumber()));
 			}
 		}

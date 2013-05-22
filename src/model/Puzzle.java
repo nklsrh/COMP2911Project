@@ -81,6 +81,21 @@ public class Puzzle implements PuzzleInterface {
 		}
 		return null;
 	}
+
+	public void setCell(int row, int column, int value){
+		System.out.println("BEFORE: " + row + "," + column + "  " + rowStore.get(row).getRow());
+		if (row >= 0 && row < NUM_ROWS)
+		{
+			if (rowStore.get(row) != null)
+			{
+				if (rowStore.get(row).getRow().get(column) != null)
+				{
+					rowStore.get(row).getRow().get(column).setNumber(value);
+				}
+			}
+		}
+		System.out.println("AFTER: " + row + "," + column + "  " + rowStore.get(row).getRow());
+	}
 	
 	@Override
 	public int getDifficulty() {
