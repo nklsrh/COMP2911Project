@@ -6,22 +6,22 @@ public class Row {
 	private ArrayList<Cell> rowCells;
 	protected static final int NUM_ROW_SIDE = 9;
 	
-	public Row(){
+	public Row() {
 		rowCells = new ArrayList<Cell>();
 	}
 	
-	public ArrayList<Cell> getRow(){
+	public ArrayList<Cell> getRow() {
 		return rowCells;
 	}
 	
 	
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		StringBuffer string = new StringBuffer();
 		string.append("| ");
-		if(!rowCells.isEmpty()){
-			for(int i=0; i< NUM_ROW_SIDE; i++){
+		if(!rowCells.isEmpty()) {
+			for(int i=0; i< NUM_ROW_SIDE; i++) {
 				string.append(rowCells.get(i).getNumber() + " | ");	
 			}
 		}
