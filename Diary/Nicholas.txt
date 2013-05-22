@@ -34,3 +34,10 @@
 
 -Finally managed to succesfully merge Master into my branch.
 -Created packages for Controller and the main Sudoku game in an effort to understand how the rest of the game should be structured. Not very successful.
+
+/++ 22 May 2013 ++\
+
+-Did research for Sudoku puzzle generation algorithms, found 3 candidates.
+-Implemented some unimplemented methods in Puzzle.java
+-Drew UML Diagrams for Model and View.
+-Controller needs to be done soon.
