@@ -32,4 +32,13 @@ public class Cell {
 	public void setNumber(int num){
 		this.number = num;
 	}
+	
+	/* (non-Javadoc)
+	 * Making sure we return something human-readable
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString()
+	{
+		return Integer.toString(number);
+	}
 }

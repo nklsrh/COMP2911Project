@@ -13,4 +13,13 @@ public class Row {
 		return rowCells;
 	}
 	
+	/* (non-Javadoc)
+	 * Making sure we return something human-readable
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString()
+	{
+		return rowCells.toString();
+	}
+	
 }
