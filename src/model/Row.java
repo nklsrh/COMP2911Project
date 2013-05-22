@@ -15,7 +15,6 @@ public class Row {
 	}
 	
 	
-	
 	@Override
 	public String toString(){
 		StringBuffer string = new StringBuffer();
