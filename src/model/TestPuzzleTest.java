@@ -10,7 +10,7 @@ public class TestPuzzleTest {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Puzzle puzzle = new Puzzle(1);
+		Puzzle puzzle = new Puzzle();
 		ArrayList<String> gridsStrings = new ArrayList<String>(); 
 		
 		gridsStrings.add("1 7 4 3 9 6 8 5 2");

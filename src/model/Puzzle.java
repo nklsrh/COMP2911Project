@@ -11,7 +11,6 @@ public class Puzzle implements PuzzleInterface {
 	private ArrayList<Grid> gridStore;
 	private ArrayList<Row> rowStore;
 	private ArrayList<Column> columnStore;
-	private int difficulty;
 	
 	/**
 	 * Constructs an empty puzzle object given a difficulty setting, which is an <b>int</b>. initialises and
@@ -19,8 +18,7 @@ public class Puzzle implements PuzzleInterface {
 	 * make up a Sudoku puzzle.
 	 * @param difficulty is the numerical difficulty of the puzzle, lower = easier, higher = harder
 	 */
-	public Puzzle(int difficulty){
-		this.difficulty = difficulty;
+	public Puzzle(){
 		gridStore = new ArrayList<Grid>();
 		rowStore = new ArrayList<Row>();
 		columnStore = new ArrayList<Column>();
@@ -131,17 +129,12 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	@Override
-	public Cell getCell(int row, int column){
-		return null;
-	}
-	
-	@Override
-	public int getDifficulty() {
-		return difficulty;
-	}
-	
-	@Override
 	public Grid getGrid(int gridIndex) {
 		return gridStore.get(gridIndex);
+	}
+	
+	@Override
+	public Cell getCell(int rowNum, int columnNum){
+		return rowStore.get(rowNum).getList().get(columnNum);
 	}
 }
