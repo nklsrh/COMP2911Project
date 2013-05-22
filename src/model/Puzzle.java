@@ -23,6 +23,7 @@ public class Puzzle implements PuzzleInterface {
 		gridStore = new ArrayList<Grid>();
 		rowStore = new ArrayList<Row>();
 		columnStore = new ArrayList<Column>();
+
 		puzzleInit();
 	}
 	
