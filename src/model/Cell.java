@@ -10,7 +10,7 @@ public class Cell {
 	 * @param number the number that shall be allocated to the cell that will already be present at the start
 	 * of a Sudoku game.
 	 */
-	public Cell(int number) {
+	public Cell(int number) throws NullPointerException{
 		this.number = number;
 		this.isFixed = true;
 	}
@@ -20,7 +20,7 @@ public class Cell {
 	 * game of Sudoku is being played.
 	 */
 	public Cell() {
-		this.number = 0;
+		this.number = null;
 		this.isFixed = false;
 	}
 	
@@ -32,11 +32,17 @@ public class Cell {
 		this.isFixed = set;
 	}
 	
-	public int getNumber() {
-		return number;
+	public Integer getNumber() throws NullPointerException{
+		return this.number;
 	}
 	
-	public void setNumber(int num){
-		this.number = num;
+	public void setNumber(int num) throws NullPointerException{
+		if(this.number != null){
+			this.number = num;
+		}
+	}
+	
+	public void nullCell(){
+		this.number = null;
 	}
 }
