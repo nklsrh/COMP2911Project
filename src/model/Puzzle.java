@@ -129,7 +129,7 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	public void setCellAsEmpty(int row, int column){
-		if (row >= 0 && row < NUM_ROWS){
+		if (row >= 0 && row < NUM_ROWS && column >= 0 && column < NUM_ROWS){
 			rowStore.get(row).getList().get(column).nullCell();
 			columnStore.get(column).getList().get(row).nullCell();
 		}

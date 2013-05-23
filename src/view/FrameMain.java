@@ -25,6 +25,7 @@ public class FrameMain extends JFrame {
 	private JPanel contentPane;
 	private ArrayList<ArrayList<JButton>> cells;
 	private ArrayList<ArrayList<JButton>> keypadButtons;
+	private JLabel hintLabel;
 	
 	private int numberOfRows;
 	private int padding;
@@ -68,6 +69,8 @@ public class FrameMain extends JFrame {
 		contentPane.add(fullPanel);
 		fullPanel.setLayout(null);
 		
+		//////////////////////////////////////////////
+		
 		JPanel keypadPanel = new JPanel();
 		keypadPanel.setBackground(SystemColor.windowBorder);
 		keypadPanel.setBounds(314, 6, 287, 297);
@@ -79,6 +82,8 @@ public class FrameMain extends JFrame {
 		gbl_keypadPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		keypadPanel.setLayout(gbl_keypadPanel);
 		
+		//////////////////////////////////////////////////////////////////////////////////////
+		
 		JPanel sidebarPanel = new JPanel();
 		sidebarPanel.setBackground(SystemColor.windowBorder);
 		sidebarPanel.setBounds(totalWidthOfGrid + widthOfKeypad, 0, widthOfSidebar, totalWidthOfGrid);
@@ -89,12 +94,43 @@ public class FrameMain extends JFrame {
 		tabs.setBounds(0, 6, 288, 301);
 		sidebarPanel.add(tabs);
 		
+		///////////////////////////////////////////////////////////
+		
+		JPanel tabHints = new JPanel();
+		tabs.addTab("HINTS", null, tabHints, null);
+		tabHints.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JLabel lblHint = new JLabel("HINTS");
+		lblHint.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHint.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+		tabHints.add(lblHint);
+		
+		hintLabel = new JLabel("No hints revealed");
+		hintLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		hintLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		tabHints.add(hintLabel);
+		
+		JButton btnGetHint = new JButton("Get hint");
+		btnGetHint.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		final PuzzleControl pz = puzzleControl;
+		btnGetHint.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadHint(lastPressedCell[1], lastPressedCell[0], pz);
+			}
+		});
+		tabHints.add(btnGetHint);
+		
+		/////////////////////////////////////////////////////////////
+		
 		JPanel tabTimer = new JPanel();
 		tabs.addTab("TIMER", null, tabTimer, null);
 		
 		JLabel lblNewLabel = new JLabel("TIME SINCE PUZZLE STARTED");
 		tabTimer.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
+		
+		////////////////////////////////////////////////////////////////
 		
 		JPanel tabStats = new JPanel();
 		tabs.addTab("STATISTICS", null, tabStats, null);
@@ -104,17 +140,12 @@ public class FrameMain extends JFrame {
 		tabStats.add(lblStats);
 		lblStats.setVerticalAlignment(SwingConstants.TOP);
 		
-		JPanel tabHints = new JPanel();
-		tabs.addTab("HINTS", null, tabHints, null);
-		
-		JLabel lblHint = new JLabel("HINTS");
-		lblHint.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
-		tabHints.add(lblHint);
-		lblHint.setVerticalAlignment(SwingConstants.TOP);
+		//////////////////////////////////////////////////////////////////
 		
 		JPanel gridPanel = new JPanel();
 		gridPanel.setBounds(padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
 		fullPanel.add(gridPanel);
+		gridPanel.setOpaque(true);
 		gridPanel.setLayout(null);
 
 		/////////////////////////////////////////////////////////////////////////
@@ -128,10 +159,15 @@ public class FrameMain extends JFrame {
 
 	private void cellClicked(int thisX, int thisY, PuzzleControl pz)
 	{
+		if (lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
+		{
+			setCellFont(lastPressedCell[1], lastPressedCell[0], false);
+		}
 		if (!pz.getCell(thisY, thisX).isFixed())
     	{
 			lastPressedCell[1] = thisY;
 			lastPressedCell[0] = thisX;
+			setCellFont(thisY, thisX, true);
     	}
 	}
 	
@@ -150,14 +186,7 @@ public class FrameMain extends JFrame {
 		  		if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
 				  cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
 			  
-			    if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() == pz.getCell(lastPressedCell[1],  lastPressedCell[0]).getSolution())
-				{
-					cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.GREEN);
-				}
-			    else
-			    {
-					cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.BLACK);
-			    }
+		  		setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);
 		  }
 	}
 	
@@ -208,13 +237,15 @@ public class FrameMain extends JFrame {
 				cells.get(y).add(new JButton());				
 				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 
-				getCellNumber(y, x, puzzleControl);		
+				cells.get(y).get(x).setOpaque(true);
+
+				setCellNumber(y, x, puzzleControl);		
 				
 				cells.get(y).get(x).addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						cellClicked(thisX, thisY, pz);
-						getCellNumber(thisY, thisX, pz);
+						setCellNumber(thisY, thisX, pz);
 					}
 			    });
 				
@@ -224,7 +255,22 @@ public class FrameMain extends JFrame {
 		}	
 	}
 	
-	private void getCellNumber(int row, int col, PuzzleControl puzzleControl)
+	private void setCellFont(int row, int col, boolean isBold)
+	{
+		if (isBold)
+		{
+			cells.get(row).get(col).setFont(new Font(cells.get(row).get(col).getFont().getName(), 
+					Font.BOLD, 
+					cells.get(row).get(col).getFont().getSize()));
+		}
+		else
+		{
+			cells.get(row).get(col).setFont(new Font(cells.get(row).get(col).getFont().getName(), 
+					Font.PLAIN, 
+					cells.get(row).get(col).getFont().getSize()));
+		}
+	}
+	private void setCellNumber(int row, int col, PuzzleControl puzzleControl)
 	{
 		if (!puzzleControl.getCell(row, col).isEmpty())
 		{
@@ -246,6 +292,28 @@ public class FrameMain extends JFrame {
 		else
 		{
 			cells.get(row).get(col).setForeground(Color.BLACK);
+		}		
+	}
+	private void setDEBUGCellColour(int row, int col, PuzzleControl puzzleControl)
+	{
+		if (puzzleControl.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() == puzzleControl.getCell(lastPressedCell[1],  lastPressedCell[0]).getSolution())
+		{
+			cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.GREEN);
+		}
+	    else
+	    {
+			cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.RED);
+	    }		
+	}
+	
+	private void loadHint(int row, int col, PuzzleControl puzzleControl) {
+		if (row >= 0 && col >= 0)
+		{
+			hintLabel.setText("Solution: " + Integer.toString(puzzleControl.getCell(row, col).getSolution()));
+		}
+		else
+		{
+			hintLabel.setText("No hint available");
 		}	
 	}
 }
