@@ -6,14 +6,12 @@ import model.Puzzle;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
 
 import controller.PuzzleControl;
 
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.Color;
@@ -296,9 +294,7 @@ public class FrameMain extends JFrame {
 		if (puzzleControl.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() == puzzleControl.getCell(lastPressedCell[1],  lastPressedCell[0]).getSolution())
 		{
 			cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.GREEN);
-		}
-	    else
-	    {
+		}else{
 			cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.RED);
 	    }		
 	}

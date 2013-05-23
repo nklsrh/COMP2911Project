@@ -82,15 +82,11 @@ public class Puzzle implements PuzzleInterface {
 		//first 3 rows == grid 0-2
 		int gridRowNumber = rowNumber % numSide;
 		
-		
 		for(int gridNo=firstGridNo; gridNo < (lastGridNo+1); gridNo++){
 			Grid curGrid = gridStore.get(gridNo);
 			
 			for(int j=0; j < numSide; j++){
 				Cell cell = curGrid.getGridTable().get(gridRowNumber).get(j);
-				if(gridNo >= 6 && gridNo < 8){
-					System.out.println(j);
-				}
 				row.addToList(cell);
 			}
 		}

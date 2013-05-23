@@ -4,7 +4,6 @@ import view.FrameMain;
 public class SudokuGame {
 	
 	public static void run(int difficulty) {
-		System.out.println("Hello Sudoku");
 			
 		PuzzleControl pc = new PuzzleControl();
 		pc.createPuzzle();
