@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.Font;
 import java.awt.event.*;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -38,7 +39,7 @@ public class FrameMain extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameMain() {
+	public FrameMain(Puzzle puzzle) {
 		numberOfRows = 9;
 		padding = 6;
 		textboxWidth = 28;
@@ -114,40 +115,6 @@ public class FrameMain extends JFrame {
 		fullPanel.add(gridPanel);
 		gridPanel.setLayout(null);
 
-		///////////////////////////////////////////////////////////////////////
-		// TODO Auto-generated method stub
-		Puzzle puzzle = new Puzzle();
-		ArrayList<String> gridsStrings = new ArrayList<String>(); 
-		
-		gridsStrings.add("1 7 4 3 9 6 8 5 2");
-		gridsStrings.add("2 8 5 4 1 7 9 6 3");
-		gridsStrings.add("3 9 6 5 2 8 1 7 4");
-		gridsStrings.add("4 1 7 6 3 9 2 8 5");
-		gridsStrings.add("5 2 8 7 4 1 3 9 6");
-		gridsStrings.add("6 3 9 8 5 2 4 1 7");
-		gridsStrings.add("7 4 1 9 6 3 5 2 8");
-		gridsStrings.add("8 5 2 1 7 4 6 3 9");
-		gridsStrings.add("9 6 3 2 8 5 7 4 1");
-
-		
-		Iterator<String> gsit = gridsStrings.iterator();
-		int gridIndex = 0;
-		
-		while(gsit.hasNext()){
-			String[] gridArray = gsit.next().split(" ");
-			int n = 0;
-			Grid curGrid = puzzle.getGrid(gridIndex);
-			ArrayList<ArrayList<Cell>> table = curGrid.getGridTable();
-			
-			for(int i=0; i<3; i++){
-				for(int j=0; j<3; j++){
-					table.get(i).get(j).setNumber(Integer.parseInt(gridArray[n]));
-					n++;
-				}
-			}
-			gridIndex++;
-		}
-
 		/////////////////////////////////////////////////////////////////////////
 
 		keypadButtons = new ArrayList<ArrayList<JButton>>();
@@ -170,12 +137,22 @@ public class FrameMain extends JFrame {
 				keypadButtons.get(y).get(x).addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
-			    	  if (keypadButtons.get(thisY).get(thisX).getText().length() > 0)
-			    	  {
-				    	pz.setCell(lastPressedCell[0], lastPressedCell[1], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
-				        System.out.println(lastPressedCell[0] + "," + lastPressedCell[1]);
-				        boxes.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[0], lastPressedCell[1]).getNumber()));
-			    	  }
+					System.out.println(keypadButtons.get(thisY).get(thisX).getText().length() + " " + lastPressedCell[0] + " " + lastPressedCell[1]);
+					  if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
+					  {
+					      System.out.println("COL:" + lastPressedCell[0] + ", ROW: " + lastPressedCell[1]);
+					      
+					      System.out.println("CELL:"+pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() + " SET: " + Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
+						  pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
+					      System.out.println("CELL:"+pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber());
+					      
+					      System.out.println("COL:" + pz.getColumnList().get(lastPressedCell[0]));
+						  System.out.println("ROW:" + pz.getRowList().get(lastPressedCell[1]));
+						  System.out.println("GRID:" + pz.getGrid((lastPressedCell[1]/3 % 3 * 3 + lastPressedCell[0]/3 % 3 + 1) - 1));
+						  
+						  if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
+							  boxes.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
+					  }
 				}
 				});
 			}
@@ -191,18 +168,36 @@ public class FrameMain extends JFrame {
 				final int thisX = x;
 				final Puzzle pz = puzzle;
 				boxes.get(y).add(new JButton());
+				if (puzzle.getCell(y, x).isFixed())
+				{
+					boxes.get(y).get(x).setForeground(Color.CYAN);
+				}
+				else
+				{
+					boxes.get(y).get(x).setForeground(Color.BLACK);
+				}
 				boxes.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 				gridPanel.add(boxes.get(y).get(x));
+				
 				boxes.get(y).get(x).addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
-				    	  lastPressedCell[0] = thisX;
-				    	  lastPressedCell[1] = thisY;
-					      System.out.println(e + ", at " + lastPressedCell[0] + "," + lastPressedCell[1]);
+						if (!pz.getCell(thisY, thisX).isFixed())
+				    	{
+							lastPressedCell[1] = thisY;
+							lastPressedCell[0] = thisX;
+				    	}
 					}
 			    });
-				//System.out.println(puzzle.getCell(x, y));
-				boxes.get(y).get(x).setText(Integer.toString(puzzle.getCell(x, y).getNumber()));
+				
+				if (!puzzle.getCell(y, x).isEmpty())
+				{
+					boxes.get(y).get(x).setText(Integer.toString(puzzle.getCell(y, x).getNumber()));
+				}
+				else
+				{
+					boxes.get(y).get(x).setText("0");
+				}
 			}
 		}
 	}

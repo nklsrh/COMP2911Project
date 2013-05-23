@@ -65,9 +65,9 @@ public class Grid {
 		StringBuffer string = new StringBuffer();
 
 		string.append(" -----------\n");
-		for(int i=0; i< NUM_CELLS_PER_SIDE; i++){
+		for(int i=0; i< NUM_CELLS_PER_SIDE; i++){		// iterate through rows
 			string.append("| ");
-			for(int j=0; j< NUM_CELLS_PER_SIDE; j++){
+			for(int j=0; j< NUM_CELLS_PER_SIDE; j++){	// iterate through columns
 				string.append(gridTable.get(i).get(j).getNumber() + " | ");
 			}
 			string.append("\n -----------\n");

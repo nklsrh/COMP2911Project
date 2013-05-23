@@ -122,20 +122,25 @@ public class Puzzle implements PuzzleInterface {
 	}
 
 	public void setCell(int row, int column, int value){
+		System.out.println("SETTING");
 		if (row >= 0 && row < NUM_ROWS){
-			if (rowStore.get(row) != null){
-				if (rowStore.get(row).getList().get(column) != null){
-					rowStore.get(row).getList().get(column).setNumber(value);
-				}
-			}
+			System.out.println("SETTING PROPERLY: " + value);
+			rowStore.get(row).getList().get(column).setNumber(value);
+			columnStore.get(column).getList().get(row).setNumber(value);
+			System.out.println("SETTED: " + rowStore.get(row).getList().get(column));
+		}
+	}
+	
+	public void setCellAsEmpty(int row, int column){
+		if (row >= 0 && row < NUM_ROWS){
+			rowStore.get(row).getList().get(column).nullCell();
+			columnStore.get(column).getList().get(row).nullCell();
 		}
 	}
 	
 	public Cell getCell(int row, int column){
 		if (rowStore.get(row) != null){
-			if (rowStore.get(row).getList().get(column) != null){
-				return rowStore.get(row).getList().get(column);
-			}
+			return rowStore.get(row).getList().get(column);
 		}
 		return null;
 	}
