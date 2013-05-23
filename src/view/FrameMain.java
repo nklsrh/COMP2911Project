@@ -145,7 +145,6 @@ public class FrameMain extends JFrame {
 		JPanel gridPanel = new JPanel();
 		gridPanel.setBounds(padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
 		fullPanel.add(gridPanel);
-		gridPanel.setOpaque(true);
 		gridPanel.setLayout(null);
 
 		/////////////////////////////////////////////////////////////////////////
@@ -236,8 +235,6 @@ public class FrameMain extends JFrame {
 				
 				cells.get(y).add(new JButton());				
 				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
-
-				cells.get(y).get(x).setOpaque(true);
 
 				setCellNumber(y, x, puzzleControl);		
 				
