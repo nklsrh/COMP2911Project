@@ -287,7 +287,7 @@ public class FrameMain extends JFrame {
 	{
 		if (puzzleControl.getCell(row, col).isFixed())
 		{
-			cells.get(row).get(col).setForeground(Color.CYAN);
+			cells.get(row).get(col).setForeground(Color.GRAY);
 		}
 		else
 		{

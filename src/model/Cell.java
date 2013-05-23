@@ -52,6 +52,7 @@ public class Cell {
 	
 	public void setNumber(int num) throws NullPointerException{
 		this.number = num;
+		this.isEmpty = false;
 	}
 	
 	public void setSolution(int num) throws NullPointerException{
