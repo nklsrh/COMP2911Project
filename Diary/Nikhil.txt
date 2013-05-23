@@ -47,3 +47,15 @@ Merged Ryan and Nicholas branches to master, merged master to Nikhil branch. Sta
 
 - Had some spare time before the bus so I decided to work on getting the user text input limited to 1 character in each text field. Firstly I enabled a CaretListener for each text  box, and then outputting the listener's values to the printLn function. It seems to work, but the limiting code needs to be added to stop users inputting more than 1 char.
 - Renamed the tabs and resized the text for better visibility. I'm starting to have second thoughts about this UI decision and will discuss it with the team during the meeting today.
+
+==========================
+
+23rd May 2013, 0800 hrs
+
+- Got UI interfacing with Puzzle and other model classes.
+- Ryan's code is weird so I added more functions to interface with easier.
+- Textboxes are a pain in the ass so I changed them to buttons and added a keypad, Telephone-lab style
+- Connected the buttons to the puzzle interface, everything writes/reads fine
+- Turns out I was supposed to pull this morning twice since Ryan had changed some Puzzle code, he will now fix conflicts (yay)
+
+TODO: Check if Cell is fixed before inputting, don't allow fixed cells to be selected (set selected button to -1), get a timer working.
