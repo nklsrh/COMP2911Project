@@ -115,7 +115,7 @@ public class FrameMain extends JFrame {
 		gridPanel.setLayout(null);
 
 		///////////////////////////////////////////////////////////////////////
-		Puzzle puzzle = new Puzzle();
+		Puzzle puzzle = new Puzzle(1);
 		ArrayList<String> gridsStrings = new ArrayList<String>(); 
 		
 		gridsStrings.add("1 7 4 3 9 6 8 5 2");
