@@ -25,7 +25,7 @@ public class Puzzle implements PuzzleInterface {
 		for(int i=0; i < NUM_GRIDS; i++){
 			gridStore.add(gridInit(i));
 		}
-		System.out.println(gridStore);
+		//System.out.println(gridStore);
 		
 		rowInit();
 	}
