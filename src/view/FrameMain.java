@@ -207,13 +207,14 @@ public class FrameMain extends JFrame {
 				
 				cells.get(y).add(new JButton());				
 				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
-				setCellColour(y, x, puzzleControl);					
+
+				getCellNumber(y, x, puzzleControl);		
 				
 				cells.get(y).get(x).addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						cellClicked(thisX, thisY, pz);
-						setCellColour(thisY, thisX, pz);
+						getCellNumber(thisY, thisX, pz);
 					}
 			    });
 				
@@ -221,6 +222,19 @@ public class FrameMain extends JFrame {
 				
 			}
 		}	
+	}
+	
+	private void getCellNumber(int row, int col, PuzzleControl puzzleControl)
+	{
+		if (!puzzleControl.getCell(row, col).isEmpty())
+		{
+			cells.get(row).get(col).setText(Integer.toString(puzzleControl.getCell(row, col).getNumber()));
+		}
+		else
+		{
+			cells.get(row).get(col).setText("0");
+		}
+		setCellColour(row, col, puzzleControl);
 	}
 	
 	private void setCellColour(int row, int col, PuzzleControl puzzleControl)
@@ -233,14 +247,5 @@ public class FrameMain extends JFrame {
 		{
 			cells.get(row).get(col).setForeground(Color.BLACK);
 		}	
-
-		if (!puzzleControl.getCell(row, col).isEmpty())
-		{
-			cells.get(row).get(col).setText(Integer.toString(puzzleControl.getCell(row, col).getNumber()));
-		}
-		else
-		{
-			cells.get(row).get(col).setText("0");
-		}
 	}
 }
