@@ -7,7 +7,6 @@ package model;
  * @author Nicholas Ho, Ryan Tan, Nikhil Suresh
  */
 public interface PuzzleInterface {
-	
 	/**
 	 * getCell is called as a getter for the cell that is located at a provided row and column position, 
 	 * relative to the <b>puzzle</b> that contains it.
@@ -16,8 +15,8 @@ public interface PuzzleInterface {
 	 * @return The <b>Cell</b> column position of the cell, relative to the 3x3 grid containing it.
 	 */
 	public Cell getCell(int row, int column);
-	
-	
+
+
 	/**
 	 * getRegion is called as a getter for the region that is located at a provided row and column position,
 	 * relative to the <b>Puzzle</b> that contains it.

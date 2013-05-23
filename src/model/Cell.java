@@ -11,6 +11,7 @@ public class Cell {
 	 * of a Sudoku game.
 	 */
 	public Cell(int number) throws NullPointerException{
+
 		this.number = number;
 		this.isFixed = true;
 	}
@@ -21,6 +22,7 @@ public class Cell {
 	 */
 	public Cell() {
 		this.number = null;
+
 		this.isFixed = false;
 	}
 	

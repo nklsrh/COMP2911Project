@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
 public class Puzzle implements PuzzleInterface {
 	private static final int NUM_GRIDS = 9;
 	private static final int NUM_ROWS = 9;
@@ -16,7 +17,6 @@ public class Puzzle implements PuzzleInterface {
 	 * Constructs an empty puzzle object given a difficulty setting, which is an <b>int</b>. initialises and
 	 * enumerates the lists required to keep track of the <b>Grids</b>, <b>Rows</b> and <b>Columns</b> that 
 	 * make up a Sudoku puzzle.
-	 * @param difficulty is the numerical difficulty of the puzzle, lower = easier, higher = harder
 	 */
 	public Puzzle(){
 		gridStore = new ArrayList<Grid>();
@@ -26,15 +26,24 @@ public class Puzzle implements PuzzleInterface {
 		puzzleInit();
 	}
 	
-	//initialises & creates the grids
+	
 	private void puzzleInit(){
 		//make 9 grids
 		for(int i=0; i < NUM_GRIDS; i++){
 			gridStore.add(gridInit(i));
 		}
 		
-		rowInit();
-		columnInit();
+		for(int i=0; i < NUM_ROWS; i++){
+			Row row = new Row();
+			row = rowBuilder(gridStore, row, i);
+			rowStore.add(row);
+		}
+		
+		for(int i=0; i < NUM_COLUMNS; i++){
+			Column column = new Column();
+			column = columnBuilder(rowStore, column, i);
+			columnStore.add(column);
+		}
 	}
 	
 	//initialises & creates the grid cells
@@ -45,28 +54,12 @@ public class Puzzle implements PuzzleInterface {
 			grid.getGridTable().add(new ArrayList<Cell>());
 			for(int j=0; j<Grid.NUM_CELLS_PER_SIDE; j++) {
 				grid.getGridTable().get(i).add(new Cell());
+
 			}
 		}
 		return grid;
 	}
 	
-	
-	private void rowInit() {
-		for(int i=0; i < NUM_ROWS; i++){
-			Row row = new Row();
-			row = rowBuilder(gridStore, row, i);
-			rowStore.add(row);
-		}
-		
-	}
-	
-	private void columnInit() {
-		for(int i=0; i < NUM_COLUMNS; i++){
-			Column column = new Column();
-			column = columnBuilder(rowStore, column, i);
-			columnStore.add(column);
-		}
-	}
 	
 	//rowIndex represent the Row number
 	private Row rowBuilder(ArrayList<Grid> gridStore, Row row, int rowNumber){
@@ -127,14 +120,34 @@ public class Puzzle implements PuzzleInterface {
 	public ArrayList<Column> getColumnList(){
 		return columnStore;
 	}
+
+	public void setCell(int row, int column, int value){
+		if (row >= 0 && row < NUM_ROWS){
+			if (rowStore.get(row) != null){
+				if (rowStore.get(row).getList().get(column) != null){
+					rowStore.get(row).getList().get(column).setNumber(value);
+				}
+			}
+		}
+	}
+	
+	public Cell getCell(int row, int column){
+		if (rowStore.get(row) != null){
+			if (rowStore.get(row).getList().get(column) != null){
+				return rowStore.get(row).getList().get(column);
+			}
+		}
+		return null;
+	}
 	
 	@Override
 	public Grid getGrid(int gridIndex) {
 		return gridStore.get(gridIndex);
 	}
 	
-	@Override
-	public Cell getCell(int rowNum, int columnNum){
-		return rowStore.get(rowNum).getList().get(columnNum);
+	public void setGrid(int index, ArrayList<Cell> gridValues){
+		for(int i = 0; i < Grid.NUM_CELLS_PER_SIDE; i++){
+			gridStore.get(index).setCell(i, gridValues.get(i));
+		}
 	}
 }

@@ -33,6 +33,4 @@ public class Row implements RowColumnInterface{
 		}
 		return string.toString();
 	}
-
-	
 }

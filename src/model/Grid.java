@@ -34,6 +34,19 @@ public class Grid {
 		return null;
 	}
 	
+	/**
+	 * Actually sets a certain grid cell to a cell value
+	 * @param index
+	 * @param value
+	 */
+	public void setCell(int index, Cell value){
+		for (int i = 0; i < (index+1) / NUM_CELLS_PER_SIDE; i++){
+			for (int j = 0; j < (index+1) % NUM_CELLS_PER_SIDE; j++){
+				gridTable.get(i).set(j, value);
+			}
+		}
+	}
+	
 	
 	public boolean contains(int number){
 		boolean doesIt = false;
@@ -50,6 +63,7 @@ public class Grid {
 	@Override
 	public String toString(){
 		StringBuffer string = new StringBuffer();
+
 		string.append(" -----------\n");
 		for(int i=0; i< NUM_CELLS_PER_SIDE; i++){
 			string.append("| ");
@@ -57,8 +71,10 @@ public class Grid {
 				string.append(gridTable.get(i).get(j).getNumber() + " | ");
 			}
 			string.append("\n -----------\n");
+
 		}
 		string.append("\n");
 		return string.toString();
 	}
 }
+

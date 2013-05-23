@@ -31,5 +31,6 @@ public class Column implements RowColumnInterface{
 			}
 		}
 		return string.toString();
+
 	}
 }
