@@ -291,15 +291,18 @@ public class FrameMain extends JFrame {
 	}
 	private void setDEBUGCellColour(int row, int col, PuzzleControl puzzleControl)
 	{
-		if (puzzleControl.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() == puzzleControl.getCell(lastPressedCell[1],  lastPressedCell[0]).getSolution())
+		if (puzzleControl.checkNumberSolution(lastPressedCell[1], lastPressedCell[0]))
 		{
 			cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.GREEN);
-		}else{
+		}
+		else
+		{
 			cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.RED);
 	    }		
 	}
 	
-	private void loadHint(int row, int col, PuzzleControl puzzleControl) {
+	private void loadHint(int row, int col, PuzzleControl puzzleControl) 
+	{
 		if (row >= 0 && col >= 0)
 		{
 			hintLabel.setText("Solution: " + Integer.toString(puzzleControl.getCell(row, col).getSolution()));

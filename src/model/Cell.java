@@ -59,6 +59,20 @@ public class Cell {
 		this.solution = num;
 	}
 	
+	public boolean checkNumberSolution()
+	{
+		boolean result = false;
+		if (this.number == this.solution)
+		{
+			result = true;
+		}
+		else
+		{
+			result = false;
+		}
+		return result;
+	}
+	
 	public void nullCell(){
 		this.number = null;
 		this.isEmpty = true;

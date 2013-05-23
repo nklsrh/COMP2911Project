@@ -104,4 +104,8 @@ public class PuzzleControl {
 	public ArrayList<Column> getColumnList(){
 		return puzzle.getColumnList();
 	}
+	public boolean checkNumberSolution(int row, int col)
+	{
+		return puzzle.getCell(row, col).checkNumberSolution();
+	}
 }
