@@ -15,20 +15,7 @@ public interface PuzzleInterface {
 	 * @return The <b>Cell</b> column position of the cell, relative to the 3x3 grid containing it.
 	 */
 	public Cell getCell(int row, int column);
-<<<<<<< HEAD
 
-=======
-	/**
-	 * getDifficulty is called as a getter for the difficulty of a particular puzzle.
-	 * @return numerical <b>integer</b> value for difficulty of the puzzle.
-	 */
-	public int getDifficulty();
-	/**
-	 * isSolved is a boolean that determines if an entire puzzle has been solved.
-	 * @return <b>true</b> if all cells have been correctly guessed and/or revealed. <b>false</b> if not all cells
-	 * have been correctly guessed and/or revealed. 
-	 */
->>>>>>> parent of fff3f8d... Deleted all model files
 
 	/**
 	 * getRegion is called as a getter for the region that is located at a provided row and column position,

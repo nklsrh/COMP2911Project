@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Iterator;
 
 public class Row implements RowColumnInterface{
@@ -34,27 +33,4 @@ public class Row implements RowColumnInterface{
 		}
 		return string.toString();
 	}
-=======
-
-public class Row {
-	private ArrayList<Cell> rowCells;
-	
-	public Row(){
-		rowCells = new ArrayList<Cell>();
-	}
-	
-	public ArrayList<Cell> getRow(){
-		return rowCells;
-	}
-	
-	/* (non-Javadoc)
-	 * Making sure we return something human-readable
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString()
-	{
-		return rowCells.toString();
-	}
-	
->>>>>>> parent of fff3f8d... Deleted all model files
 }

@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
 public class Column implements RowColumnInterface{
 	private ArrayList<Cell> columnCells;
 	protected static final int NUMBER_OF_CELLS = 9;
@@ -33,21 +32,5 @@ public class Column implements RowColumnInterface{
 		}
 		return string.toString();
 
-=======
-public class Column {
-	
-	private ArrayList<Cell> columnCells;
-	
-	public Column(){
-		columnCells = new ArrayList<Cell>();
-	}
-	
-	public ArrayList<Cell> getColumn(){
-		return columnCells;
-	}
-	
-	public void addCell(int index, Cell cell){
-		columnCells.add(index, cell);
->>>>>>> parent of fff3f8d... Deleted all model files
 	}
 }
