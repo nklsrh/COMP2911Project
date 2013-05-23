@@ -1,7 +1,5 @@
 package view;
 
-import java.awt.FlowLayout;
-
 import javax.swing.*;
 
 public class SudokuTester {
