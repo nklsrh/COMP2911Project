@@ -145,6 +145,7 @@ public class FrameMain extends JFrame {
 					      System.out.println("CELL:"+pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() + " SET: " + Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
 						  pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
 					      System.out.println("CELL:"+pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber());
+					      System.out.println("SOLN:"+pz.getCell(lastPressedCell[1], lastPressedCell[0]).getSolution());
 					      
 					      System.out.println("COL:" + pz.getColumnList().get(lastPressedCell[0]));
 						  System.out.println("ROW:" + pz.getRowList().get(lastPressedCell[1]));
@@ -152,6 +153,15 @@ public class FrameMain extends JFrame {
 						  
 						  if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
 							  boxes.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
+						  
+						    if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() == pz.getCell(lastPressedCell[1],  lastPressedCell[0]).getSolution())
+							{
+								boxes.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.GREEN);
+							}
+						    else
+						    {
+								boxes.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.BLACK);
+						    }
 					  }
 				}
 				});

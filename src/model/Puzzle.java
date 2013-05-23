@@ -124,10 +124,8 @@ public class Puzzle implements PuzzleInterface {
 	public void setCell(int row, int column, int value){
 		System.out.println("SETTING");
 		if (row >= 0 && row < NUM_ROWS){
-			System.out.println("SETTING PROPERLY: " + value);
 			rowStore.get(row).getList().get(column).setNumber(value);
 			columnStore.get(column).getList().get(row).setNumber(value);
-			System.out.println("SETTED: " + rowStore.get(row).getList().get(column));
 		}
 	}
 	
