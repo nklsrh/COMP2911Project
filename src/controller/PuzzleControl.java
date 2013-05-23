@@ -7,29 +7,10 @@ import model.*;
 
 public class PuzzleControl {
 	private Puzzle puzzle;
-	private Puzzle solution;
 
 	public void createPuzzle()
 	{
-		puzzle = createPuzzleAndSolution(populateSolutionFromArrayString(createPuzzleArrayString()), createMissingCells());	
-
-		System.out.println();
-		System.out.println("Columns:");
-		
-		Iterator<Column> cit = puzzle.getColumnList().iterator();
-		System.out.println(" -----------------------------------");
-		while(cit.hasNext()){
-			System.out.println(cit.next().toString());
-			System.out.println(" -----------------------------------");
-		}		
-		
-		Iterator<Row> rit = puzzle.getRowList().iterator();
-		System.out.println(" -----------------------------------");
-		while(rit.hasNext()){
-			System.out.println(rit.next().toString());
-			System.out.println(" -----------------------------------");
-		}
-		
+		puzzle = createPuzzleAndSolution(populateSolutionFromArrayString(createPuzzleArrayString()), createMissingCells());			
 	}
 	
 	public int[][] createMissingCells()
@@ -103,9 +84,24 @@ public class PuzzleControl {
 		}
 		return pz;
 	}
+		
 	
-	public Puzzle getPuzzle()
-	{
-		return puzzle;
+	public Cell getCell(int row, int column){
+		return puzzle.getCell(row, column);
+	}
+	public void setCell(int row, int column, int value){
+		puzzle.setCell(row, column, value);
+	}
+	public Grid getGrid(int gridIndex) {
+		return puzzle.getGrid(gridIndex);
+	}
+	public ArrayList<Grid> getGridList(){
+		return puzzle.getGridList();
+	}	
+	public ArrayList<Row> getRowList(){
+		return puzzle.getRowList();
+	}	
+	public ArrayList<Column> getColumnList(){
+		return puzzle.getColumnList();
 	}
 }

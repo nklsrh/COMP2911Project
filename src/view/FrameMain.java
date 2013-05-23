@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 
+import controller.PuzzleControl;
+
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import java.awt.Insets;
 
 public class FrameMain extends JFrame {
 	private JPanel contentPane;
-	private ArrayList<ArrayList<JButton>> boxes;
+	private ArrayList<ArrayList<JButton>> cells;
 	private ArrayList<ArrayList<JButton>> keypadButtons;
 	
 	private int numberOfRows;
@@ -39,7 +41,7 @@ public class FrameMain extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameMain(Puzzle puzzle) {
+	public FrameMain(PuzzleControl puzzleControl) {
 		numberOfRows = 9;
 		padding = 6;
 		textboxWidth = 28;
@@ -117,6 +119,50 @@ public class FrameMain extends JFrame {
 
 		/////////////////////////////////////////////////////////////////////////
 
+		setupKeypad(keypadPanel, puzzleControl);
+		
+		///////////////////////////////////////////////////////////////////////////
+		
+		setupCells(gridPanel, puzzleControl);
+	}
+
+	private void cellClicked(int thisX, int thisY, PuzzleControl pz)
+	{
+		if (!pz.getCell(thisY, thisX).isFixed())
+    	{
+			lastPressedCell[1] = thisY;
+			lastPressedCell[0] = thisX;
+    	}
+	}
+	
+	private void keyPressed(int thisX, int thisY, PuzzleControl pz)
+	{
+		System.out.println(keypadButtons.get(thisY).get(thisX).getText().length() + " " + lastPressedCell[0] + " " + lastPressedCell[1]);
+		  if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
+		  {
+		      System.out.println("COL:" + lastPressedCell[0] + ", ROW: " + lastPressedCell[1]);		  
+			  pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
+
+			  System.out.println("COL:" + pz.getColumnList().get(lastPressedCell[0]));
+			  System.out.println("ROW:" + pz.getRowList().get(lastPressedCell[1]));
+			  System.out.println("GRID:" + pz.getGrid((lastPressedCell[1]/3 % 3 * 3 + lastPressedCell[0]/3 % 3 + 1) - 1));
+			  
+		  		if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
+				  cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
+			  
+			    if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() == pz.getCell(lastPressedCell[1],  lastPressedCell[0]).getSolution())
+				{
+					cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.GREEN);
+				}
+			    else
+			    {
+					cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.BLACK);
+			    }
+		  }
+	}
+	
+	private void setupKeypad(JPanel keypadPanel, PuzzleControl puzzleControl)
+	{
 		keypadButtons = new ArrayList<ArrayList<JButton>>();
 		for (int y = 0; y < 3; y++)
 		{
@@ -125,90 +171,76 @@ public class FrameMain extends JFrame {
 			for (int x = 0; x < 3; x++)
 			{
 				final int thisX = x;
-				final Puzzle pz = puzzle;
+				final PuzzleControl pz = puzzleControl;
 		    	
-				keypadButtons.get(y).add(new JButton(String.valueOf(((y * 3) + (x + 1)))));
+				keypadButtons.get(y).add(new JButton(String.valueOf(((y * 3) + (x + 1)))));	// set value of number according to position (like telephone buttons)
+				
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
 				gbc_button.insets = new Insets(0, 0, 5, 5);
 				gbc_button.gridx = x;
 				gbc_button.gridy = y;
-				keypadPanel.add(keypadButtons.get(y).get(x), gbc_button);
+				
 				keypadButtons.get(y).get(x).addActionListener(new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.out.println(keypadButtons.get(thisY).get(thisX).getText().length() + " " + lastPressedCell[0] + " " + lastPressedCell[1]);
-					  if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
-					  {
-					      System.out.println("COL:" + lastPressedCell[0] + ", ROW: " + lastPressedCell[1]);
-					      
-					      System.out.println("CELL:"+pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() + " SET: " + Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
-						  pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
-					      System.out.println("CELL:"+pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber());
-					      System.out.println("SOLN:"+pz.getCell(lastPressedCell[1], lastPressedCell[0]).getSolution());
-					      
-					      System.out.println("COL:" + pz.getColumnList().get(lastPressedCell[0]));
-						  System.out.println("ROW:" + pz.getRowList().get(lastPressedCell[1]));
-						  System.out.println("GRID:" + pz.getGrid((lastPressedCell[1]/3 % 3 * 3 + lastPressedCell[0]/3 % 3 + 1) - 1));
-						  
-						  if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
-							  boxes.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
-						  
-						    if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() == pz.getCell(lastPressedCell[1],  lastPressedCell[0]).getSolution())
-							{
-								boxes.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.GREEN);
-							}
-						    else
-						    {
-								boxes.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.BLACK);
-						    }
-					  }
-				}
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						keyPressed(thisX, thisY, pz);
+					}
 				});
+				
+				keypadPanel.add(keypadButtons.get(y).get(x), gbc_button);
 			}
 		}
-		
-		boxes = new ArrayList<ArrayList<JButton>>();
+	}
+	
+	private void setupCells(JPanel gridPanel, PuzzleControl puzzleControl)
+	{
+		cells = new ArrayList<ArrayList<JButton>>();
 		for (int y = 0; y < numberOfRows; y++)
 		{
 			final int thisY = y;
-			boxes.add(new ArrayList<JButton>());
+			cells.add(new ArrayList<JButton>());
 			for (int x = 0; x < numberOfRows; x++)
 			{
 				final int thisX = x;
-				final Puzzle pz = puzzle;
-				boxes.get(y).add(new JButton());
-				if (puzzle.getCell(y, x).isFixed())
-				{
-					boxes.get(y).get(x).setForeground(Color.CYAN);
-				}
-				else
-				{
-					boxes.get(y).get(x).setForeground(Color.BLACK);
-				}
-				boxes.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
-				gridPanel.add(boxes.get(y).get(x));
+				final PuzzleControl pz = puzzleControl;
 				
-				boxes.get(y).get(x).addActionListener(new ActionListener(){
+				cells.get(y).add(new JButton());				
+				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
+				setCellColour(y, x, puzzleControl);					
+				
+				cells.get(y).get(x).addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (!pz.getCell(thisY, thisX).isFixed())
-				    	{
-							lastPressedCell[1] = thisY;
-							lastPressedCell[0] = thisX;
-				    	}
+						cellClicked(thisX, thisY, pz);
+						setCellColour(thisY, thisX, pz);
 					}
 			    });
 				
-				if (!puzzle.getCell(y, x).isEmpty())
-				{
-					boxes.get(y).get(x).setText(Integer.toString(puzzle.getCell(y, x).getNumber()));
-				}
-				else
-				{
-					boxes.get(y).get(x).setText("0");
-				}
+				gridPanel.add(cells.get(y).get(x));
+				
 			}
+		}	
+	}
+	
+	private void setCellColour(int row, int col, PuzzleControl puzzleControl)
+	{
+		if (puzzleControl.getCell(row, col).isFixed())
+		{
+			cells.get(row).get(col).setForeground(Color.CYAN);
+		}
+		else
+		{
+			cells.get(row).get(col).setForeground(Color.BLACK);
+		}	
+
+		if (!puzzleControl.getCell(row, col).isEmpty())
+		{
+			cells.get(row).get(col).setText(Integer.toString(puzzleControl.getCell(row, col).getNumber()));
+		}
+		else
+		{
+			cells.get(row).get(col).setText("0");
 		}
 	}
 }

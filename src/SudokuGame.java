@@ -10,7 +10,7 @@ public class SudokuGame {
 		pc.createPuzzle();
 		
 		try {
-			FrameMain frame = new FrameMain(pc.getPuzzle());
+			FrameMain frame = new FrameMain(pc);
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
