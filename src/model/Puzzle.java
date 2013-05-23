@@ -53,7 +53,7 @@ public class Puzzle implements PuzzleInterface {
 		for(int i=0; i<Grid.NUM_CELLS_PER_SIDE; i++) {
 			grid.getGridTable().add(new ArrayList<Cell>());
 			for(int j=0; j<Grid.NUM_CELLS_PER_SIDE; j++) {
-				grid.getGridTable().get(i).add(new Cell());
+				grid.getGridTable().get(i).add(new Cell(0));
 
 			}
 		}
@@ -145,9 +145,10 @@ public class Puzzle implements PuzzleInterface {
 		return gridStore.get(gridIndex);
 	}
 	
-	public void setGrid(int index, ArrayList<Cell> gridValues){
+	
+	public void setRow(int index, ArrayList<Cell> rowValues){
 		for(int i = 0; i < Grid.NUM_CELLS_PER_SIDE; i++){
-			gridStore.get(index).setCell(i, gridValues.get(i));
+			gridStore.get(index).setCell(i, rowValues.get(i));
 		}
 	}
 }
