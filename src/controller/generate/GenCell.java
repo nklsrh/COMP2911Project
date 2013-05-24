@@ -47,4 +47,5 @@ public class GenCell {
 		this.possible.clear();
 		this.sudoku.remove(this.row, this.col, this.grid, value);
 	}
+	
 }
