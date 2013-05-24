@@ -1,7 +1,7 @@
 package controller.generate;
 
 
-import java.util.LinkedList;
+import java.util.HashSet;
 
 public class GenCell {
 	
@@ -11,13 +11,15 @@ public class GenCell {
 	public final int grid;
 	public int value = 0;
 	
-	public LinkedList<Integer> possible;
+	public HashSet<Integer> possible;
 	
 	public GenCell(SudokuGenerator sudoku, int r, int c, int g, int val){
 		this.sudoku = sudoku;
 		this.row = r;
 		this.col = c;
 		this.grid = g;
+		this.possible = new HashSet<Integer>();
+		
 		//load all possibilities
 		if(val == 0){
 			for(int i = 1; i < 10; i++){
@@ -46,6 +48,10 @@ public class GenCell {
 		this.value = value;
 		this.possible.clear();
 		this.sudoku.remove(this.row, this.col, this.grid, value);
+	}
+	
+	public String toString(){
+		return ((Integer) this.value).toString();
 	}
 	
 }

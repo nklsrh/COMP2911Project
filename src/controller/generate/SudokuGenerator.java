@@ -4,19 +4,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class SudokuGenerator {
 	
-	ArrayList<GenCell> cells;
-	LinkedList<LinkedList<GenCell>> groups;
+	private ArrayList<GenCell> cells;
+	private LinkedList<LinkedList<GenCell>> groups;
+	private Random rand;
+	private static final int RAND_INSERTS = 15; //specifies random inserts
 	
 	public SudokuGenerator(){
+		this.rand = new Random();
 		this.cells = new ArrayList<GenCell>();
 		this.groups = new LinkedList<LinkedList<GenCell>>();
 		
 		for(int i=0; i < 81; i++){
 			cells.add(new GenCell(this, i/9, i%9, (i/3)%3 + (i/27)*3, 0));
 		}
+		
+		insertRandomValues();
 		
 		//built groups, 9 rows, 9 cols, 9 groups
 		for(int j=0; j < 27; j++){
@@ -32,6 +38,21 @@ public class SudokuGenerator {
 			this.groups.get(curRow).add(cells.get(i));
 			this.groups.get(curCol+9).add(cells.get(i));
 			this.groups.get(curGrid+18).add(cells.get(i));
+		}
+	}
+	
+	public void insertRandomValues(){
+		for(int i=0; i<RAND_INSERTS; i++){
+			GenCell target = cells.get(rand.nextInt(81));
+			if(target.value == 0){
+				target.value = rand.nextInt(9) + 1;
+			}
+			
+			//putback and try again
+			if(this.sound() == false){
+				target.value = 0;
+				i++;
+			}
 		}
 	}
 	
@@ -134,4 +155,20 @@ public class SudokuGenerator {
 		}
 		return result;
 	}
+	
+	public String tableOut() {
+        String result = "";
+        int i = 0;
+        for (int j = 1; j < 10; j++) {
+            for (int k = 1; k < 10; k++){
+                result += " "+cells.get(i++).toString(); 
+                if ((k % 3)== 0 && k < 9)
+                    result += " |";
+            }
+            result += "\n";
+            if ((j % 3)== 0 && j < 9)
+                result += "-------+-------+-------\n";
+        }
+        return result;
+    }
 }
