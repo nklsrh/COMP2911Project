@@ -1,4 +1,4 @@
-package controller.generate;
+package controller.generate.old;
 
 public class GeneratorTest {
 
@@ -9,9 +9,9 @@ public class GeneratorTest {
 		// TODO Auto-generated method stub
 		SudokuGenerator sudoku = new SudokuGenerator();
 		
-		System.out.println(sudoku.tableOut());
+		System.out.println(sudoku.puzzlePrint());
 		sudoku.solve();
-		System.out.println(sudoku.tableOut());
+		System.out.println(sudoku.puzzlePrint());
 	}
 
 }

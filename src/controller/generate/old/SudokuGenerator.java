@@ -1,4 +1,4 @@
-package controller.generate;
+package controller.generate.old;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -105,7 +105,7 @@ public class SudokuGenerator {
 						found = true;
 						unique_cell.setValue(pos);
 					}
-					if(this.done() && this.sound()){
+					if(this.done()){
 						return false;
 					}
 				}
@@ -137,8 +137,9 @@ public class SudokuGenerator {
 						return false;
 					}
 				}
-				done.clear();
+				done.add(cell.value);
 			}
+			done.clear();
 		}
 		return true;
 	}
@@ -156,7 +157,7 @@ public class SudokuGenerator {
 		return result;
 	}
 	
-	public String tableOut() {
+	public String puzzlePrint() {
         String result = "";
         int i = 0;
         for (int j = 1; j < 10; j++) {
