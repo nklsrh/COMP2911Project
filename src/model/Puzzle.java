@@ -78,7 +78,6 @@ public class Puzzle implements PuzzleInterface {
 			lastGridNo = 8;
 		}
 		
-		
 		//first 3 rows == grid 0-2
 		int gridRowNumber = rowNumber % numSide;
 		
@@ -143,10 +142,36 @@ public class Puzzle implements PuzzleInterface {
 		return gridStore.get(gridIndex);
 	}
 	
-	
 	public void setRow(int index, ArrayList<Cell> rowValues){
 		for(int i = 0; i < Grid.NUM_CELLS_PER_SIDE; i++){
 			gridStore.get(index).setCell(i, rowValues.get(i));
 		}
+	}
+	
+	@Override
+	public String toString(){
+	    String result = "In Rows:\n";
+	    
+	    int j = 1;
+	    Iterator<Row> rit = rowStore.iterator();
+	    while(rit.hasNext()){
+	    	Iterator<Cell> cit = rit.next().getList().iterator();
+	    	int i = 1;
+	    	while(cit.hasNext()){
+	    		result += " "+cit.next().getSolution();
+	    		if((i%3) == 0 && i < 9){
+					result += " |";
+				}
+				i++;
+	    	}
+	    	result += "\n";
+			if((j%3) == 0 && j < 9)
+				result += "-------+-------+-------\n";
+			if(j == 9){
+				break;
+			}
+			j++;
+	    }
+	    return result;
 	}
 }
