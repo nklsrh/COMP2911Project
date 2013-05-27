@@ -26,19 +26,24 @@ public class Puzzle implements PuzzleInterface {
 		puzzleInit();
 	}
 	
-	
+	/**
+	 * This method initialises the puzzle to a state where the Sudoku structures (9x9 puzzle, 9 3x3 grids etc)
+	 * are constructed, and is ready to take in numbers such that a full Sudoku puzzle can be created.
+	 * 9 each of Grid, Row and Column objects are initialised to represent the 9 Grids, 9 Rows and 9 Columns
+	 * that make up a Sudoku puzzle.
+	 */
 	private void puzzleInit(){
 		//make 9 grids
 		for(int i=0; i < NUM_GRIDS; i++){
 			gridStore.add(gridInit(i));
 		}
-		
+		//make 9 rows
 		for(int i=0; i < NUM_ROWS; i++){
 			Row row = new Row();
 			row = rowBuilder(gridStore, row, i);
 			rowStore.add(row);
 		}
-		
+		//make 9 columns
 		for(int i=0; i < NUM_COLUMNS; i++){
 			Column column = new Column();
 			column = columnBuilder(rowStore, column, i);
@@ -46,7 +51,11 @@ public class Puzzle implements PuzzleInterface {
 		}
 	}
 	
-	//initialises & creates the grid cells
+	/**
+	 * Initialises and creates the grid cells that make up a Grid object.
+	 * @param gridIndex the index of the particular Grid object that is being created.
+	 * @return a fully-initialised empty Grid object.
+	 */
 	private Grid gridInit(int gridIndex){
 		Grid grid = new Grid(gridIndex);
 		
@@ -61,7 +70,15 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	
-	//rowIndex represent the Row number
+	/**
+	 * Initialises and creates the cells that make up a Row object, by using the gridStore arrayList
+	 * of Grid objects. a rowNumber is taken in to identify the position of the Row that is being
+	 * created.
+	 * @param gridStore The arraylist of Grids.
+	 * @param row 
+	 * @param rowNumber the row that is being built/initialised
+	 * @return a fully-initialised empty Row object
+	 */
 	private Row rowBuilder(ArrayList<Grid> gridStore, Row row, int rowNumber){
 		int numSide = Grid.NUM_CELLS_PER_SIDE; //number of rows on grid
 		
@@ -93,6 +110,15 @@ public class Puzzle implements PuzzleInterface {
 		return row;
 	}
 	
+	/**
+	 * Initialises and creates the cells that make up a Column object, by using the gridStore arrayList
+	 * of Grid objects. a rowNumber is taken in to identify the position of the Column that is being
+	 * created.
+	 * @param rowStore
+	 * @param column
+	 * @param ColIndex
+	 * @return
+	 */
 	private Column columnBuilder(ArrayList<Row> rowStore, Column column, int ColIndex){
 		
 		Iterator<Row> rit = rowStore.iterator();
@@ -104,18 +130,38 @@ public class Puzzle implements PuzzleInterface {
 		return column;
 	}
 	
+	/**
+	 * A getter for the arrayList of grids that is used in initialisation of the Puzzle.
+	 * @return the arrayList of Grid objects
+	 */
 	public ArrayList<Grid> getGridList(){
 		return gridStore;
 	}
 	
+	/**
+	 * A getter for the arrayList of rows that is used in initialisation of the Puzzle.
+	 * @return the arrayList of Row objects
+	 */
 	public ArrayList<Row> getRowList(){
 		return rowStore;
 	}
 	
+	/**
+	 * A getter for the arrayList of columns that is used in initialisation of the Puzzle.
+	 * @return the arrayList of Column objects
+	 */
 	public ArrayList<Column> getColumnList(){
 		return columnStore;
 	}
 
+	/**
+	 * A setter which defines a particular cell in the puzzle. The cell is located via row and column index 
+	 * coordinates that are taken in as arguments. The number given to the cell is "value" that is taken in
+	 * as well.
+	 * @param row the y-coordinate of the Cell to be set.
+	 * @param column the x-coordinate of the Cell to be set.
+	 * @param value the number that is to be given as the value of the cell.
+	 */
 	public void setCell(int row, int column, int value){
 		if (row >= 0 && row < NUM_ROWS){
 			rowStore.get(row).getList().get(column).setNumber(value);
@@ -123,6 +169,12 @@ public class Puzzle implements PuzzleInterface {
 		}
 	}
 	
+	/**
+	 * This method sets a cell at a particular set of coordinates as empty i.e. has no value, and all flags
+	 * disabled.
+	 * @param row the y-coordinate of the Cell to be set as empty
+	 * @param column the x-coordinate of the Cell to be set as empty
+	 */
 	public void setCellAsEmpty(int row, int column){
 		if (row >= 0 && row < NUM_ROWS && column >= 0 && column < NUM_ROWS){
 			rowStore.get(row).getList().get(column).nullCell();
@@ -130,6 +182,10 @@ public class Puzzle implements PuzzleInterface {
 		}
 	}
 	
+	/**
+	 * A getter for a Cell object in the puzzle, located at a given set of coordinates
+	 * @return the cell located at the given coordinates if it is present, and return null otherwise.
+	 */
 	public Cell getCell(int row, int column){
 		if (rowStore.get(row) != null){
 			return rowStore.get(row).getList().get(column);
@@ -137,17 +193,30 @@ public class Puzzle implements PuzzleInterface {
 		return null;
 	}
 	
+	/**
+	 * A getter for a Grid object in the puzzle, given its index.
+	 * @return the grid located at a certain index in the Puzzle.
+	 */
 	@Override
 	public Grid getGrid(int gridIndex) {
 		return gridStore.get(gridIndex);
 	}
 	
+	/**
+	 * A setter for the values of Cells in a Row object, given an index for a Grid object and an arrayList
+	 * of Cells containing the values for the row to be set.
+	 * @param index the position of the Grid whose values are to be set
+	 * @param rowValues the values that are to be set to the Row.
+	 */
 	public void setRow(int index, ArrayList<Cell> rowValues){
 		for(int i = 0; i < Grid.NUM_CELLS_PER_SIDE; i++){
 			gridStore.get(index).setCell(i, rowValues.get(i));
 		}
 	}
 	
+	/**
+	 * This method copies the contents of the Puzzle into a string in a readable format.
+	 */
 	@Override
 	public String toString(){
 	    String result = "In Rows:\n";
