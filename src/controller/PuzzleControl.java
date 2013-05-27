@@ -3,6 +3,8 @@ package controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import controller.generate.Generator;
+
 import model.*;
 
 public class PuzzleControl {
@@ -10,7 +12,14 @@ public class PuzzleControl {
 
 	public void createPuzzle()
 	{
-		puzzle = createPuzzleAndSolution(populateSolutionFromArrayString(createPuzzleArrayString()), createMissingCells());			
+		Generator gen = new Generator();
+		gen.shufflePuzzle();
+		puzzle = new Puzzle();
+		puzzle = createPuzzleAndSolution(gen.packageUp(puzzle), createMissingCells());
+		System.out.println(puzzle.toString());
+		
+//		puzzle = createPuzzleAndSolution(populateSolutionFromArrayString(createPuzzleArrayString()), createMissingCells());			
+//		System.out.println(puzzle.toString());
 	}
 	
 	public int[][] createMissingCells()
@@ -19,7 +28,7 @@ public class PuzzleControl {
 				{2,3,4,5,6,7},				
 				{1,7,6,6,7,5},
 				{2,5,2,5},				
-				{0,63,2,-10},
+				{0,63,2,-10},	// got some cool test cases to ensure it doesn't break
 				{3,5,1,2},				
 				{6,7,4},
 				{3,5,1},				
