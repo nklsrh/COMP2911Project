@@ -16,10 +16,10 @@ public class PuzzleControl {
 		gen.shufflePuzzle();
 		puzzle = new Puzzle();
 		puzzle = createPuzzleAndSolution(gen.packageUp(puzzle), createMissingCells());
-		System.out.println(puzzle.toString());
 		
+		// old code with predetermined puzzles
 //		puzzle = createPuzzleAndSolution(populateSolutionFromArrayString(createPuzzleArrayString()), createMissingCells());			
-//		System.out.println(puzzle.toString());
+		System.out.println(puzzle.toString());
 	}
 	
 	public int[][] createMissingCells()

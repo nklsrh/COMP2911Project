@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -159,7 +160,7 @@ public class FrameMain extends JFrame {
 		JPanel gridPanel = new JPanel();
 		gridPanel.setBounds(padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
 		fullPanel.add(gridPanel);
-		gridPanel.setLayout(null);
+		gridPanel.setLayout(new GridLayout(9, 9));
 
 		/////////////////////////////////////////////////////////////////////////
 
@@ -250,8 +251,14 @@ public class FrameMain extends JFrame {
 				
 				cells.get(y).add(new JButton("0"));
 				cells.get(y).get(x).setFont(new Font("Lucida Grande", Font.PLAIN, 11));				
-				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
+				//cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 
+				GridBagConstraints gbc_button = new GridBagConstraints();
+				gbc_button.fill = GridBagConstraints.BOTH;
+				gbc_button.insets = new Insets(0, 0, 0, 0);
+				gbc_button.gridx = x;
+				gbc_button.gridy = y;
+				
 				setCellNumber(y, x, puzzleControl);		
 				
 				cells.get(y).get(x).addActionListener(new ActionListener(){
@@ -262,9 +269,21 @@ public class FrameMain extends JFrame {
 					}
 			    });
 				
-				gridPanel.add(cells.get(y).get(x));
+				gridPanel.add(cells.get(y).get(x), gbc_button);
 				
+				if ((x+1) % 3 == 0)
+				{
+					JSeparator js = new JSeparator(SwingConstants.VERTICAL);
+					js.setPreferredSize(new Dimension(1,1));
+					gbc_button.weighty = 1;
+					gridPanel.add(js, gbc_button);
+				}	
 			}
+//			if ((y+1) % 3 == 0)
+//			{
+//				JSeparator js = new JSeparator(SwingConstants.VERTICAL);
+//				gridPanel.add(js);
+//			}
 		}	
 	}
 	
@@ -291,7 +310,7 @@ public class FrameMain extends JFrame {
 		}
 		else
 		{
-			cells.get(row).get(col).setText("0");
+			cells.get(row).get(col).setText("");
 		}
 		setCellColour(row, col, puzzleControl);
 	}
