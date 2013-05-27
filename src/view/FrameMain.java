@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -42,9 +43,9 @@ public class FrameMain extends JFrame {
 	 */
 	public FrameMain(PuzzleControl puzzleControl) {
 		numberOfRows = 9;
-		padding = 6;
-		textboxWidth = 28;
-		widthBetweenTextBoxes = 31;
+		padding = 0; //6
+		textboxWidth = 42; // 28
+		widthBetweenTextBoxes = 51; // 31
 		widthOfSidebar = 300;
 		widthOfKeypad = 300;
 		lastPressedCell = new int[2];
@@ -52,6 +53,22 @@ public class FrameMain extends JFrame {
 		lastPressedCell[1] = -1;
 		
 		totalWidthOfGrid = padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth;
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		setResizable(false);
 		setBackground(SystemColor.window);
@@ -70,8 +87,8 @@ public class FrameMain extends JFrame {
 		//////////////////////////////////////////////
 		
 		JPanel keypadPanel = new JPanel();
-		keypadPanel.setBackground(SystemColor.windowBorder);
-		keypadPanel.setBounds(314, 6, 287, 297);
+		//keypadPanel.setBackground(SystemColor.windowBorder);
+		keypadPanel.setBounds(totalWidthOfGrid + padding, 0, 287, 297); //314 - padding
 		fullPanel.add(keypadPanel);
 		GridBagLayout gbl_keypadPanel = new GridBagLayout();
 		gbl_keypadPanel.columnWidths = new int[] {95, 95, 95, 0};
@@ -83,13 +100,13 @@ public class FrameMain extends JFrame {
 		//////////////////////////////////////////////////////////////////////////////////////
 		
 		JPanel sidebarPanel = new JPanel();
-		sidebarPanel.setBackground(SystemColor.windowBorder);
-		sidebarPanel.setBounds(totalWidthOfGrid + widthOfKeypad, 0, widthOfSidebar, totalWidthOfGrid);
+		//sidebarPanel.setBackground(SystemColor.windowBorder);
+		sidebarPanel.setBounds(totalWidthOfGrid + widthOfKeypad - padding, -padding, widthOfSidebar, totalWidthOfGrid);
 		fullPanel.add(sidebarPanel);
 		sidebarPanel.setLayout(null);
 		
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
-		tabs.setBounds(0, 6, 288, 301);
+		tabs.setBounds(0, padding, 288, 301);
 		sidebarPanel.add(tabs);
 		
 		///////////////////////////////////////////////////////////
@@ -143,7 +160,7 @@ public class FrameMain extends JFrame {
 		JPanel gridPanel = new JPanel();
 		gridPanel.setBounds(padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
 		fullPanel.add(gridPanel);
-		gridPanel.setLayout(null);
+		gridPanel.setLayout(new GridLayout(9, 9));
 
 		/////////////////////////////////////////////////////////////////////////
 
@@ -198,8 +215,9 @@ public class FrameMain extends JFrame {
 			{
 				final int thisX = x;
 				final PuzzleControl pz = puzzleControl;
-		    	
-				keypadButtons.get(y).add(new JButton(String.valueOf(((y * 3) + (x + 1)))));	// set value of number according to position (like telephone buttons)
+
+				keypadButtons.get(y).add(new JButton(String.valueOf(((y * 3) + (x + 1)))));	// set value of number according to position (like telephone buttons
+				keypadButtons.get(y).get(x).setFont(new Font("Lucida Grande", Font.BOLD, 36));	
 				
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
@@ -231,9 +249,16 @@ public class FrameMain extends JFrame {
 				final int thisX = x;
 				final PuzzleControl pz = puzzleControl;
 				
-				cells.get(y).add(new JButton());				
-				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
+				cells.get(y).add(new JButton("0"));
+				cells.get(y).get(x).setFont(new Font("Lucida Grande", Font.PLAIN, 16));				
+//				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 
+				GridBagConstraints gbc_button = new GridBagConstraints();
+				gbc_button.fill = GridBagConstraints.BOTH;
+				gbc_button.insets = new Insets(0,0,0,0);
+				gbc_button.gridx = x;
+				gbc_button.gridy = y;
+				
 				setCellNumber(y, x, puzzleControl);		
 				
 				cells.get(y).get(x).addActionListener(new ActionListener(){
@@ -244,9 +269,22 @@ public class FrameMain extends JFrame {
 					}
 			    });
 				
-				gridPanel.add(cells.get(y).get(x));
+				gridPanel.add(cells.get(y).get(x), gbc_button);
+//				gridPanel.add(cells.get(y).get(x));
 				
+				if ((x+1) % 3 == 0)
+				{
+					JSeparator js = new JSeparator(SwingConstants.VERTICAL);
+					js.setPreferredSize(new Dimension(1,1));
+					gbc_button.weighty = 1;
+					gridPanel.add(js, gbc_button);
+				}	
 			}
+//			if ((y+1) % 3 == 0)
+//			{
+//				JSeparator js = new JSeparator(SwingConstants.VERTICAL);
+//				gridPanel.add(js);
+//			}
 		}	
 	}
 	
@@ -261,7 +299,7 @@ public class FrameMain extends JFrame {
 		else
 		{
 			cells.get(row).get(col).setFont(new Font(cells.get(row).get(col).getFont().getName(), 
-					Font.PLAIN, 
+					Font.PLAIN,
 					cells.get(row).get(col).getFont().getSize()));
 		}
 	}
@@ -273,7 +311,7 @@ public class FrameMain extends JFrame {
 		}
 		else
 		{
-			cells.get(row).get(col).setText("0");
+			cells.get(row).get(col).setText("");
 		}
 		setCellColour(row, col, puzzleControl);
 	}
@@ -282,22 +320,25 @@ public class FrameMain extends JFrame {
 	{
 		if (puzzleControl.getCell(row, col).isFixed())
 		{
-			cells.get(row).get(col).setForeground(Color.GRAY);
+			//cells.get(row).get(col).setForeground(Color.GRAY);
 		}
 		else
 		{
-			cells.get(row).get(col).setForeground(Color.BLACK);
+			//cells.get(row).get(col).setForeground(Color.BLACK);
+			cells.get(row).get(col).setBackground(Color.BLACK);
 		}		
 	}
 	private void setDEBUGCellColour(int row, int col, PuzzleControl puzzleControl)
 	{
-		if (puzzleControl.checkNumberSolution(lastPressedCell[1], lastPressedCell[0]))
+		if (puzzleControl.checkNumberSolution(row, col))
 		{
-			cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.GREEN);
+			//cells.get(row).get(col).setForeground(Color.GREEN);
+			cells.get(row).get(col).setBackground(Color.GREEN);
 		}
 		else
 		{
-			cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setForeground(Color.RED);
+			//cells.get(row).get(col).setForeground(Color.RED);
+			cells.get(row).get(col).setBackground(Color.RED);
 	    }		
 	}
 	
@@ -305,7 +346,14 @@ public class FrameMain extends JFrame {
 	{
 		if (row >= 0 && col >= 0)
 		{
-			hintLabel.setText("Solution: " + Integer.toString(puzzleControl.getCell(row, col).getSolution()));
+			if (puzzleControl.getCell(row, col).checkNumberSolution())
+			{
+				hintLabel.setText("Cell is correctly filled");
+			}
+			else
+			{
+				hintLabel.setText("Solution: " + Integer.toString(puzzleControl.getCell(row, col).getSolution()));
+			}
 		}
 		else
 		{

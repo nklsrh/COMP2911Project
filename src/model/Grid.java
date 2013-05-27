@@ -8,23 +8,51 @@ public class Grid {
 	private int gridIndex;
 	private ArrayList<ArrayList<Cell>> gridTable;
 	
+	/**
+	 * A constructor for the Grid object, representing one of the 9 3X3 grids that make up a Sudoku puzzle.
+	 * Each Grid object has an index to keep track of its position within the Sudoku puzzle. This is defined
+	 * by the gridIndex that is taken in as an argument. A 2-d arrayList of Cell objects is also created to keep 
+	 * track of the 9 Cells that are present in each Grid object.
+	 * @param gridIndex The index of this particular Grid object, so that it can be identified easily.
+	 */
 	public Grid(int gridIndex) {
 		this.gridTable = new ArrayList<ArrayList<Cell>>();
 		this.gridIndex = gridIndex;
 	}
 	
+	/**
+	 * A getter for the 2-d arrayList that contains the 9 Cell objects that are contained in each Grid.
+	 * @return the gridTable 2-d arrayList which is a list of lists containing the Cells contained in the grid.
+	 */
 	public ArrayList<ArrayList<Cell>> getGridTable(){
 		return gridTable;
 	}
 	
+	/**
+	 * A getter for the grid's index within the Sudoku puzzle.
+	 * @return the index of the Grid object.
+	 */
 	public int getGridIndex(){
 		return gridIndex;
 	}
 	
+	/**
+	 * A getter that retrieves a particular Cell within the Grid, given a column index and row index.
+	 * @param column the x-coordinate of the Cell within the Grid, from 0-2.
+	 * @param row the y-coordinate of the Cell within the Grid, from 0-2.
+	 * @return the Cell contained in the Grid object, at specific coordinates specified by <b>column</b> and
+	 * <b>row</b>. 
+	 */
 	public Cell getCell(int column, int row) {
 		return gridTable.get(row).get(column);
 	}
 	
+	/**
+	 * A getter that retrieves a particular Cell within a Grid, given an index of the Cell.
+	 * @param index the positional index of the Cell object within the Grid, from 0-8, in the orientation
+	 * 012<br>345<br>678
+	 * @return the Cell contained in the Grid object, at a specific index position specified by <b>index</b>
+	 */
 	public Cell getCell(int index){
 		for (int i = 0; i < (index+1) / NUM_CELLS_PER_SIDE; i++){
 			for (int j = 0; j < (index+1) % NUM_CELLS_PER_SIDE; j++){
@@ -35,9 +63,9 @@ public class Grid {
 	}
 	
 	/**
-	 * Actually sets a certain grid cell to a cell value
-	 * @param index
-	 * @param value
+	 * A setter that sets a certain grid cell to a cell value, given the Cell's index and value to be added.
+	 * @param index the positional index of a Cell within the Grid.
+	 * @param value the number of the Cell to be stored in the Grid
 	 */
 	public void setCell(int index, Cell value){
 		for (int i = 0; i < (index+1) / NUM_CELLS_PER_SIDE; i++){
@@ -47,7 +75,12 @@ public class Grid {
 		}
 	}
 	
-	
+	/**
+	 * This method takes in a number from 1-9 and checks if the Grid object contains a Cell which contains
+	 * this number.
+	 * @param number the number whose presence in the Grid is to be checked.
+	 * @return true if the grid contains such a number, false otherwise.
+	 */
 	public boolean contains(int number){
 		boolean doesIt = false;
 		for (int i = 0 ; i < gridTable.size() ; i++){
@@ -60,6 +93,9 @@ public class Grid {
 		return doesIt;
 	}
 	
+	/**
+	 * This method copies the contents of the gridTable 2-d arraylist in a string in a readable format.
+	 */
 	@Override
 	public String toString(){
 		StringBuffer string = new StringBuffer();
