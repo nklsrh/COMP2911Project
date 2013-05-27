@@ -18,11 +18,8 @@ public interface PuzzleInterface {
 
 
 	/**
-	 * getRegion is called as a getter for the region that is located at a provided row and column position,
-	 * relative to the <b>Puzzle</b> that contains it.
-	 * @param row The numerical row position of the desired cell. Ranges from 0 to 2.
-	 * @param column The numerical column position of the desired cell. Ranges from 0 to 2.
-	 * @return The <b>Cell</b>, located at a provided row and column.
+	 * A getter for a Grid object in the puzzle, given its index.
+	 * @return the grid located at a certain index in the Puzzle.
 	 */
 	public Grid getGrid(int gridIndex);
 }
