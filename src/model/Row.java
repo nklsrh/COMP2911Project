@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class Row implements RowColumnInterface{
 	private ArrayList<Cell> rowCells;
-	protected static final int NUMBER_OF_CELLS = 9;
+	
 	
 	public Row() {
 		rowCells = new ArrayList<Cell>();
@@ -18,9 +18,7 @@ public class Row implements RowColumnInterface{
 	
 	@Override
 	public void addToList(Cell cell) {
-		if(rowCells.size() <= NUMBER_OF_CELLS){
 			rowCells.add(cell);
-		}
 	}
 	
 	@Override

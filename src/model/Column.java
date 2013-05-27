@@ -1,10 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Column implements RowColumnInterface{
 	private ArrayList<Cell> columnCells;
-	protected static final int NUMBER_OF_CELLS = 9;
+	
 	
 	public Column() {
 		columnCells = new ArrayList<Cell>();
@@ -16,21 +17,17 @@ public class Column implements RowColumnInterface{
 	
 	@Override
 	public void addToList(Cell cell) {
-		if(columnCells.size() <= NUMBER_OF_CELLS){
-			columnCells.add(cell);
-		}
+		columnCells.add(cell);
 	}
 	
 	@Override
 	public String toString() {
 		StringBuffer string = new StringBuffer();
 		string.append("| ");
-		if(!columnCells.isEmpty()) {
-			for(int i=0; i< NUMBER_OF_CELLS; i++) {
-				string.append(columnCells.get(i).getNumber() + " | ");	
-			}
+		Iterator<Cell> rCit = columnCells.iterator();
+		while(rCit.hasNext()){
+			string.append(rCit.next().getNumber() + " | ");	
 		}
 		return string.toString();
-
 	}
 }
