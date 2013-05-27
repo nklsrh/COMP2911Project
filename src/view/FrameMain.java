@@ -14,6 +14,7 @@ import java.awt.SystemColor;
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.event.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -145,6 +146,13 @@ public class FrameMain extends JFrame {
 		tabTimer.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		
+		TimerLabel timer = new TimerLabel();
+		timer.setHorizontalAlignment(SwingConstants.CENTER);
+		timer.setVerticalAlignment(SwingConstants.CENTER);
+		timer.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		tabTimer.add(timer);
+		
+		
 		////////////////////////////////////////////////////////////////
 		
 		JPanel tabStats = new JPanel();
@@ -170,7 +178,7 @@ public class FrameMain extends JFrame {
 		
 		setupCells(gridPanel, puzzleControl);
 	}
-
+	
 	private void cellClicked(int thisX, int thisY, PuzzleControl pz)
 	{
 		if (lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
