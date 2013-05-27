@@ -43,8 +43,8 @@ public class FrameMain extends JFrame {
 	 */
 	public FrameMain(PuzzleControl puzzleControl) {
 		numberOfRows = 9;
-		padding = 12; //6
-		textboxWidth = 38; // 28
+		padding = 0; //6
+		textboxWidth = 42; // 28
 		widthBetweenTextBoxes = 51; // 31
 		widthOfSidebar = 300;
 		widthOfKeypad = 300;
@@ -88,7 +88,7 @@ public class FrameMain extends JFrame {
 		
 		JPanel keypadPanel = new JPanel();
 		//keypadPanel.setBackground(SystemColor.windowBorder);
-		keypadPanel.setBounds(totalWidthOfGrid - padding, 0, 287, 297); //314 - padding
+		keypadPanel.setBounds(totalWidthOfGrid + padding, 0, 287, 297); //314 - padding
 		fullPanel.add(keypadPanel);
 		GridBagLayout gbl_keypadPanel = new GridBagLayout();
 		gbl_keypadPanel.columnWidths = new int[] {95, 95, 95, 0};
@@ -250,12 +250,12 @@ public class FrameMain extends JFrame {
 				final PuzzleControl pz = puzzleControl;
 				
 				cells.get(y).add(new JButton("0"));
-				cells.get(y).get(x).setFont(new Font("Lucida Grande", Font.PLAIN, 11));				
-				//cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
+				cells.get(y).get(x).setFont(new Font("Lucida Grande", Font.PLAIN, 16));				
+//				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
-				gbc_button.insets = new Insets(0, 0, 0, 0);
+				gbc_button.insets = new Insets(0,0,0,0);
 				gbc_button.gridx = x;
 				gbc_button.gridy = y;
 				
@@ -270,6 +270,7 @@ public class FrameMain extends JFrame {
 			    });
 				
 				gridPanel.add(cells.get(y).get(x), gbc_button);
+//				gridPanel.add(cells.get(y).get(x));
 				
 				if ((x+1) % 3 == 0)
 				{
