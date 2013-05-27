@@ -2,6 +2,12 @@ package controller.generate;
 
 import java.util.Comparator;
 
+/**
+ * This class implements the comparator interface to compare the rwos of Square objects and determine their
+ * order.
+ * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
+ *
+ */
 public class RowsComparator implements Comparator<Square>{
 
 	@Override

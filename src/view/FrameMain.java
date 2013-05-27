@@ -21,6 +21,11 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+/**
+ * The class that represents the GUI of the Sudoku puzzle game.
+ * @author Nikhil Suresh, Ryan Tan, Nicholas Ho
+ *
+ */
 public class FrameMain extends JFrame {
 	private JPanel contentPane;
 	private ArrayList<ArrayList<JButton>> cells;
@@ -34,13 +39,15 @@ public class FrameMain extends JFrame {
 	private int totalWidthOfGrid;
 	private int widthOfSidebar;
 	private int widthOfKeypad;
+	private int numActions;
 	/**
 	 * Contains coordinates for X,Y of last pressed cell button (so we know what cell to change)
 	 * first element is X value (column)
 	 */
 	private int[] lastPressedCell;
 	/**
-	 * Create the frame.
+	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
+	 * in an attractive and accessible manner
 	 */
 	public FrameMain(PuzzleControl puzzleControl) {
 		numberOfRows = 9;
@@ -52,6 +59,7 @@ public class FrameMain extends JFrame {
 		lastPressedCell = new int[2];
 		lastPressedCell[0] = -1;
 		lastPressedCell[1] = -1;
+		numActions = 0;
 		
 		totalWidthOfGrid = padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth;
 		
@@ -146,6 +154,7 @@ public class FrameMain extends JFrame {
 		tabTimer.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		
+		//Timer stuff
 		TimerLabel timer = new TimerLabel();
 		timer.setHorizontalAlignment(SwingConstants.CENTER);
 		timer.setVerticalAlignment(SwingConstants.CENTER);
@@ -162,6 +171,12 @@ public class FrameMain extends JFrame {
 		lblStats.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		tabStats.add(lblStats);
 		lblStats.setVerticalAlignment(SwingConstants.TOP);
+		
+		JLabel actionStats = new JLabel("Number of actions performed: " + numActions);
+		actionStats.setHorizontalAlignment(SwingConstants.LEFT);
+		actionStats.setVerticalAlignment(SwingConstants.CENTER);
+		actionStats.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		tabStats.add(actionStats);
 		
 		//////////////////////////////////////////////////////////////////
 		
@@ -191,6 +206,7 @@ public class FrameMain extends JFrame {
 			lastPressedCell[0] = thisX;
 			setCellFont(thisY, thisX, true);
     	}
+		numActions++;
 	}
 	
 	private void keyPressed(int thisX, int thisY, PuzzleControl pz)

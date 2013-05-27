@@ -9,7 +9,8 @@ import model.*;
 
 public class PuzzleControl {
 	private Puzzle puzzle;
-
+	
+	
 	public void createPuzzle()
 	{
 		Generator gen = new Generator();
@@ -94,25 +95,64 @@ public class PuzzleControl {
 		return pz;
 	}
 		
-	
+	/**
+	 * A getter that retrieves a cell from the <b>Model</b>, given its coordinates. 
+	 * @param row y-coordinates of the cell to be retrieved
+	 * @param column x-coordinates of the cell to be retrieved
+	 * @return the cell at the given row and column.
+	 */
 	public Cell getCell(int row, int column){
 		return puzzle.getCell(row, column);
 	}
+	
+	/**
+	 * A setter that sets a value to a cell from the <b>Model</b>, given its coordinates and a value. 
+	 * @param row y-coordinates of the cell to be set
+	 * @param column x-coordinates of the cell to be set
+	 * @param value the value of the cell to be set
+	 * @return the cell at the given row and column.
+	 */
 	public void setCell(int row, int column, int value){
 		puzzle.setCell(row, column, value);
 	}
+	
+	/**
+	 * A getter for a Grid object in the puzzle, given its index.
+	 * @return the grid located at a certain index in the Puzzle.
+	 */
 	public Grid getGrid(int gridIndex) {
 		return puzzle.getGrid(gridIndex);
 	}
+	
+	/**
+	 * A getter for the arrayList of grids that is used in initialisation of the Puzzle.
+	 * @return the arrayList of Grid objects
+	 */
 	public ArrayList<Grid> getGridList(){
 		return puzzle.getGridList();
 	}	
+	
+	/**
+	 * A getter for the arrayList of rows that is used in initialisation of the Puzzle.
+	 * @return the arrayList of Row objects
+	 */
 	public ArrayList<Row> getRowList(){
 		return puzzle.getRowList();
 	}	
+	
+	/**
+	 * A getter for the arrayList of columns that is used in initialisation of the Puzzle.
+	 * @return the arrayList of Column objects
+	 */
 	public ArrayList<Column> getColumnList(){
 		return puzzle.getColumnList();
 	}
+	
+	/**
+	 * This method compares the number placed by a user with the predefined solution of the Sudoku game, to
+	 * see if the user has filled the cell with the correct number.
+	 * @return true if the user has filled the cell correctly, false otherwise.
+	 */
 	public boolean checkNumberSolution(int row, int col)
 	{
 		return puzzle.getCell(row, col).checkNumberSolution();
