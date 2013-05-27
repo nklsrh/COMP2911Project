@@ -41,3 +41,8 @@
 -Implemented some unimplemented methods in Puzzle.java
 -Drew UML Diagrams for Model and View.
 -Controller needs to be done soon.
+
+/++ 28 May 2013 ++\
+
+-added Javadoc comments to the Model package
+-Added a half-working timer, still needs work.
