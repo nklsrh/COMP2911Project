@@ -42,9 +42,9 @@ public class FrameMain extends JFrame {
 	 */
 	public FrameMain(PuzzleControl puzzleControl) {
 		numberOfRows = 9;
-		padding = 6;
-		textboxWidth = 28;
-		widthBetweenTextBoxes = 31;
+		padding = 12; //6
+		textboxWidth = 38; // 28
+		widthBetweenTextBoxes = 51; // 31
 		widthOfSidebar = 300;
 		widthOfKeypad = 300;
 		lastPressedCell = new int[2];
@@ -86,7 +86,7 @@ public class FrameMain extends JFrame {
 		
 		JPanel keypadPanel = new JPanel();
 		//keypadPanel.setBackground(SystemColor.windowBorder);
-		keypadPanel.setBounds(314 - padding, 0, 287, 297);
+		keypadPanel.setBounds(totalWidthOfGrid - padding, 0, 287, 297); //314 - padding
 		fullPanel.add(keypadPanel);
 		GridBagLayout gbl_keypadPanel = new GridBagLayout();
 		gbl_keypadPanel.columnWidths = new int[] {95, 95, 95, 0};
@@ -247,8 +247,8 @@ public class FrameMain extends JFrame {
 				final int thisX = x;
 				final PuzzleControl pz = puzzleControl;
 				
-				cells.get(y).add(new JButton());
-				cells.get(y).get(x).setFont(new Font("Lucida Grande", Font.BOLD, 5));				
+				cells.get(y).add(new JButton("0"));
+				cells.get(y).get(x).setFont(new Font("Lucida Grande", Font.PLAIN, 11));				
 				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 
 				setCellNumber(y, x, puzzleControl);		
@@ -299,22 +299,25 @@ public class FrameMain extends JFrame {
 	{
 		if (puzzleControl.getCell(row, col).isFixed())
 		{
-			cells.get(row).get(col).setForeground(Color.GRAY);
+			//cells.get(row).get(col).setForeground(Color.GRAY);
 		}
 		else
 		{
-			cells.get(row).get(col).setForeground(Color.BLACK);
+			//cells.get(row).get(col).setForeground(Color.BLACK);
+			cells.get(row).get(col).setBackground(Color.BLACK);
 		}		
 	}
 	private void setDEBUGCellColour(int row, int col, PuzzleControl puzzleControl)
 	{
 		if (puzzleControl.checkNumberSolution(row, col))
 		{
-			cells.get(row).get(col).setForeground(Color.GREEN);
+			//cells.get(row).get(col).setForeground(Color.GREEN);
+			cells.get(row).get(col).setBackground(Color.GREEN);
 		}
 		else
 		{
-			cells.get(row).get(col).setForeground(Color.RED);
+			//cells.get(row).get(col).setForeground(Color.RED);
+			cells.get(row).get(col).setBackground(Color.RED);
 	    }		
 	}
 	
