@@ -2,69 +2,87 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Random;
 
 import controller.generate.Generator;
 
 import model.*;
 
 public class PuzzleControl {
+	private static final int EASY_MISSING = 35;
+	private static final int MEDIUM_MISSING = 50;
+	private static final int HARD_MISSING = 67;
 	private Puzzle puzzle;
 	
 	
-	public void createPuzzle()
+	public void createPuzzle(int difficulty)
 	{
 		Generator gen = new Generator();
 		gen.shufflePuzzle();
 		puzzle = new Puzzle();
-		puzzle = createPuzzleAndSolution(gen.packageUp(puzzle), createMissingCells());
+
+		puzzle = createPuzzleAndSolution(gen.packageUp(puzzle), createMissingCells(difficulty));
 		
 		// old code with predetermined puzzles
 //		puzzle = createPuzzleAndSolution(populateSolutionFromArrayString(createPuzzleArrayString()), createMissingCells());			
 		System.out.println(puzzle.toString());
 	}
 	
-	public int[][] createMissingCells()
-	{
-		int[][] missingCells = {
-				{2,3,4,5,6,7},				
-				{1,7,6,6,7,5},
-				{2,5,2,5},				
-				{0,63,2,-10},	// got some cool test cases to ensure it doesn't break
-				{3,5,1,2},				
-				{6,7,4},
-				{3,5,1},				
-				{1,2,5},
-				{6,1,2}
-		};
-		return missingCells;
+	/**
+	 * Creates the missing cells.
+	 * Difficulty ranked according:
+	 * 	1: Easy
+	 *  2: Medium
+	 *  3: Hard
+	 * @param difficulty the difficulty
+	 * @return the linked list
+	 */
+	public LinkedList<LinkedList<Integer>> createMissingCells(int difficulty){
+		LinkedList<LinkedList<Integer>> resultMissings = new LinkedList<LinkedList<Integer>>();
+		LinkedList<LinkedList<Integer>> possibles = new LinkedList<LinkedList<Integer>>();
+		Random rand = new Random();
+		
+		int cellsMissing = 0;
+		if(difficulty == 3){
+			cellsMissing = HARD_MISSING;
+		}else if(difficulty == 2){
+			cellsMissing = MEDIUM_MISSING;
+		}else{
+			cellsMissing = EASY_MISSING;
+		}
+		
+		//build possible numbers
+		for(int i=0; i<puzzle.getRowList().size(); i++){
+			resultMissings.add(new LinkedList<Integer>());
+			possibles.add(new LinkedList<Integer>());
+			for(int j=0; j<puzzle.getColumnList().size(); j++){
+				possibles.get(i).add(new Integer(j+1));
+			}
+		}
+		
+		while(cellsMissing != 0){
+			int row = rand.nextInt(possibles.size());
+			int col = rand.nextInt(possibles.get(row).size()); //gets a valid row
+			Integer number = possibles.get(row).remove(col);
+			if(number != null){
+				resultMissings.get(row).add(number);
+				cellsMissing--;
+			}
+		}
+		
+		return resultMissings;
 	}
 	
-	public ArrayList<String> createPuzzleArrayString()
-	{
-		ArrayList<String> gridsStrings = new ArrayList<String>(); 
-		
-		gridsStrings.add("1 7 4 3 9 6 8 5 2");
-		gridsStrings.add("2 8 5 4 1 7 9 6 3");
-		gridsStrings.add("3 9 6 5 2 8 1 7 4");
-		gridsStrings.add("4 1 7 6 3 9 2 8 5");
-		gridsStrings.add("5 2 8 7 4 1 3 9 6");
-		gridsStrings.add("6 3 9 8 5 2 4 1 7");
-		gridsStrings.add("7 4 1 9 6 3 5 2 8");
-		gridsStrings.add("8 5 2 1 7 4 6 3 9");
-		gridsStrings.add("9 6 3 2 8 5 7 4 1");
-		
-		return gridsStrings;
-	}
 	
-	
-	public Puzzle createPuzzleAndSolution(Puzzle s, int[][] missingCells)
+	public Puzzle createPuzzleAndSolution(Puzzle s, LinkedList<LinkedList<Integer>> missingCells)
 	{
 		Puzzle p = s;
 		for (int y = 0; y < s.getRowList().size(); y++)
 		{
-			for (int i = 0; i < missingCells[y].length; i++)
+			for (int i = 0; i < missingCells.get(y).size(); i++)
 			{
-				p.setCellAsEmpty(y, missingCells[y][i]);
+				p.setCellAsEmpty(y, missingCells.get(y).get(i));
 			}
 		}	
 		return p;

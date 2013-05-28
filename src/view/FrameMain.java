@@ -49,7 +49,8 @@ public class FrameMain extends JFrame {
 		
 	private void startNewGame(PuzzleControl puzzleControl)
 	{
-		puzzleControl.createPuzzle();
+		
+		puzzleControl.createPuzzle(1);
 		setupFrame(puzzleControl);
 	}
 	/**
@@ -106,8 +107,8 @@ public class FrameMain extends JFrame {
 		keypadPanel.setBounds(totalWidthOfGrid + padding, 0, 287, 297); //314 - padding
 		fullPanel.add(keypadPanel);
 		GridBagLayout gbl_keypadPanel = new GridBagLayout();
-		gbl_keypadPanel.columnWidths = new int[] {95, 95, 95, 0};
-		gbl_keypadPanel.rowHeights = new int[] {100, 100, 100, 0};
+		gbl_keypadPanel.columnWidths = new int[] {90, 90, 90, 90};
+		gbl_keypadPanel.rowHeights = new int[] {90, 90, 90, 90};
 		gbl_keypadPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_keypadPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		keypadPanel.setLayout(gbl_keypadPanel);
@@ -271,9 +272,10 @@ public class FrameMain extends JFrame {
 			{
 				final int thisX = x;
 				final PuzzleControl pz = puzzleControl;
-
+				
 				keypadButtons.get(y).add(new JButton(String.valueOf(((y * 3) + (x + 1)))));	// set value of number according to position (like telephone buttons
 				keypadButtons.get(y).get(x).setFont(new Font("Lucida Grande", Font.BOLD, 36));	
+				keypadButtons.get(y).get(x).setSize(50, 50);
 				
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
@@ -311,8 +313,9 @@ public class FrameMain extends JFrame {
 				
 				cells.get(y).add(new JButton("0"));
 				cells.get(y).get(x).setFont(new Font("Lucida Grande", Font.PLAIN, 16));				
-//				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
-
+				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
+				
+				
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
 				gbc_button.insets = new Insets(0,0,0,0);
