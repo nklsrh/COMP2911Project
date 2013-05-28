@@ -168,7 +168,7 @@ public class PuzzleControl {
 		{
 			for (int j = 0; j < puzzle.getColumnList().size(); j++)
 			{
-				if (!puzzle.getCell(i, j).isFixed() && puzzle.getCell(i, j).isEmpty())
+				if (!puzzle.getCell(i, j).isFixed() && !puzzle.getCell(i, j).checkNumberSolution())
 				{
 					return new int[] {i, j, puzzle.getCell(i, j).getSolution()};
 				}

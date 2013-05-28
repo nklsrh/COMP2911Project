@@ -227,20 +227,18 @@ public class FrameMain extends JFrame {
 	
 	private void keyPressed(int thisX, int thisY, PuzzleControl pz)
 	{
-//		System.out.println(keypadButtons.get(thisY).get(thisX).getText().length() + " " + lastPressedCell[0] + " " + lastPressedCell[1]);
 		  if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
-		  {
-//		      System.out.println("COL:" + lastPressedCell[0] + ", ROW: " + lastPressedCell[1]);		  
+		  {  
 			  pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
 
-//			  System.out.println("COL:" + pz.getColumnList().get(lastPressedCell[0]));
-//			  System.out.println("ROW:" + pz.getRowList().get(lastPressedCell[1]));
-//			  System.out.println("GRID:" + pz.getGrid((lastPressedCell[1]/3 % 3 * 3 + lastPressedCell[0]/3 % 3 + 1) - 1));
-			  
-		  		if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
+			  if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
+			  {
 				  cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
+			  }
 			  
-		  		setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);
+			  setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);
+			  
+			  checkIfSolutionComplete(pz);
 		  }
 	}
 	
@@ -411,10 +409,25 @@ public class FrameMain extends JFrame {
 			puzzleControl.setCell(values[0], values[1], values[2]);
 			cellClicked(values[0], values[1], puzzleControl);
 			setCellNumber(values[0], values[1], puzzleControl);
+	  		setDEBUGCellColour(values[0], values[1], puzzleControl);
+	  		if (checkIfSolutionComplete(puzzleControl))
+	  		{
+				btnAutofill.setEnabled(false);
+	  		}
 		}
 		else
 		{
 			btnAutofill.setEnabled(false);
 		}
+	}
+	
+	private boolean checkIfSolutionComplete(PuzzleControl puzzleControl)
+	{
+		if (puzzleControl.getFirstEmptyCellCoordinates() == null)
+		{
+			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
+			return true;
+		}
+		return false;
 	}
 }
