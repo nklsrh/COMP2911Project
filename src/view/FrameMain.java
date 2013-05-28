@@ -46,11 +46,18 @@ public class FrameMain extends JFrame {
 	 * first element is X value (column)
 	 */
 	private int[] lastPressedCell;
+		
+	private void startNewGame(PuzzleControl puzzleControl)
+	{
+		puzzleControl.createPuzzle();
+		setupFrame(puzzleControl);
+	}
 	/**
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
 	 * in an attractive and accessible manner
 	 */
-	public FrameMain(PuzzleControl puzzleControl) {
+	public FrameMain() {
+		
 		numberOfRows = 9;
 		padding = 0; //6
 		textboxWidth = 42; // 28
@@ -66,24 +73,23 @@ public class FrameMain extends JFrame {
 		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
+		} catch (Exception e1) {
 			e1.printStackTrace();
-		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		} 
 		
 		setResizable(false);
 		setBackground(SystemColor.window);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 100, totalWidthOfGrid + widthOfSidebar + widthOfKeypad, totalWidthOfGrid + textboxWidth);
+
+		PuzzleControl puzzleControl = new PuzzleControl();
+		startNewGame(puzzleControl);		
+		setupFrame(puzzleControl);
+	}
+	
+	private void setupFrame(PuzzleControl puzzleControl)
+	{
+		final PuzzleControl pz = puzzleControl;
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,8 +100,7 @@ public class FrameMain extends JFrame {
 		contentPane.add(fullPanel);
 		fullPanel.setLayout(null);
 		
-		//////////////////////////////////////////////
-		
+		//////////////////////////////////////////////////////////////////////////
 		JPanel keypadPanel = new JPanel();
 		//keypadPanel.setBackground(SystemColor.windowBorder);
 		keypadPanel.setBounds(totalWidthOfGrid + padding, 0, 287, 297); //314 - padding
@@ -137,7 +142,6 @@ public class FrameMain extends JFrame {
 		
 		JButton btnGetHint = new JButton("Get hint");
 		btnGetHint.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		final PuzzleControl pz = puzzleControl;
 		btnGetHint.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -148,6 +152,7 @@ public class FrameMain extends JFrame {
 		
 		btnAutofill = new JButton("Autofill next empty cell");
 		btnAutofill.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		btnAutofill.setEnabled(true);		
 		btnAutofill.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -174,8 +179,7 @@ public class FrameMain extends JFrame {
 		timer.setHorizontalAlignment(SwingConstants.CENTER);
 		timer.setVerticalAlignment(SwingConstants.BOTTOM);
 		timer.setFont(new Font("Lucida Grande", Font.PLAIN, 70));
-		tabTimer.add(timer);
-		
+		tabTimer.add(timer);		
 		
 		////////////////////////////////////////////////////////////////
 		
@@ -201,7 +205,7 @@ public class FrameMain extends JFrame {
 		gridPanel.setLayout(new GridLayout(9, 9));
 
 		/////////////////////////////////////////////////////////////////////////
-
+		
 		setupKeypad(keypadPanel, puzzleControl);
 		
 		///////////////////////////////////////////////////////////////////////////
@@ -209,6 +213,11 @@ public class FrameMain extends JFrame {
 		setupCells(gridPanel, puzzleControl);
 	}
 	
+	/**
+	 * @param thisX
+	 * @param thisY
+	 * @param pz
+	 */
 	private void cellClicked(int thisX, int thisY, PuzzleControl pz)
 	{
 		if (lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
@@ -225,6 +234,11 @@ public class FrameMain extends JFrame {
 		this.validate();
 	}
 	
+	/**
+	 * @param thisX
+	 * @param thisY
+	 * @param pz
+	 */
 	private void keyPressed(int thisX, int thisY, PuzzleControl pz)
 	{
 		  if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
@@ -238,10 +252,14 @@ public class FrameMain extends JFrame {
 			  
 			  setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);
 			  
-			  checkIfSolutionComplete(pz);
+			  checkIfPuzzleComplete(pz);
 		  }
 	}
 	
+	/**
+	 * @param keypadPanel
+	 * @param puzzleControl
+	 */
 	private void setupKeypad(JPanel keypadPanel, PuzzleControl puzzleControl)
 	{
 		keypadButtons = new ArrayList<ArrayList<JButton>>();
@@ -275,6 +293,10 @@ public class FrameMain extends JFrame {
 		}
 	}
 	
+	/**
+	 * @param gridPanel
+	 * @param puzzleControl
+	 */
 	private void setupCells(JPanel gridPanel, PuzzleControl puzzleControl)
 	{
 		cells = new ArrayList<ArrayList<JButton>>();
@@ -326,6 +348,11 @@ public class FrameMain extends JFrame {
 		}	
 	}
 	
+	/**
+	 * @param row
+	 * @param col
+	 * @param isBold
+	 */
 	private void setCellFont(int row, int col, boolean isBold)
 	{
 		if (isBold)
@@ -341,6 +368,11 @@ public class FrameMain extends JFrame {
 					cells.get(row).get(col).getFont().getSize()));
 		}
 	}
+	/**
+	 * @param row
+	 * @param col
+	 * @param puzzleControl
+	 */
 	private void setCellNumber(int row, int col, PuzzleControl puzzleControl)
 	{
 		if (!puzzleControl.getCell(row, col).isEmpty())
@@ -354,6 +386,11 @@ public class FrameMain extends JFrame {
 		setCellColour(row, col, puzzleControl);
 	}
 	
+	/**
+	 * @param row
+	 * @param col
+	 * @param puzzleControl
+	 */
 	private void setCellColour(int row, int col, PuzzleControl puzzleControl)
 	{
 		if (puzzleControl.getCell(row, col).isFixed())
@@ -368,6 +405,11 @@ public class FrameMain extends JFrame {
 			cells.get(row).get(col).setBackground(Color.BLACK);
 		}		
 	}
+	/**
+	 * @param row
+	 * @param col
+	 * @param puzzleControl
+	 */
 	private void setDEBUGCellColour(int row, int col, PuzzleControl puzzleControl)
 	{
 		if (puzzleControl.checkNumberSolution(row, col))
@@ -382,6 +424,11 @@ public class FrameMain extends JFrame {
 	    }		
 	}
 	
+	/**
+	 * @param row
+	 * @param col
+	 * @param puzzleControl
+	 */
 	private void loadHint(int row, int col, PuzzleControl puzzleControl) 
 	{
 		if (row >= 0 && col >= 0)
@@ -401,6 +448,9 @@ public class FrameMain extends JFrame {
 		}	
 	}
 	
+	/**
+	 * @param puzzleControl
+	 */
 	private void autoFill(PuzzleControl puzzleControl)
 	{
 		int[] values = puzzleControl.getFirstEmptyCellCoordinates();
@@ -410,9 +460,12 @@ public class FrameMain extends JFrame {
 			cellClicked(values[0], values[1], puzzleControl);
 			setCellNumber(values[0], values[1], puzzleControl);
 	  		setDEBUGCellColour(values[0], values[1], puzzleControl);
-	  		if (checkIfSolutionComplete(puzzleControl))
+	  		if (checkIfPuzzleComplete(puzzleControl))
 	  		{
-				btnAutofill.setEnabled(false);
+	  			if (checkIfPuzzleComplete(puzzleControl))
+		  		{
+					btnAutofill.setEnabled(false);
+		  		}
 	  		}
 		}
 		else
@@ -421,11 +474,16 @@ public class FrameMain extends JFrame {
 		}
 	}
 	
-	private boolean checkIfSolutionComplete(PuzzleControl puzzleControl)
+	/**
+	 * @param puzzleControl
+	 * @return
+	 */
+	private boolean checkIfPuzzleComplete(PuzzleControl puzzleControl)
 	{
 		if (puzzleControl.getFirstEmptyCellCoordinates() == null)
 		{
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
+			startNewGame(puzzleControl);
 			return true;
 		}
 		return false;
