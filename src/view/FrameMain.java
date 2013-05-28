@@ -155,10 +155,14 @@ public class FrameMain extends JFrame {
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 19));
 		
 		//Timer stuff
+		JLabel timerExplanation = new JLabel("Minutes:Seconds");
+		timerExplanation.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
+		tabTimer.add(timerExplanation);
+		
 		TimerLabel timer = new TimerLabel();
 		timer.setHorizontalAlignment(SwingConstants.CENTER);
-		timer.setVerticalAlignment(SwingConstants.CENTER);
-		timer.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		timer.setVerticalAlignment(SwingConstants.BOTTOM);
+		timer.setFont(new Font("Lucida Grande", Font.PLAIN, 70));
 		tabTimer.add(timer);
 		
 		
@@ -207,6 +211,7 @@ public class FrameMain extends JFrame {
 			setCellFont(thisY, thisX, true);
     	}
 		numActions++;
+		this.validate();
 	}
 	
 	private void keyPressed(int thisX, int thisY, PuzzleControl pz)
@@ -349,6 +354,8 @@ public class FrameMain extends JFrame {
 		else
 		{
 			//cells.get(row).get(col).setForeground(Color.BLACK);
+			// Leaving this here for inspiration
+			//cells.get(row).get(col).setText("<html><body bgcolor=blue>test</body></html>");
 			cells.get(row).get(col).setBackground(Color.BLACK);
 		}		
 	}

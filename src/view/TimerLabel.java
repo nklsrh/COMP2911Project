@@ -10,19 +10,24 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 class TimerLabel extends JLabel implements ActionListener {
-	
+	private long startTime;
 	
 	public TimerLabel() {
-		super("" + new Date());
+		super();
 	    Timer t = new Timer(1000, this);
+	    startTime = new Date().getTime();
 	    t.start();
 	}
 	
-	//setText needs to take in a string that will appear where the timer appears in the timer tab.
-	//I can't find a way to change the format of the Date such that it contains just hours, minutes and seconds
-	//and starts from 0. At this moment, this code generates a date that updates every second.
 	public void actionPerformed(ActionEvent ae) {
-		setText(new Date().toString());
+		// getTime() gets the time in milliseconds, conversion is required.
+		long seconds = ((new Date().getTime() - startTime)/1000)%60;
+		long minutes = ((new Date().getTime() - startTime)/1000)/60;
 		
+		if (seconds < 10) {
+			setText(minutes + ":0" + seconds);
+		} else {
+			setText(minutes + ":" + seconds);
+		}
 	}
 }
