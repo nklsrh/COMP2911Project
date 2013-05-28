@@ -31,6 +31,7 @@ public class FrameMain extends JFrame {
 	private ArrayList<ArrayList<JButton>> cells;
 	private ArrayList<ArrayList<JButton>> keypadButtons;
 	private JLabel hintLabel;
+	private JButton btnAutofill;
 	
 	private int numberOfRows;
 	private int padding;
@@ -145,6 +146,16 @@ public class FrameMain extends JFrame {
 		});
 		tabHints.add(btnGetHint);
 		
+		btnAutofill = new JButton("Autofill next empty cell");
+		btnAutofill.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		btnAutofill.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				autoFill(pz);
+			}
+		});
+		tabHints.add(btnAutofill);
+		
 		/////////////////////////////////////////////////////////////
 		
 		JPanel tabTimer = new JPanel();
@@ -216,15 +227,15 @@ public class FrameMain extends JFrame {
 	
 	private void keyPressed(int thisX, int thisY, PuzzleControl pz)
 	{
-		System.out.println(keypadButtons.get(thisY).get(thisX).getText().length() + " " + lastPressedCell[0] + " " + lastPressedCell[1]);
+//		System.out.println(keypadButtons.get(thisY).get(thisX).getText().length() + " " + lastPressedCell[0] + " " + lastPressedCell[1]);
 		  if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
 		  {
-		      System.out.println("COL:" + lastPressedCell[0] + ", ROW: " + lastPressedCell[1]);		  
+//		      System.out.println("COL:" + lastPressedCell[0] + ", ROW: " + lastPressedCell[1]);		  
 			  pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
 
-			  System.out.println("COL:" + pz.getColumnList().get(lastPressedCell[0]));
-			  System.out.println("ROW:" + pz.getRowList().get(lastPressedCell[1]));
-			  System.out.println("GRID:" + pz.getGrid((lastPressedCell[1]/3 % 3 * 3 + lastPressedCell[0]/3 % 3 + 1) - 1));
+//			  System.out.println("COL:" + pz.getColumnList().get(lastPressedCell[0]));
+//			  System.out.println("ROW:" + pz.getRowList().get(lastPressedCell[1]));
+//			  System.out.println("GRID:" + pz.getGrid((lastPressedCell[1]/3 % 3 * 3 + lastPressedCell[0]/3 % 3 + 1) - 1));
 			  
 		  		if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
 				  cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
@@ -390,5 +401,20 @@ public class FrameMain extends JFrame {
 		{
 			hintLabel.setText("No hint available");
 		}	
+	}
+	
+	private void autoFill(PuzzleControl puzzleControl)
+	{
+		int[] values = puzzleControl.getFirstEmptyCellCoordinates();
+		if (values != null)
+		{
+			puzzleControl.setCell(values[0], values[1], values[2]);
+			cellClicked(values[0], values[1], puzzleControl);
+			setCellNumber(values[0], values[1], puzzleControl);
+		}
+		else
+		{
+			btnAutofill.setEnabled(false);
+		}
 	}
 }

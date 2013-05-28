@@ -157,4 +157,23 @@ public class PuzzleControl {
 	{
 		return puzzle.getCell(row, col).checkNumberSolution();
 	}
+	
+	/**
+	 * Returns the first empty cell's coordinates and solution in an array
+	 * @return An array [i,j,k] that corresponds to the [row,col] of the cell, as well as [k] which is the solution
+	 */
+	public int[] getFirstEmptyCellCoordinates()
+	{
+		for (int i = 0; i < puzzle.getRowList().size(); i++)
+		{
+			for (int j = 0; j < puzzle.getColumnList().size(); j++)
+			{
+				if (!puzzle.getCell(i, j).isFixed() && puzzle.getCell(i, j).isEmpty())
+				{
+					return new int[] {i, j, puzzle.getCell(i, j).getSolution()};
+				}
+			}
+		}
+		return null;
+	}
 }
