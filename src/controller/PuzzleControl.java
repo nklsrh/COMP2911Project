@@ -12,7 +12,7 @@ import model.*;
 public class PuzzleControl {
 	private static final int EASY_MISSING = 35;
 	private static final int MEDIUM_MISSING = 50;
-	private static final int HARD_MISSING = 67;
+	private static final int HARD_MISSING = 70;
 	private Puzzle puzzle;
 	
 	
@@ -40,7 +40,6 @@ public class PuzzleControl {
 	 */
 	public LinkedList<LinkedList<Integer>> createMissingCells(int difficulty){
 		LinkedList<LinkedList<Integer>> resultMissings = new LinkedList<LinkedList<Integer>>();
-		LinkedList<LinkedList<Integer>> possibles = new LinkedList<LinkedList<Integer>>();
 		Random rand = new Random();
 		
 		int cellsMissing = 0;
@@ -55,19 +54,22 @@ public class PuzzleControl {
 		//build possible numbers
 		for(int i=0; i<puzzle.getRowList().size(); i++){
 			resultMissings.add(new LinkedList<Integer>());
-			possibles.add(new LinkedList<Integer>());
-			for(int j=0; j<puzzle.getColumnList().size(); j++){
-				possibles.get(i).add(new Integer(j+1));
-			}
 		}
 		
-		while(cellsMissing != 0){
-			int row = rand.nextInt(possibles.size());
-			int col = rand.nextInt(possibles.get(row).size()); //gets a valid row
-			Integer number = possibles.get(row).remove(col);
-			if(number != null){
-				resultMissings.get(row).add(number);
-				cellsMissing--;
+		while(cellsMissing > 0){
+			
+			Iterator<LinkedList<Integer>> rit = resultMissings.iterator(); 
+			while(rit.hasNext()){
+				if(cellsMissing <= 0){
+					break;
+				}
+				
+				int missing_rand = rand.nextInt(9);
+				LinkedList<Integer> next = rit.next();
+				if(!next.contains(missing_rand)){
+					next.add(missing_rand);
+					cellsMissing--;
+				}
 			}
 		}
 		
