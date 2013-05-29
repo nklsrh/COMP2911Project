@@ -32,6 +32,7 @@ public class FrameMain extends JFrame {
 	private ArrayList<ArrayList<JButton>> keypadButtons;
 	private JLabel hintLabel;
 	private JButton btnAutofill;
+	private JLabel actionStats;
 	
 	private int numberOfRows;
 	private int padding;
@@ -191,7 +192,7 @@ public class FrameMain extends JFrame {
 		tabStats.add(lblStats);
 		lblStats.setVerticalAlignment(SwingConstants.TOP);
 		
-		JLabel actionStats = new JLabel("Number of actions performed: " + numActions);
+		actionStats = new JLabel("Number of buttons pressed: " + numActions);
 		actionStats.setHorizontalAlignment(SwingConstants.LEFT);
 		actionStats.setVerticalAlignment(SwingConstants.CENTER);
 		actionStats.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
@@ -230,8 +231,6 @@ public class FrameMain extends JFrame {
 			lastPressedCell[0] = thisX;
 			setCellFont(thisY, thisX, true);
     	}
-		numActions++;
-		this.validate();
 	}
 	
 	/**
@@ -254,6 +253,9 @@ public class FrameMain extends JFrame {
 			  
 			  checkIfPuzzleComplete(pz);
 		  }
+		  
+		  numActions++;
+		  actionStats.setText("Number of actions performed: " + String.valueOf(numActions));
 	}
 	
 	/**
