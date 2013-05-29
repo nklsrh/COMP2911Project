@@ -48,8 +48,7 @@ public class FrameMain extends JFrame {
 	private int[] lastPressedCell;
 		
 	private void startNewGame(PuzzleControl puzzleControl)
-	{
-		
+	{		
 		puzzleControl.createPuzzle(1);
 		setupFrame(puzzleControl);
 	}
@@ -315,6 +314,10 @@ public class FrameMain extends JFrame {
 				cells.get(y).get(x).setFont(new Font("Lucida Grande", Font.PLAIN, 16));				
 				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 				
+				if (pz.getCell(y, x).isFixed())
+				{
+					cells.get(y).get(x).setEnabled(false);
+				}
 				
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
