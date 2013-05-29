@@ -190,12 +190,107 @@ public class PuzzleControl {
 		return statistics;
 	}
 	
+	
 	/**
-	 * Board check filled.
+	 * Checks if 
+	 * - all cells are filled in the board
+	 * - all rows are filled with 1-9
+	 * - all columns are filled with 1-9
+	 * - all grids are filled with 1-9
 	 *
 	 * @return true, if successful
 	 */
-	public boolean boardCheckFilled(){
+	public boolean boardIsValid(){
+		//check grid is valid
+		Iterator<Grid> git = puzzle.getGridList().iterator();
+		while(git.hasNext()){
+			LinkedList<Integer> possibles = fillPossibles(Puzzle.NUM_GRIDS);
+			
+			Iterator<ArrayList<Cell>> cit = git.next().getGridTable().iterator();
+			while(cit.hasNext()){
+				for(Cell cell : cit.next()){
+					if(cell.getNumber() != null){
+						possibles = removeFromPossibles(cell.getNumber(), possibles);
+					}
+				}
+			}
+			
+			if(!possibles.isEmpty()){
+				return false;
+			}
+		}
+		
+		Iterator<Row> rit = puzzle.getRowList().iterator();
+		while(rit.hasNext()){
+			LinkedList<Integer> possibles = fillPossibles(Puzzle.NUM_ROWS);
+			
+			Iterator<Cell> cit = rit.next().getList().iterator();
+			while(cit.hasNext()){
+				possibles = removeFromPossibles(cit.next().getNumber(), possibles);
+			}
+			
+			if(!possibles.isEmpty()){
+				return false;
+			}
+		}
+		
+		Iterator<Column> colit = puzzle.getColumnList().iterator();
+		while(colit.hasNext()){
+			LinkedList<Integer> possibles = fillPossibles(Puzzle.NUM_COLUMNS);
+			
+			Iterator<Cell> cit = colit.next().getList().iterator();
+			while(cit.hasNext()){
+				possibles = removeFromPossibles(cit.next().getNumber(), possibles);
+			}
+			if(!possibles.isEmpty()){
+				return false;
+			}
+		}
+		//check with helper function
+		return boardCheckFilled();
+	}
+	
+	/**
+	 * Helper function, fills possibles according to the provided size.
+	 * Used for checking if all grids, rows and cols are valid for a 
+	 * WIN scenario
+	 *
+	 * @param total the total
+	 * @return the linked list
+	 */
+	private LinkedList<Integer> fillPossibles(int total){
+		LinkedList<Integer> result = new LinkedList<Integer>();
+		for(int i=1; i<=total; i++){
+			result.add(i);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 
+	 * Helper function, removes from possibles, thus checking empty.
+	 * Used for checking if all grids, rows and cols are valid for a 
+	 * WIN scenario
+	 *
+	 * @param number the number
+	 * @param possibles the possibles
+	 * @return the linked list
+	 */
+	private LinkedList<Integer> removeFromPossibles(int number, LinkedList<Integer> possibles){
+		int index = possibles.indexOf(number);
+		if(index > -1){
+			possibles.remove(index);
+		}
+		return possibles;
+	}
+	
+	/**
+	 * Checks that every cell in the board is filled
+	 *
+	 * @return true, if successful
+	 */
+	private boolean boardCheckFilled(){
 		//check using rowStore
 		int totalCells = Puzzle.NUM_ROWS * Puzzle.NUM_COLUMNS;
 		
@@ -214,65 +309,5 @@ public class PuzzleControl {
 		}else{
 			return false;
 		}
-	}
-	
-	
-	
-	/**
-	 * Board is valid.
-	 *
-	 * @return true, if successful
-	 */
-	public boolean boardIsValid(){
-		//check grid is valid
-		Iterator<Grid> git = puzzle.getGridList().iterator();
-		while(git.hasNext()){
-			LinkedList<Integer> possibles = fillPossibles(Puzzle.NUM_GRIDS);
-			
-			Iterator<ArrayList<Cell>> cit = git.next().getGridTable().iterator();
-			while(cit.hasNext()){
-				for(Cell cell : cit.next()){
-					possibles = removeFromPossibles(cell.getNumber(), possibles);
-				}
-			}
-			//checks if grid has the
-			if(!possibles.isEmpty()){
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * Helper function, fills possibles according to the provided size.
-	 * Used for checking if all grids, rows and cols are valid for a 
-	 * WIN scenario
-	 *
-	 * @param total the total
-	 * @return the linked list
-	 */
-	private LinkedList<Integer> fillPossibles(int total){
-		LinkedList<Integer> result = new LinkedList<Integer>();
-		for(int i=0; i<total; i++){
-			result.add(i);
-		}
-		return result;
-	}
-	
-	
-	/**
-	 * 
-	 * Helper function, removes from possibles, thus checking empty.
-	 * Used for checking if all grids, rows and cols are valid for a 
-	 * WIN scenario
-	 *
-	 * @param number the number
-	 * @param possibles the possibles
-	 * @return the linked list
-	 */
-	private LinkedList<Integer> removeFromPossibles(int number, LinkedList<Integer> possibles){
-		possibles.remove(possibles.indexOf(number));
-		return possibles;
 	}
 }

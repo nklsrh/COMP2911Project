@@ -540,7 +540,7 @@ public class FrameMain extends JFrame {
 	 */
 	private boolean checkIfPuzzleComplete(PuzzleControl puzzleControl)
 	{
-		if (puzzleControl.getFirstEmptyCellCoordinates() == null)
+		if (puzzleControl.boardIsValid())
 		{
 			numWins++;
 			System.out.println("Value of winCount is " + puzzleControl.getStatistics().getWinCount());
