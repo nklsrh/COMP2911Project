@@ -19,18 +19,23 @@ public class PuzzleControl {
 	private TimerLabel timer;
 	private Statistics statistics;
 	
+	public PuzzleControl()
+	{
+		puzzle = new Puzzle();
+		statistics = new Statistics();
+	}
+	
 	public void createPuzzle(int difficulty)
 	{
 		Generator gen = new Generator();
 		gen.shufflePuzzle();
-		puzzle = new Puzzle();
 
 		puzzle = createPuzzleAndSolution(gen.packageUp(puzzle), createMissingCells(difficulty));
 		
 		timer = new TimerLabel();
-		statistics = new Statistics(difficulty);
-		// old code with predetermined puzzles
-//		puzzle = createPuzzleAndSolution(populateSolutionFromArrayString(createPuzzleArrayString()), createMissingCells());			
+		statistics.setDifficulty(difficulty);
+		
+		// DEBUG
 		System.out.println(puzzle.toString());
 	}
 	
@@ -90,6 +95,17 @@ public class PuzzleControl {
 			for (int i = 0; i < missingCells.get(y).size(); i++)
 			{
 				p.setCellAsEmpty(y, missingCells.get(y).get(i));
+			}
+		}	
+		// need 2 loops coz we got 2 traversals through the grid, one before empty cells, one after
+		for (int y = 0; y < s.getRowList().size(); y++)
+		{
+			for (int x = 0; x < s.getRowList().size(); x++)
+			{
+				if (!p.getCell(y, x).isEmpty())
+				{
+					p.setCell(y, x, p.getCell(y, x).getSolution());
+				}
 			}
 		}	
 		return p;

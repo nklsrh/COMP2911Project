@@ -161,11 +161,38 @@ public class Puzzle implements PuzzleInterface {
 	 * @param row the y-coordinate of the Cell to be set.
 	 * @param column the x-coordinate of the Cell to be set.
 	 * @param value the number that is to be given as the value of the cell.
+	 * @param isPlayerSetting Is it changing upon player interaction, or are we editing beforehand
 	 */
 	public void setCell(int row, int column, int value){
 		if (row >= 0 && row < NUM_ROWS){
-			rowStore.get(row).getList().get(column).setNumber(value);
+			rowStore.get(row).getList().get(column).setNumber(value);			
 			columnStore.get(column).getList().get(row).setNumber(value);
+			updatePossibilities(row, column, value);
+		}
+	}
+	
+	public void updatePossibilities(int row, int column, int value)
+	{		
+		// loop through the rest of the ROW AND COLUMN and remove the new value from possibilities
+		for (int i = 0; i < NUM_ROWS; i++)
+		{
+			if (i != column)
+			{
+				rowStore.get(row).getList().get(i).removeFromPossibilities(value);
+			}
+			if (i != row)
+			{
+				columnStore.get(column).getList().get(i).removeFromPossibilities(value);
+			}
+		}
+		// loop through the rest of the COLUMN and remove the new value from possibilities
+		for (int i = 0; i < NUM_ROWS; i++)
+		{
+			if (i != row)
+			{
+				// do same as above, but for gridStore
+				//gridStore.get(column).getList().get(i).removeFromPossibilities(value);
+			}
 		}
 	}
 	

@@ -1,11 +1,18 @@
 package model;
 
+import java.util.ArrayList;
+
+/**
+ * @author Nikhil
+ *
+ */
 public class Cell {
 	
 	private Integer number;
 	private Integer solution;
 	private boolean isFixed;
 	private boolean isEmpty;
+	private ArrayList<Integer> possibilities = new ArrayList<Integer>();
 	
 	/**
 	 * A constructor for a cell of a Sudoku game that is "non-changing" i.e. provided at the start of a game.
@@ -18,17 +25,7 @@ public class Cell {
 		this.solution = number;
 		this.isFixed = true;
 		this.isEmpty = false;
-	}
-	
-	/**
-	 * A constructor for a cell of a Sudoku game that is "changing" i.e. designated by player input while a 
-	 * game of Sudoku is being played.
-	 */
-	public Cell() {
-		this.number = null;
-		this.solution = null;
-		this.isFixed = false;
-		this.isEmpty = true;
+		this.addToPossibilities(new int[] {1,2,3,4,5,6,7,8,9});
 	}
 	
 	/**
@@ -80,6 +77,8 @@ public class Cell {
 	public void setNumber(int num) throws NullPointerException{
 		this.number = num;
 		this.isEmpty = false;
+		removeFromPossibilities();
+		addToPossibilities(num);
 	}
 	
 	/**
@@ -118,6 +117,67 @@ public class Cell {
 		this.number = null;
 		this.isEmpty = true;
 		this.isFixed = false;
+	}
+
+	public ArrayList<Integer> getPossibilities()
+	{
+		return possibilities;
+	}
+	/**
+	 * @param value
+	 */
+	public void addToPossibilities(int value)
+	{
+		if (this.possibilities.indexOf(value) == -1)
+		{
+			this.possibilities.add(value);
+		}
+	}
+	
+	/**
+	 * @param newPossibilities
+	 */
+	public void addToPossibilities(int[] newPossibilities)
+	{
+		for (int i = 0; i < newPossibilities.length; i++)
+		{
+			if (!this.possibilities.contains(newPossibilities[i]))
+			{
+				this.possibilities.add(newPossibilities[i]);
+			}
+		}
+	}
+
+	/**
+	 * @param value
+	 */
+	public void removeFromPossibilities()
+	{
+		this.possibilities = new ArrayList<Integer>();
+	}
+	
+	/**
+	 * @param value
+	 */
+	public void removeFromPossibilities(int value)
+	{
+		if (this.possibilities.indexOf(value) != -1)
+		{
+			// remove function removes the object at index, so we get the indexOf of the required object
+			this.possibilities.remove(this.possibilities.indexOf(value));
+		}
+	}
+	
+	/**
+	 * @param newPossibilities
+	 */
+	public void removeFromPossibilities(int[] newPossibilities)
+	{
+		for (int i = 0; i < newPossibilities.length; i++)
+		{
+			// remove function removes the object at index, so we get the indexOf of the required object
+			this.possibilities.remove(this.possibilities.indexOf(newPossibilities[i]));
+		}
 	}
 	
 	/* (non-Javadoc)

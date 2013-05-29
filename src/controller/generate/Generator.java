@@ -188,7 +188,7 @@ public class Generator {
 			LinkedList<Square> sqList = rowGroups.get(i);
 			for(int j=0; j<cellList.size(); j++){
 				int number = sqList.get(j).value;
-				cellList.get(j).setNumber(number);
+				//cellList.get(j).setNumber(number);	
 				cellList.get(j).setSolution(number);
 			}
 		}

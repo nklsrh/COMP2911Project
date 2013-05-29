@@ -11,7 +11,7 @@ public class Statistics
 	private int winCount;
 	private int hintCount;
 	
-	public Statistics(int difficulty)
+	public void setDifficulty (int difficulty)
 	{
 		this.difficulty = difficulty;
 	}

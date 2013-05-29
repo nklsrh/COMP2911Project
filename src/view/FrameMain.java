@@ -41,11 +41,6 @@ public class FrameMain extends JFrame {
 	private int totalWidthOfGrid;
 	private int widthOfSidebar;
 	private int widthOfKeypad;
-	private int numActions;
-	private int numButtons;
-	private int numCheat;
-	private int numWins;
-	private int numHints;
 	
 	/**
 	 * Contains coordinates for X,Y of last pressed cell button (so we know what cell to change)
@@ -57,8 +52,6 @@ public class FrameMain extends JFrame {
 	{		
 		puzzleControl.createPuzzle(1);
 		setupFrame(puzzleControl);
-		numActions = 0;
-		numButtons = 0;
 	}
 	/**
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
@@ -75,11 +68,6 @@ public class FrameMain extends JFrame {
 		lastPressedCell = new int[2];
 		lastPressedCell[0] = -1;
 		lastPressedCell[1] = -1;
-		numActions = 0;
-		numButtons = 0;
-		numCheat = 0;
-		numWins = 0;
-		numHints = 0;
 		
 		totalWidthOfGrid = padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth;
 		
@@ -92,7 +80,7 @@ public class FrameMain extends JFrame {
 		setResizable(false);
 		setBackground(SystemColor.window);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 100, totalWidthOfGrid + widthOfSidebar + widthOfKeypad, totalWidthOfGrid + textboxWidth);
+		setBounds(100, 100, totalWidthOfGrid + widthOfSidebar + widthOfKeypad, totalWidthOfGrid + textboxWidth);
 
 		PuzzleControl puzzleControl = new PuzzleControl();
 		startNewGame(puzzleControl);		
@@ -271,9 +259,10 @@ public class FrameMain extends JFrame {
 			lastPressedCell[0] = thisX;
 			setCellFont(thisY, thisX, true);
     	}
-		numButtons++;
-		sendNumButtons(pz);
+		incrementNumButtons(pz, 1);
 		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
+		
+		System.out.println(pz.getCell(thisY, thisX).getPossibilities());
 	}
 	
 	/**
@@ -297,10 +286,8 @@ public class FrameMain extends JFrame {
 			checkIfPuzzleComplete(pz);
 		}
 		  
-		numActions++;
-		numButtons++;
-		sendNumActions(pz);
-		sendNumButtons(pz);
+		incrementNumActions(pz, 1);
+		incrementNumButtons(pz, 1);
 		actionStats.setText("Number of actions performed: " + pz.getStatistics().getActionCount());
 		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
 	}
@@ -494,14 +481,13 @@ public class FrameMain extends JFrame {
 			{
 				hintLabel.setText("Solution: " + Integer.toString(puzzleControl.getCell(row, col).getSolution()));
 			}
+			incrementNumHints(puzzleControl, 1);
 		}
 		else
 		{
 			hintLabel.setText("No hint available");
 		}	
 		
-		numHints++;
-		sendNumHints(puzzleControl);
 		hintStats.setText("Number of hints requested: " + puzzleControl.getStatistics().getHintCount());
 	}
 	
@@ -524,8 +510,7 @@ public class FrameMain extends JFrame {
 					btnAutofill.setEnabled(false);
 		  		}
 	  		}
-	  		numCheat++;
-			sendNumCheat(puzzleControl);
+			incrementNumCheat(puzzleControl, 1);
 			cheatStats.setText("Number of times you've cheated: " + puzzleControl.getStatistics().getCheatCount());
 		}
 		else
@@ -542,9 +527,7 @@ public class FrameMain extends JFrame {
 	{
 		if (puzzleControl.boardIsValid())
 		{
-			numWins++;
-			System.out.println("Value of winCount is " + puzzleControl.getStatistics().getWinCount());
-			sendNumWins(puzzleControl);
+			incrementNumWins(puzzleControl, 1);
 			winStats.setText("Number of wins this session: " + puzzleControl.getStatistics().getWinCount());
 			
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
@@ -553,29 +536,34 @@ public class FrameMain extends JFrame {
 		}
 		return false;
 	}
-	
-	public void sendNumActions(PuzzleControl pz)
+
+	/**
+	 * Extensible setters woot
+	 * @param pz
+	 * @param value
+	 */
+	public void incrementNumActions(PuzzleControl pz, int value)
 	{
-		pz.getStatistics().setActionCount(numActions);
+		pz.getStatistics().setActionCount(pz.getStatistics().getActionCount() + value);
+	}
+
+	public void incrementNumButtons(PuzzleControl pz, int value)
+	{
+		pz.getStatistics().setButtonCount(pz.getStatistics().getButtonCount() + value);
 	}
 	
-	public void sendNumButtons(PuzzleControl pz)
+	public void incrementNumCheat(PuzzleControl pz, int value)
 	{
-		pz.getStatistics().setButtonCount(numButtons);
+		pz.getStatistics().setCheatCount(pz.getStatistics().getCheatCount() + value);
 	}
-	
-	public void sendNumCheat(PuzzleControl pz)
+
+	public void incrementNumWins(PuzzleControl pz, int value)
 	{
-		pz.getStatistics().setCheatCount(numCheat);
+		pz.getStatistics().setWinCount(pz.getStatistics().getWinCount() + value);
 	}
-	
-	public void sendNumWins(PuzzleControl pz)
+
+	public void incrementNumHints(PuzzleControl pz, int value)
 	{
-		pz.getStatistics().setWinCount(numWins);
-	}
-	
-	public void sendNumHints(PuzzleControl pz)
-	{
-		pz.getStatistics().setWinCount(numHints);
-	}
+		pz.getStatistics().setHintCount(pz.getStatistics().getHintCount() + value);
+	}	
 }
