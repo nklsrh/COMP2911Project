@@ -1,9 +1,5 @@
 package view;
 
-import model.Cell;
-import model.Grid;
-import model.Puzzle;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -15,7 +11,6 @@ import java.awt.SystemColor;
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.event.*;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;

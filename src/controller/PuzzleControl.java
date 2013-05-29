@@ -140,30 +140,8 @@ public class PuzzleControl {
 	public void setCell(int row, int column, int value){
 		puzzle.setCell(row, column, value);
 	}
+		
 	
-	/**
-	 * A getter for a Grid object in the puzzle, given its index.
-	 * @return the grid located at a certain index in the Puzzle.
-	 */
-	public Grid getGrid(int gridIndex) {
-		return puzzle.getGrid(gridIndex);
-	}
-	
-	/**
-	 * A getter for the arrayList of grids that is used in initialisation of the Puzzle.
-	 * @return the arrayList of Grid objects
-	 */
-	public ArrayList<Grid> getGridList(){
-		return puzzle.getGridList();
-	}	
-	
-	/**
-	 * A getter for the arrayList of rows that is used in initialisation of the Puzzle.
-	 * @return the arrayList of Row objects
-	 */
-	public ArrayList<Row> getRowList(){
-		return puzzle.getRowList();
-	}	
 	
 	/**
 	 * A getter for the arrayList of columns that is used in initialisation of the Puzzle.
@@ -210,5 +188,91 @@ public class PuzzleControl {
 	public Statistics getStatistics()
 	{
 		return statistics;
+	}
+	
+	/**
+	 * Board check filled.
+	 *
+	 * @return true, if successful
+	 */
+	public boolean boardCheckFilled(){
+		//check using rowStore
+		int totalCells = Puzzle.NUM_ROWS * Puzzle.NUM_COLUMNS;
+		
+		Iterator<Row> rit = puzzle.getRowList().iterator();
+		while(rit.hasNext()){
+			Iterator<Cell> cit = rit.next().getList().iterator();
+			while(cit.hasNext()){
+				if(cit.next().getNumber() != null){
+					totalCells--;
+				}
+			}
+		}
+		//check if all are filled (not null)
+		if(totalCells == 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
+	
+	/**
+	 * Board is valid.
+	 *
+	 * @return true, if successful
+	 */
+	public boolean boardIsValid(){
+		//check grid is valid
+		Iterator<Grid> git = puzzle.getGridList().iterator();
+		while(git.hasNext()){
+			LinkedList<Integer> possibles = fillPossibles(Puzzle.NUM_GRIDS);
+			
+			Iterator<ArrayList<Cell>> cit = git.next().getGridTable().iterator();
+			while(cit.hasNext()){
+				for(Cell cell : cit.next()){
+					possibles = removeFromPossibles(cell.getNumber(), possibles);
+				}
+			}
+			//checks if grid has the
+			if(!possibles.isEmpty()){
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Helper function, fills possibles according to the provided size.
+	 * Used for checking if all grids, rows and cols are valid for a 
+	 * WIN scenario
+	 *
+	 * @param total the total
+	 * @return the linked list
+	 */
+	private LinkedList<Integer> fillPossibles(int total){
+		LinkedList<Integer> result = new LinkedList<Integer>();
+		for(int i=0; i<total; i++){
+			result.add(i);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 
+	 * Helper function, removes from possibles, thus checking empty.
+	 * Used for checking if all grids, rows and cols are valid for a 
+	 * WIN scenario
+	 *
+	 * @param number the number
+	 * @param possibles the possibles
+	 * @return the linked list
+	 */
+	private LinkedList<Integer> removeFromPossibles(int number, LinkedList<Integer> possibles){
+		possibles.remove(possibles.indexOf(number));
+		return possibles;
 	}
 }

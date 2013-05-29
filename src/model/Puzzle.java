@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 
 public class Puzzle implements PuzzleInterface {
-	private static final int NUM_GRIDS = 9;
-	private static final int NUM_ROWS = 9;
-	private static final int NUM_COLUMNS = 9;
+	public static final int NUM_GRIDS = 9;
+	public static final int NUM_ROWS = 9;
+	public static final int NUM_COLUMNS = 9;
 	
 	private ArrayList<Grid> gridStore;
 	private ArrayList<Row> rowStore;
