@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import controller.PuzzleControl;
+import controller.timer.TimerLabel;
 
 import java.awt.GridLayout;
 import java.awt.SystemColor;
@@ -31,8 +32,12 @@ public class FrameMain extends JFrame {
 	private ArrayList<ArrayList<JButton>> cells;
 	private ArrayList<ArrayList<JButton>> keypadButtons;
 	private JLabel hintLabel;
-	private JButton btnAutofill;
 	private JLabel actionStats;
+	private JLabel buttonStats;
+	private JLabel winStats;
+	private JLabel cheatStats;
+	private JLabel hintStats;
+	private JButton btnAutofill;
 	
 	private int numberOfRows;
 	private int padding;
@@ -42,6 +47,11 @@ public class FrameMain extends JFrame {
 	private int widthOfSidebar;
 	private int widthOfKeypad;
 	private int numActions;
+	private int numButtons;
+	private int numCheat;
+	private int numWins;
+	private int numHints;
+	
 	/**
 	 * Contains coordinates for X,Y of last pressed cell button (so we know what cell to change)
 	 * first element is X value (column)
@@ -52,6 +62,8 @@ public class FrameMain extends JFrame {
 	{		
 		puzzleControl.createPuzzle(1);
 		setupFrame(puzzleControl);
+		numActions = 0;
+		numButtons = 0;
 	}
 	/**
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
@@ -69,6 +81,10 @@ public class FrameMain extends JFrame {
 		lastPressedCell[0] = -1;
 		lastPressedCell[1] = -1;
 		numActions = 0;
+		numButtons = 0;
+		numCheat = 0;
+		numWins = 0;
+		numHints = 0;
 		
 		totalWidthOfGrid = padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth;
 		
@@ -176,8 +192,7 @@ public class FrameMain extends JFrame {
 		timerExplanation.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
 		tabTimer.add(timerExplanation);
 		
-		TimerLabel timer = new TimerLabel();
-		timer.setHorizontalAlignment(SwingConstants.CENTER);
+		TimerLabel timer = puzzleControl.getTimer();
 		timer.setVerticalAlignment(SwingConstants.BOTTOM);
 		timer.setFont(new Font("Lucida Grande", Font.PLAIN, 70));
 		tabTimer.add(timer);		
@@ -192,11 +207,41 @@ public class FrameMain extends JFrame {
 		tabStats.add(lblStats);
 		lblStats.setVerticalAlignment(SwingConstants.TOP);
 		
-		actionStats = new JLabel("Number of buttons pressed: " + numActions);
+		JLabel difficultyStats = new JLabel("Difficulty chosen: " + puzzleControl.getStatistics().difficultyToString());
+		difficultyStats.setHorizontalAlignment(SwingConstants.LEFT);
+		difficultyStats.setVerticalAlignment(SwingConstants.CENTER);
+		difficultyStats.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		tabStats.add(difficultyStats);
+		
+		actionStats = new JLabel("Number of actions performed: " + puzzleControl.getStatistics().getActionCount());
 		actionStats.setHorizontalAlignment(SwingConstants.LEFT);
 		actionStats.setVerticalAlignment(SwingConstants.CENTER);
 		actionStats.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 		tabStats.add(actionStats);
+		
+		buttonStats = new JLabel("Number of buttons pressed: " + puzzleControl.getStatistics().getButtonCount());
+		buttonStats.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonStats.setVerticalAlignment(SwingConstants.CENTER);
+		buttonStats.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		tabStats.add(buttonStats);
+		
+		winStats = new JLabel("Number of wins this session: " + puzzleControl.getStatistics().getWinCount());
+		winStats.setHorizontalAlignment(SwingConstants.LEFT);
+		winStats.setVerticalAlignment(SwingConstants.CENTER);
+		winStats.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		tabStats.add(winStats);
+		
+		cheatStats = new JLabel("Number of times you've cheated: " + puzzleControl.getStatistics().getCheatCount());
+		cheatStats.setHorizontalAlignment(SwingConstants.LEFT);
+		cheatStats.setVerticalAlignment(SwingConstants.CENTER);
+		cheatStats.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		tabStats.add(cheatStats);
+		
+		hintStats = new JLabel("Number of hints requested: " + puzzleControl.getStatistics().getHintCount());
+		hintStats.setHorizontalAlignment(SwingConstants.LEFT);
+		hintStats.setVerticalAlignment(SwingConstants.CENTER);
+		hintStats.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		tabStats.add(hintStats);
 		
 		//////////////////////////////////////////////////////////////////
 		
@@ -231,6 +276,9 @@ public class FrameMain extends JFrame {
 			lastPressedCell[0] = thisX;
 			setCellFont(thisY, thisX, true);
     	}
+		numButtons++;
+		sendNumButtons(pz);
+		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
 	}
 	
 	/**
@@ -240,22 +288,26 @@ public class FrameMain extends JFrame {
 	 */
 	private void keyPressed(int thisX, int thisY, PuzzleControl pz)
 	{
-		  if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
-		  {  
-			  pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
+		if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
+		{  
+			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
 
-			  if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
-			  {
-				  cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
-			  }
+			if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
+			{
+				cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
+			}
 			  
-			  setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);
+			setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);
 			  
-			  checkIfPuzzleComplete(pz);
-		  }
+			checkIfPuzzleComplete(pz);
+		}
 		  
-		  numActions++;
-		  actionStats.setText("Number of actions performed: " + String.valueOf(numActions));
+		numActions++;
+		numButtons++;
+		sendNumActions(pz);
+		sendNumButtons(pz);
+		actionStats.setText("Number of actions performed: " + pz.getStatistics().getActionCount());
+		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
 	}
 	
 	/**
@@ -408,8 +460,6 @@ public class FrameMain extends JFrame {
 		else
 		{
 			//cells.get(row).get(col).setForeground(Color.BLACK);
-			// Leaving this here for inspiration
-			//cells.get(row).get(col).setText("<html><body bgcolor=blue>test</body></html>");
 			cells.get(row).get(col).setBackground(Color.BLACK);
 		}		
 	}
@@ -454,6 +504,10 @@ public class FrameMain extends JFrame {
 		{
 			hintLabel.setText("No hint available");
 		}	
+		
+		numHints++;
+		sendNumHints(puzzleControl);
+		hintStats.setText("Number of hints requested: " + puzzleControl.getStatistics().getHintCount());
 	}
 	
 	/**
@@ -475,6 +529,9 @@ public class FrameMain extends JFrame {
 					btnAutofill.setEnabled(false);
 		  		}
 	  		}
+	  		numCheat++;
+			sendNumCheat(puzzleControl);
+			cheatStats.setText("Number of times you've cheated: " + puzzleControl.getStatistics().getCheatCount());
 		}
 		else
 		{
@@ -490,10 +547,40 @@ public class FrameMain extends JFrame {
 	{
 		if (puzzleControl.getFirstEmptyCellCoordinates() == null)
 		{
+			numWins++;
+			System.out.println("Value of winCount is " + puzzleControl.getStatistics().getWinCount());
+			sendNumWins(puzzleControl);
+			winStats.setText("Number of wins this session: " + puzzleControl.getStatistics().getWinCount());
+			
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
 			startNewGame(puzzleControl);
 			return true;
 		}
 		return false;
+	}
+	
+	public void sendNumActions(PuzzleControl pz)
+	{
+		pz.getStatistics().setActionCount(numActions);
+	}
+	
+	public void sendNumButtons(PuzzleControl pz)
+	{
+		pz.getStatistics().setButtonCount(numButtons);
+	}
+	
+	public void sendNumCheat(PuzzleControl pz)
+	{
+		pz.getStatistics().setCheatCount(numCheat);
+	}
+	
+	public void sendNumWins(PuzzleControl pz)
+	{
+		pz.getStatistics().setWinCount(numWins);
+	}
+	
+	public void sendNumHints(PuzzleControl pz)
+	{
+		pz.getStatistics().setWinCount(numHints);
 	}
 }

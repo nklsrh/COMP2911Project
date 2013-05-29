@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import controller.generate.Generator;
+import controller.statistics.Statistics;
+import controller.timer.TimerLabel;
 
 import model.*;
 
@@ -14,7 +16,8 @@ public class PuzzleControl {
 	private static final int MEDIUM_MISSING = 50;
 	private static final int HARD_MISSING = 70;
 	private Puzzle puzzle;
-	
+	private TimerLabel timer;
+	private Statistics statistics;
 	
 	public void createPuzzle(int difficulty)
 	{
@@ -24,6 +27,8 @@ public class PuzzleControl {
 
 		puzzle = createPuzzleAndSolution(gen.packageUp(puzzle), createMissingCells(difficulty));
 		
+		timer = new TimerLabel();
+		statistics = new Statistics(difficulty);
 		// old code with predetermined puzzles
 //		puzzle = createPuzzleAndSolution(populateSolutionFromArrayString(createPuzzleArrayString()), createMissingCells());			
 		System.out.println(puzzle.toString());
@@ -195,5 +200,15 @@ public class PuzzleControl {
 			}
 		}
 		return null;
+	}
+	
+	public TimerLabel getTimer()
+	{
+		return timer;
+	}
+	
+	public Statistics getStatistics()
+	{
+		return statistics;
 	}
 }
