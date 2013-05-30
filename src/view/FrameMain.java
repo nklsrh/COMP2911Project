@@ -41,6 +41,7 @@ public class FrameMain extends JFrame {
 	private JLabel winStats;
 	private JLabel cheatStats;
 	private JLabel hintStats;
+	private JLabel progressStats;
 	
 	private JPanel tabHints;
 	private JPanel tabTimer;
@@ -335,6 +336,12 @@ public class FrameMain extends JFrame {
 		hintStats.setFont(font.deriveFont(17f));
 		tabStats.add(hintStats);
 		
+		progressStats = new JLabel("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
+		progressStats.setHorizontalAlignment(SwingConstants.LEFT);
+		progressStats.setVerticalAlignment(SwingConstants.CENTER);
+		progressStats.setFont(font.deriveFont(17f));
+		tabStats.add(progressStats);
+		
 		//////////////////////////////////////////////////////////////////
 		
 		JPanel gridPanel = new JPanel();
@@ -577,6 +584,8 @@ public class FrameMain extends JFrame {
 		{
 			//cells.get(row).get(col).setForeground(Color.BLACK);
 			cells.get(row).get(col).setBackground(Color.WHITE);
+			
+			incrementTotalEmptyBoxes(puzzleControl, 1);
 		}		
 	}
 	/**
@@ -590,6 +599,9 @@ public class FrameMain extends JFrame {
 		{
 			//cells.get(row).get(col).setForeground(Color.GREEN);
 			cells.get(row).get(col).setBackground(Color.GREEN);
+			
+			incrementNumProgress(puzzleControl, 1);
+			progressStats.setText("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
 		}
 		else
 		{
@@ -702,5 +714,15 @@ public class FrameMain extends JFrame {
 	public void incrementNumHints(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setHintCount(pz.getStatistics().getHintCount() + value);
+	}	
+	
+	public void incrementNumProgress(PuzzleControl pz, int value)
+	{
+		pz.getStatistics().setProgressCount(pz.getStatistics().getProgressCount() + value);
+	}	
+	
+	public void incrementTotalEmptyBoxes(PuzzleControl pz, int value)
+	{
+		pz.getStatistics().setProgressCount(pz.getStatistics().getTotalEmptyBoxesCount() + value);
 	}	
 }

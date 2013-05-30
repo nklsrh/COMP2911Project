@@ -10,6 +10,8 @@ public class Statistics
 	private int cheatCount;
 	private int winCount;
 	private int hintCount;
+	private int progressCount;
+	private int emptyBoxesCount;
 	
 	public void setDifficulty (int difficulty)
 	{
@@ -47,13 +49,22 @@ public class Statistics
 	
 	public void setWinCount(int numWins)
 	{
-		System.out.println("numWins as an argument to setWinCount is " + numWins);
 		winCount = numWins;
 	}
 	
 	public void setHintCount(int numHints)
 	{
 		hintCount = numHints;
+	}
+	
+	public void setProgressCount(int numProgress)
+	{
+		progressCount = numProgress;
+	}
+	
+	public void setTotalEmptyBoxesCount(int numBoxes)
+	{
+		emptyBoxesCount = numBoxes;
 	}
 	
 	public int getActionCount()
@@ -73,7 +84,6 @@ public class Statistics
 	
 	public int getWinCount()
 	{
-		System.out.println("winCount being returned for getWinCount is " + winCount);
 		return winCount;
 	}
 	
@@ -82,8 +92,18 @@ public class Statistics
 		return hintCount;
 	}
 	
+	public int getProgressCount()
+	{
+		return progressCount;
+	}
+	
+	public int getTotalEmptyBoxesCount()
+	{
+		return emptyBoxesCount;
+	}
+	
 	public int getDifficulty()
 	{
 		return difficulty;
-	}
+	}	
 }
