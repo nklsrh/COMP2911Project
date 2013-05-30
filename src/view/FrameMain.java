@@ -31,6 +31,8 @@ import java.awt.CardLayout;
  */
 public class FrameMain extends JFrame {
 	private Font font;
+	private Font fontMed;
+	private Font fontLight;
 	
 	private JPanel contentPane;
 	private ArrayList<ArrayList<JButton>> cells;
@@ -49,6 +51,9 @@ public class FrameMain extends JFrame {
 	private JPanel sidebarBottomPanel;
 	
 	private JButton btnAutofill;
+	private JButton btnHints;
+	private JButton btnTimer;
+	private JButton btnStats;
 	
 	private int numberOfRows;
 	private int padding;
@@ -68,6 +73,10 @@ public class FrameMain extends JFrame {
 	{		
 		puzzleControl.createPuzzle(1);
 		setupFrame(puzzleControl);
+		
+		lastPressedCell = new int[2];
+		lastPressedCell[0] = -1;
+		lastPressedCell[1] = -1;
 	}
 	/**
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
@@ -81,9 +90,6 @@ public class FrameMain extends JFrame {
 		widthBetweenTextBoxes = 51; // 31
 		widthOfSidebar = 300;
 		widthOfKeypad = 300;
-		lastPressedCell = new int[2];
-		lastPressedCell[0] = -1;
-		lastPressedCell[1] = -1;
 		
 		totalWidthOfGrid = padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth;
 		
@@ -99,8 +105,7 @@ public class FrameMain extends JFrame {
 		setBounds(100, 100, totalWidthOfGrid + widthOfSidebar + widthOfKeypad + 50, totalWidthOfGrid + textboxWidth);
 
 		PuzzleControl puzzleControl = new PuzzleControl();
-		startNewGame(puzzleControl);		
-		setupFrame(puzzleControl);
+		startNewGame(puzzleControl);
 	}
 	
 	private void setupFrame(PuzzleControl puzzleControl)
@@ -118,26 +123,34 @@ public class FrameMain extends JFrame {
 		contentPane.add(fullPanel);
 		fullPanel.setLayout(null);
 		
-		File font_file = new File("assets/Roboto-Light.ttf");
+		File font_file_light = new File("assets/Roboto-Regular.ttf");
+		File font_file_reg = new File("assets/Roboto-Light.ttf");
+		File font_file_med = new File("assets/Roboto-Medium.ttf");
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, font_file);
+			font = Font.createFont(Font.TRUETYPE_FONT, font_file_reg);
+			fontLight = Font.createFont(Font.TRUETYPE_FONT, font_file_light);
+			fontMed = Font.createFont(Font.TRUETYPE_FONT, font_file_med);
 		} catch (Exception e1) {
 			font = Font.getFont("Lucida Sans");
+			fontLight = Font.getFont("Lucida Sans");
+			fontMed = Font.getFont("Lucida Sans");
 		}
 		
 		//////////////////////////////////////////////////////////////////////////
+		
 		JPanel keypadPanel = new JPanel();
 		keypadPanel.setBackground(Color.WHITE);
 		//keypadPanel.setBackground(SystemColor.windowBorder);
-		keypadPanel.setBounds(totalWidthOfGrid + padding + 25, 0, 287, 297); //314 - padding
+		keypadPanel.setBounds(totalWidthOfGrid + padding + 25, 0, 287, 400); //314 - padding, 297 - height
 		fullPanel.add(keypadPanel);
 		
 		GridBagLayout gbl_keypadPanel = new GridBagLayout();
 		gbl_keypadPanel.columnWidths = new int[] {100, 100, 100, 100};
 		gbl_keypadPanel.rowHeights = new int[] {100, 100, 100, 100};
 		gbl_keypadPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_keypadPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_keypadPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		keypadPanel.setLayout(gbl_keypadPanel);
+
 		
 		//////////////////////////////////////////////////////////////////////////////////////
 		
@@ -154,12 +167,6 @@ public class FrameMain extends JFrame {
 		gbl_sidebarPanel.rowWeights = new double[]{0.1, 0.9};
 		sidebarPanel.setLayout(gbl_sidebarPanel);
 		
-		//		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
-		//		tabs.setBackground(Color.WHITE);
-		//		tabs.setBounds(0, padding, 288, 301);
-		//		sidebarPanel.add(tabs);
-		
-		
 		//////////////////////////////////////////////////////////////////////////////////////////
 
 		JPanel sidebarTopPanel = new JPanel();
@@ -171,9 +178,9 @@ public class FrameMain extends JFrame {
 		gbc_sidebarTopPanel.gridy = 0;
 		sidebarPanel.add(sidebarTopPanel, gbc_sidebarTopPanel);		
 		
-		JButton btnHints = new JButton("Hints");
+		btnHints = new JButton("Hints");
 		btnHints.setBackground(new Color(238,238,238));
-		btnHints.setFont(font.deriveFont(24f));
+		btnHints.setFont(fontMed.deriveFont(24f));
 		btnHints.setBorder(BorderFactory.createEmptyBorder());	
 		btnHints.addActionListener(new ActionListener(){
 			@Override
@@ -182,7 +189,7 @@ public class FrameMain extends JFrame {
 			}
 		});
 		
-		JButton btnTimer = new JButton("Timer");
+		btnTimer = new JButton("Timer");
 		btnTimer.setBackground(new Color(238,238,238));
 		btnTimer.setFont(font.deriveFont(24f));
 		btnTimer.setBorder(BorderFactory.createEmptyBorder());	
@@ -193,7 +200,7 @@ public class FrameMain extends JFrame {
 			}
 		});
 		
-		JButton btnStats = new JButton("Stats");
+		btnStats = new JButton("Stats");
 		btnStats.setBackground(new Color(238,238,238));
 		btnStats.setFont(font.deriveFont(24f));
 		btnStats.setBorder(BorderFactory.createEmptyBorder());	
@@ -234,7 +241,7 @@ public class FrameMain extends JFrame {
 		JLabel lblHint = new JLabel("HINTS");
 		lblHint.setBackground(Color.WHITE);
 		lblHint.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHint.setFont(font.deriveFont(30f));
+		lblHint.setFont(fontLight.deriveFont(30f));
 		tabHints.add(lblHint);
 		
 		hintLabel = new JLabel("No hints revealed");
@@ -277,7 +284,7 @@ public class FrameMain extends JFrame {
 		//tabs.addTab("TIMER", null, tabTimer, null);
 		
 		JLabel lblNewLabel = new JLabel("ELAPSED TIME");
-		lblNewLabel.setFont(font.deriveFont(30f));
+		lblNewLabel.setFont(fontLight.deriveFont(30f));
 		tabTimer.add(lblNewLabel);
 		
 		
@@ -296,7 +303,7 @@ public class FrameMain extends JFrame {
 		//tabs.addTab("STATISTICS", null, tabStats, null);
 		
 		JLabel lblStats = new JLabel("STATISTICS");
-		lblStats.setFont(font.deriveFont(30f));
+		lblStats.setFont(fontLight.deriveFont(30f));
 		lblStats.setVerticalAlignment(SwingConstants.TOP);
 		tabStats.add(lblStats);
 		
@@ -354,6 +361,26 @@ public class FrameMain extends JFrame {
 		
 		setupKeypad(keypadPanel, puzzleControl);
 		
+		JButton btnClearCell = new JButton("CLEAR");
+		btnClearCell.setBackground(new Color(251,251,251));
+		btnClearCell.setFont(font.deriveFont(24f));
+		btnClearCell.setBorder(BorderFactory.createEmptyBorder());	
+		btnClearCell.setVisible(false);
+		btnClearCell.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clearCell(lastPressedCell[1], lastPressedCell[0], pz);
+			}
+		});
+		
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
+		gbc_btnNewButton.gridwidth = 3;
+		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton.gridx = 0;
+		gbc_btnNewButton.gridy = 3;
+		keypadPanel.add(btnClearCell, gbc_btnNewButton);
+		
 		///////////////////////////////////////////////////////////////////////////
 		
 		setupCells(gridPanel, puzzleControl);
@@ -364,20 +391,28 @@ public class FrameMain extends JFrame {
 		switch(tabIndex)
 		{
 			case 0:
+				tabHints.setVisible(true);
 				tabTimer.setVisible(false);
 				tabStats.setVisible(false);
-				tabHints.setVisible(true);
-				tabHints.setAlignmentX(3000);
+				btnHints.setFont(fontMed.deriveFont(24f));
+				tabTimer.setFont(font.deriveFont(24f));
+				tabStats.setFont(font.deriveFont(24f));
 				break;
 			case 1:
+				tabHints.setVisible(false);
 				tabTimer.setVisible(true);
 				tabStats.setVisible(false);
-				tabHints.setVisible(false);
+				btnHints.setFont(font.deriveFont(24f));
+				tabTimer.setFont(fontMed.deriveFont(24f));
+				tabStats.setFont(font.deriveFont(24f));
 				break;
 			case 2:	
+				tabHints.setVisible(false);
 				tabTimer.setVisible(false);
 				tabStats.setVisible(true);
-				tabHints.setVisible(false);
+				btnHints.setFont(font.deriveFont(24f));
+				tabTimer.setFont(font.deriveFont(24f));
+				tabStats.setFont(fontMed.deriveFont(24f));
 				break;
 		}		
 	}
@@ -386,22 +421,20 @@ public class FrameMain extends JFrame {
 	 * @param thisY
 	 * @param pz
 	 */
-	private void cellClicked(int thisX, int thisY, PuzzleControl pz)
+	private void cellClicked(int row, int col, PuzzleControl pz)
 	{
 		if (lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
 		{
 			setCellFont(lastPressedCell[1], lastPressedCell[0], false);
 		}
-		if (!pz.getCell(thisY, thisX).isFixed())
+		if (!pz.getCell(row, col).isFixed())
     	{
-			lastPressedCell[1] = thisY;
-			lastPressedCell[0] = thisX;
-			setCellFont(thisY, thisX, true);
+			lastPressedCell[1] = row;
+			lastPressedCell[0] = col;
+			setCellFont(row, col, true);
     	}
 		incrementNumButtons(pz, 1);
 		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
-		
-		System.out.println(pz.getCell(thisY, thisX).getPossibilities());
 	}
 	
 	/**
@@ -409,11 +442,11 @@ public class FrameMain extends JFrame {
 	 * @param thisY
 	 * @param pz
 	 */
-	private void keyPressed(int thisX, int thisY, PuzzleControl pz)
+	private void keyPressed(int row, int col, PuzzleControl pz)
 	{
-		if (keypadButtons.get(thisY).get(thisX).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
+		if (keypadButtons.get(row).get(col).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
 		{  
-			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(thisY).get(thisX).getText()));
+			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(row).get(col).getText()));
 
 			if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
 			{
@@ -440,34 +473,34 @@ public class FrameMain extends JFrame {
 		keypadButtons = new ArrayList<ArrayList<JButton>>();
 		for (int y = 0; y < 3; y++)
 		{
-			final int thisY = y;
+			final int row = y;
 			keypadButtons.add(new ArrayList<JButton>());
 			for (int x = 0; x < 3; x++)
 			{
-				final int thisX = x;
+				final int col = x;
 				final PuzzleControl pz = puzzleControl;
 				
-				keypadButtons.get(y).add(new JButton(String.valueOf(((y * 3) + (x + 1)))));	// set value of number according to position (like telephone buttons
-				keypadButtons.get(y).get(x).setFont(font.deriveFont(40f));	
-				keypadButtons.get(y).get(x).setSize(50, 50);
-				keypadButtons.get(y).get(x).setBackground(Color.WHITE);
-				keypadButtons.get(y).get(x).setForeground(new Color(100,100,100));
-				keypadButtons.get(y).get(x).setBorder(BorderFactory.createEmptyBorder());
+				keypadButtons.get(row).add(new JButton(String.valueOf(((row * 3) + (col + 1)))));	// set value of number according to position (like telephone buttons
+				keypadButtons.get(row).get(col).setFont(font.deriveFont(40f));	
+				keypadButtons.get(row).get(col).setSize(50, 50);
+				keypadButtons.get(row).get(col).setBackground(Color.WHITE);
+				keypadButtons.get(row).get(col).setForeground(new Color(100,100,100));
+				keypadButtons.get(row).get(col).setBorder(BorderFactory.createEmptyBorder());
 				
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
 				gbc_button.insets = new Insets(0, 0, 5, 5);
-				gbc_button.gridx = x;
-				gbc_button.gridy = y;
+				gbc_button.gridx = col;
+				gbc_button.gridy = row;
 				
-				keypadButtons.get(y).get(x).addActionListener(new ActionListener(){
+				keypadButtons.get(row).get(col).addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						keyPressed(thisX, thisY, pz);
+						keyPressed(row, col, pz);
 					}
 				});
 				
-				keypadPanel.add(keypadButtons.get(y).get(x), gbc_button);
+				keypadPanel.add(keypadButtons.get(row).get(col), gbc_button);
 			}
 		}
 	}
@@ -481,57 +514,37 @@ public class FrameMain extends JFrame {
 		cells = new ArrayList<ArrayList<JButton>>();
 		for (int y = 0; y < numberOfRows; y++)
 		{
-			final int thisY = y;
+			final int row = y;
 			cells.add(new ArrayList<JButton>());
 			for (int x = 0; x < numberOfRows; x++)
 			{
-				final int thisX = x;
+				final int col = x;
 				final PuzzleControl pz = puzzleControl;
 				
-				cells.get(y).add(new JButton("0"));
-				cells.get(y).get(x).setFont(font.deriveFont(16f));				
-				cells.get(y).get(x).setBounds(padding + (x * widthBetweenTextBoxes), padding + (y * widthBetweenTextBoxes), textboxWidth, textboxWidth);
-				cells.get(y).get(x).setBorder(BorderFactory.createEmptyBorder());
-				//cells.get(y).get(x).setContentAreaFilled(false);
-				if (pz.getCell(y, x).isFixed())
-				{
-					cells.get(y).get(x).setEnabled(false);
-					cells.get(y).get(x).setBackground(new Color(238, 238, 238));
-					cells.get(y).get(x).setForeground(Color.DARK_GRAY);
-				}
+				cells.get(row).add(new JButton("0"));
+				cells.get(row).get(col).setFont(font.deriveFont(16f));				
+				cells.get(row).get(col).setBounds(padding + (col * widthBetweenTextBoxes), padding + (row * widthBetweenTextBoxes), textboxWidth, textboxWidth);
+				cells.get(row).get(col).setBorder(BorderFactory.createEmptyBorder());
 				
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
 				gbc_button.insets = new Insets(5,5,5,5);
-				gbc_button.gridx = x;
-				gbc_button.gridy = y;
+				gbc_button.gridx = col;
+				gbc_button.gridy = row;
 				
-				setCellNumber(y, x, puzzleControl);		
+				setCellNumber(row, col, puzzleControl);		
 				
-				cells.get(y).get(x).addActionListener(new ActionListener(){
+				cells.get(row).get(col).addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						cellClicked(thisX, thisY, pz);
-						setCellNumber(thisY, thisX, pz);
+						cellClicked(row, col, pz);
+						setCellNumber(row, col, pz);
 					}
 			    });
 				
+				//setCellColour(row, col, puzzleControl);				
 				gridPanel.add(cells.get(y).get(x), gbc_button);
-//				gridPanel.add(cells.get(y).get(x));
-				
-//				if ((x+1) % 3 == 0)
-//				{
-//					JSeparator js = new JSeparator(SwingConstants.VERTICAL);
-//					js.setPreferredSize(new Dimension(1,1));
-//					gbc_button.weighty = 1;
-//					gridPanel.add(js, gbc_button);
-//				}	
 			}
-//			if ((y+1) % 3 == 0)
-//			{
-//				JSeparator js = new JSeparator(SwingConstants.VERTICAL);
-//				gridPanel.add(js);
-//			}
 		}	
 	}
 	
@@ -578,16 +591,19 @@ public class FrameMain extends JFrame {
 	{
 		if (puzzleControl.getCell(row, col).isFixed())
 		{
-			//cells.get(row).get(col).setForeground(Color.GRAY);
+			System.out.println("F: " + row + ", " + col);
+			cells.get(row).get(col).setEnabled(false);
+			cells.get(row).get(col).setForeground(Color.DARK_GRAY);	
+			cells.get(row).get(col).setBackground(new Color(238, 238, 238));	// gray
 		}
 		else
 		{
-			//cells.get(row).get(col).setForeground(Color.BLACK);
-			cells.get(row).get(col).setBackground(Color.WHITE);
-			
+			System.out.println("SETWHITE: " + row + ", " + col);
+			cells.get(row).get(col).setBackground(Color.WHITE);			
 			incrementTotalEmptyBoxes(puzzleControl, 1);
 		}		
 	}
+	
 	/**
 	 * @param row
 	 * @param col
@@ -597,16 +613,14 @@ public class FrameMain extends JFrame {
 	{
 		if (puzzleControl.checkNumberSolution(row, col))
 		{
-			//cells.get(row).get(col).setForeground(Color.GREEN);
-			cells.get(row).get(col).setBackground(Color.GREEN);
+			cells.get(row).get(col).setBackground(new Color(150,255,147));	// green, but a nicer shade
 			
 			incrementNumProgress(puzzleControl, 1);
 			progressStats.setText("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
 		}
 		else
 		{
-			//cells.get(row).get(col).setForeground(Color.RED);
-			cells.get(row).get(col).setBackground(Color.RED);
+			cells.get(row).get(col).setBackground(new Color(255,171,171));	// red, but a nicer shade
 	    }		
 	}
 	
@@ -628,7 +642,6 @@ public class FrameMain extends JFrame {
 			else
 			{
 				hintLabel.setText("Possible: " + puzzleControl.getCell(row, col).getPossibilities());
-				//hintLabel.setText("Solution: " + Integer.toString(puzzleControl.getCell(row, col).getSolution()));
 			}
 			incrementNumHints(puzzleControl, 1);
 		}
@@ -686,6 +699,15 @@ public class FrameMain extends JFrame {
 		return false;
 	}
 
+	private void clearCell(int row, int col, PuzzleControl pz)
+	{
+		if (lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
+		{
+			pz.setCell(row, col, -1);
+			setCellNumber(row, col, pz);
+		}
+	}
+	
 	/**
 	 * Extensible setters woot
 	 * @param pz

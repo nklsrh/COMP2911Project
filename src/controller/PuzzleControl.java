@@ -21,7 +21,6 @@ public class PuzzleControl {
 	
 	public PuzzleControl()
 	{
-		puzzle = new Puzzle();
 		statistics = new Statistics();
 	}
 	
@@ -30,6 +29,7 @@ public class PuzzleControl {
 		Generator gen = new Generator();
 		gen.shufflePuzzle();
 
+		puzzle = new Puzzle();
 		puzzle = createPuzzleAndSolution(gen.packageUp(puzzle), createMissingCells(difficulty));
 		
 		timer = new TimerLabel();

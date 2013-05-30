@@ -10,6 +10,7 @@ public class Cell {
 	
 	private Integer number;
 	private Integer solution;
+	private Integer gridIndex;
 	private boolean isFixed;
 	private boolean isEmpty;
 	private ArrayList<Integer> possibilities = new ArrayList<Integer>();
@@ -28,6 +29,10 @@ public class Cell {
 		this.addToPossibilities(new int[] {1,2,3,4,5,6,7,8,9});
 	}
 	
+	public int getGrid()
+	{
+		return gridIndex;
+	}
 	/**
 	 * A boolean for checking if a cell of a Sudoku game is non-changing/fixed
 	 * @return true if fixed, false otherwise
@@ -37,7 +42,7 @@ public class Cell {
 	}
 	
 	/**
-	 * A boolean for checking if a cell of  a Sudoku game is empty.
+	 * A boolean for checking if a cell of a Sudoku game is empty.
 	 * @return true if empty, false otherwise.
 	 */
 	public boolean isEmpty(){
@@ -117,6 +122,7 @@ public class Cell {
 		this.number = null;
 		this.isEmpty = true;
 		this.isFixed = false;
+		this.addToPossibilities(new int[] {1,2,3,4,5,6,7,8,9});
 	}
 
 	public ArrayList<Integer> getPossibilities()

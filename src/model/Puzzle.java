@@ -164,10 +164,17 @@ public class Puzzle implements PuzzleInterface {
 	 * @param isPlayerSetting Is it changing upon player interaction, or are we editing beforehand
 	 */
 	public void setCell(int row, int column, int value){
-		if (row >= 0 && row < NUM_ROWS){
-			rowStore.get(row).getList().get(column).setNumber(value);			
-			columnStore.get(column).getList().get(row).setNumber(value);
-			updatePossibilities(row, column, value);
+		if (value == -1)
+		{
+			setCellAsEmpty(row, column);
+		}
+		else
+		{
+			if (row >= 0 && row < NUM_ROWS){
+				rowStore.get(row).getList().get(column).setNumber(value);			
+				columnStore.get(column).getList().get(row).setNumber(value);
+				updatePossibilities(row, column, value);
+			}
 		}
 	}
 	
