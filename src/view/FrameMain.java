@@ -33,6 +33,7 @@ public class FrameMain extends JFrame {
 	private Font font;
 	private Font fontMed;
 	private Font fontLight;
+	private Color nicholasisgay;
 	
 	private JPanel contentPane;
 	private ArrayList<ArrayList<JButton>> cells;
@@ -83,6 +84,7 @@ public class FrameMain extends JFrame {
 	 * in an attractive and accessible manner
 	 */
 	public FrameMain() {
+		nicholasisgay = new Color(240,240,240);
 		
 		numberOfRows = 9;
 		padding = 0; //6
@@ -113,13 +115,13 @@ public class FrameMain extends JFrame {
 		final PuzzleControl pz = puzzleControl;
 		
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(238, 238, 238));
+		contentPane.setBackground(nicholasisgay);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel fullPanel = new JPanel();
-		fullPanel.setBackground(new Color(238,238,238));
+		fullPanel.setBackground(nicholasisgay);
 		contentPane.add(fullPanel);
 		fullPanel.setLayout(null);
 		
@@ -170,7 +172,7 @@ public class FrameMain extends JFrame {
 		//////////////////////////////////////////////////////////////////////////////////////////
 
 		JPanel sidebarTopPanel = new JPanel();
-		sidebarTopPanel.setBackground(new Color(238,238,238));
+		sidebarTopPanel.setBackground(nicholasisgay);
 		GridBagConstraints gbc_sidebarTopPanel = new GridBagConstraints();
 		gbc_sidebarTopPanel.fill = GridBagConstraints.BOTH;
 		gbc_sidebarTopPanel.insets = new Insets(0, 0, 5, 0);
@@ -179,7 +181,7 @@ public class FrameMain extends JFrame {
 		sidebarPanel.add(sidebarTopPanel, gbc_sidebarTopPanel);		
 		
 		btnHints = new JButton("Hints");
-		btnHints.setBackground(new Color(238,238,238));
+		btnHints.setBackground(nicholasisgay);
 		btnHints.setFont(fontMed.deriveFont(24f));
 		btnHints.setBorder(BorderFactory.createEmptyBorder());	
 		btnHints.addActionListener(new ActionListener(){
@@ -190,7 +192,7 @@ public class FrameMain extends JFrame {
 		});
 		
 		btnTimer = new JButton("Timer");
-		btnTimer.setBackground(new Color(238,238,238));
+		btnTimer.setBackground(nicholasisgay);
 		btnTimer.setFont(font.deriveFont(24f));
 		btnTimer.setBorder(BorderFactory.createEmptyBorder());	
 		btnTimer.addActionListener(new ActionListener(){
@@ -201,7 +203,7 @@ public class FrameMain extends JFrame {
 		});
 		
 		btnStats = new JButton("Stats");
-		btnStats.setBackground(new Color(238,238,238));
+		btnStats.setBackground(nicholasisgay);
 		btnStats.setFont(font.deriveFont(24f));
 		btnStats.setBorder(BorderFactory.createEmptyBorder());	
 		btnStats.addActionListener(new ActionListener(){
@@ -352,7 +354,7 @@ public class FrameMain extends JFrame {
 		//////////////////////////////////////////////////////////////////
 		
 		JPanel gridPanel = new JPanel();
-		gridPanel.setBackground(new Color(238,238,238));
+		gridPanel.setBackground(nicholasisgay);
 		gridPanel.setBounds(15 + padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
 		fullPanel.add(gridPanel);
 		gridPanel.setLayout(new GridLayout(9, 9));
@@ -395,24 +397,24 @@ public class FrameMain extends JFrame {
 				tabTimer.setVisible(false);
 				tabStats.setVisible(false);
 				btnHints.setFont(fontMed.deriveFont(24f));
-				tabTimer.setFont(font.deriveFont(24f));
-				tabStats.setFont(font.deriveFont(24f));
+				btnTimer.setFont(font.deriveFont(24f));
+				btnStats.setFont(font.deriveFont(24f));
 				break;
 			case 1:
 				tabHints.setVisible(false);
 				tabTimer.setVisible(true);
 				tabStats.setVisible(false);
 				btnHints.setFont(font.deriveFont(24f));
-				tabTimer.setFont(fontMed.deriveFont(24f));
-				tabStats.setFont(font.deriveFont(24f));
+				btnTimer.setFont(fontMed.deriveFont(24f));
+				btnStats.setFont(font.deriveFont(24f));
 				break;
 			case 2:	
 				tabHints.setVisible(false);
 				tabTimer.setVisible(false);
 				tabStats.setVisible(true);
 				btnHints.setFont(font.deriveFont(24f));
-				tabTimer.setFont(font.deriveFont(24f));
-				tabStats.setFont(fontMed.deriveFont(24f));
+				btnTimer.setFont(font.deriveFont(24f));
+				btnStats.setFont(fontMed.deriveFont(24f));
 				break;
 		}		
 	}
@@ -594,7 +596,7 @@ public class FrameMain extends JFrame {
 			System.out.println("F: " + row + ", " + col);
 			cells.get(row).get(col).setEnabled(false);
 			cells.get(row).get(col).setForeground(Color.DARK_GRAY);	
-			cells.get(row).get(col).setBackground(new Color(238, 238, 238));	// gray
+			cells.get(row).get(col).setBackground(nicholasisgay);	// gray
 		}
 		else
 		{
