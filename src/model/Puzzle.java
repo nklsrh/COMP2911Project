@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Puzzle Class, used as the front
  */
@@ -151,6 +150,7 @@ public class Puzzle implements PuzzleInterface {
 	 * A getter for the arrayList of grids
 	 * @return the arrayList of Grid objects
 	 */
+	@Override
 	public ArrayList<Grid> getGridList(){
 		return gridStore;
 	}
@@ -159,6 +159,7 @@ public class Puzzle implements PuzzleInterface {
 	 * A getter for the arrayList of rows.
 	 * @return the arrayList of Row objects
 	 */
+	@Override
 	public ArrayList<Row> getRowList(){
 		return rowStore;
 	}
@@ -172,21 +173,18 @@ public class Puzzle implements PuzzleInterface {
 	}
 
 	/**
-	 * A setter which defines a particular cell in the puzzle. The cell is located via row and column index
-	 * coordinates that are taken in as arguments. The number given to the cell is "value" that is taken in
-	 * as well.
-	 *
+	 * Based on the x,y coordinates within the row and column, sets the cell
+	 * up with the new value.
+	 * 
 	 * @param row the y-coordinate of the Cell to be set.
 	 * @param column the x-coordinate of the Cell to be set.
 	 * @param value the number that is to be given as the value of the cell.
 	 */
+	@Override
 	public void setCell(int row, int column, int value){
-		if (value == -1)
-		{
+		if (value == -1){
 			setCellAsEmpty(row, column);
-		}
-		else
-		{
+		}else{
 			if (row >= 0 && row < NUM_ROWS){
 				rowStore.get(row).getList().get(column).setNumber(value);			
 				columnStore.get(column).getList().get(row).setNumber(value);
@@ -196,7 +194,7 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * Update possibilities.
+	 * Update possibilities based on the row and column representation.
 	 *
 	 * @param row the row
 	 * @param column the column
@@ -228,11 +226,13 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * This method sets a cell at a particular set of coordinates as empty i.e. has no value, and all flags
-	 * disabled.
+	 * This method sets a cell at a particular set of coordinates as empty 
+	 * i.e. has no value, and all flags disabled.
+	 * 
 	 * @param row the y-coordinate of the Cell to be set as empty
 	 * @param column the x-coordinate of the Cell to be set as empty
 	 */
+	@Override
 	public void setCellAsEmpty(int row, int column){
 		if (row >= 0 && row < NUM_ROWS && column >= 0 && column < NUM_ROWS){
 			rowStore.get(row).getList().get(column).nullCell();
@@ -247,6 +247,7 @@ public class Puzzle implements PuzzleInterface {
 	 * @param column the column
 	 * @return the cell located at the given coordinates if it is present, and return null otherwise.
 	 */
+	@Override
 	public Cell getCell(int row, int column){
 		if (rowStore.get(row) != null){
 			return rowStore.get(row).getList().get(column);
@@ -266,11 +267,13 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * A setter for the values of Cells in a Row object, given an index for a Grid object and an arrayList
-	 * of Cells containing the values for the row to be set.
+	 * A setter for the values of Cells in a Row object, given an index for 
+	 * a Grid object and an arrayList of Cells containing the values for the row to be set.
+	 * 
 	 * @param index the position of the Grid whose values are to be set
 	 * @param rowValues the values that are to be set to the Row.
 	 */
+	@Override
 	public void setRow(int index, ArrayList<Cell> rowValues){
 		for(int i = 0; i < Grid.NUM_CELLS_PER_SIDE; i++){
 			gridStore.get(index).setCell(i, rowValues.get(i));
@@ -278,7 +281,8 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * This method copies the contents of the Puzzle into a string in a readable format.
+	 * This method copies the contents of the Puzzle into a string in a readable format
+	 * for debugging purposes.
 	 *
 	 * @return the string
 	 */

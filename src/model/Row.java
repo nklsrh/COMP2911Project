@@ -5,7 +5,9 @@ import java.util.Iterator;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Row.
+ * The Row Class, contains numeral references to cells reflecting to a single row of a sudoku puzzle.
+ * Note: the reference is duplicated in the other Column and Grids.
+ * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
  */
 public class Row implements RowColumnInterface{
 	

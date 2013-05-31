@@ -12,27 +12,31 @@ import java.util.ArrayList;
  */
 public interface PuzzleInterface {
 	
-	
+	/**
+	 * A getter for the arrayList of grids
+	 * @return the arrayList of Grid objects
+	 */
 	public ArrayList<Grid> getGridList();
 	
+	/**
+	 * A getter for the arrayList of rows.
+	 * @return the arrayList of Row objects
+	 */
 	public ArrayList<Row> getRowList();
 	
+	/**
+	 * A getter for the arrayList of columns.
+	 * @return the arrayList of Column objects
+	 */
 	public ArrayList<Column> getColumnList();
 	
-	public void setCell(int row, int column, int value);
-	
-	public void updatePossibilities(int row, int column, int value);
-	
-	public void setCellAsEmpty(int row, int column);
-	
-	public void setRow(int index, ArrayList<Cell> rowValues);
 	
 	/**
-	 * getCell is called as a getter for the cell that is located at a provided row and column position, 
-	 * relative to the <b>puzzle</b> that contains it.
-	 * @param row The numerical row position of the desired cell. Ranges from 0 to 8.
-	 * @param column The numerical column position of the desired cell. Ranges from 0 to 8.
-	 * @return The <b>Cell</b> column position of the cell, relative to the 3x3 grid containing it.
+	 * A getter for a Cell object in the puzzle, located at a given set of coordinates.
+	 *
+	 * @param row the row
+	 * @param column the column
+	 * @return the cell located at the given coordinates if it is present, and return null otherwise.
 	 */
 	public Cell getCell(int row, int column);
 
@@ -44,4 +48,35 @@ public interface PuzzleInterface {
 	 * @return the grid located at a certain index in the Puzzle.
 	 */
 	public Grid getGrid(int gridIndex);
+	
+	
+	/**
+	 * Based on the x,y coordinates within the row and column, sets the cell
+	 * up with the new value.
+	 * 
+	 * @param row the y-coordinate of the Cell to be set.
+	 * @param column the x-coordinate of the Cell to be set.
+	 * @param value the number that is to be given as the value of the cell.
+	 */
+	public void setCell(int row, int column, int value);
+	
+	
+	/**
+	 * This method sets a cell at a particular set of coordinates as empty 
+	 * i.e. has no value, and all flags disabled.
+	 * 
+	 * @param row the y-coordinate of the Cell to be set as empty
+	 * @param column the x-coordinate of the Cell to be set as empty
+	 */
+	public void setCellAsEmpty(int row, int column);
+	
+	
+	/**
+	 * A setter for the values of Cells in a Row object, given an index for 
+	 * a Grid object and an arrayList of Cells containing the values for the row to be set.
+	 * 
+	 * @param index the position of the Grid whose values are to be set
+	 * @param rowValues the values that are to be set to the Row.
+	 */
+	public void setRow(int index, ArrayList<Cell> rowValues);
 }
