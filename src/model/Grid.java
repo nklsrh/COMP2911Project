@@ -2,18 +2,26 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * The Grid Column, contains numeral references to cells reflecting to a single grid of a sudoku puzzle.
+ * A 9*9 puzzle thus has 9 Grids and is stored in the index of 0-8, reading left to right. 
+ * Note: the reference is duplicated in the other Rows, Column.
+ */
 public class Grid {
+	
+	/** The Constant NUM_CELLS_PER_SIDE. */
 	protected static final int NUM_CELLS_PER_SIDE = 3;
 	
+	/** The grid index. */
 	private int gridIndex;
+	
+	/** The grid table. */
 	private ArrayList<ArrayList<Cell>> gridTable;
 	
 	/**
-	 * A constructor for the Grid object, representing one of the 9 3X3 grids that make up a Sudoku puzzle.
-	 * Each Grid object has an index to keep track of its position within the Sudoku puzzle. This is defined
-	 * by the gridIndex that is taken in as an argument. A 2-d arrayList of Cell objects is also created to keep 
-	 * track of the 9 Cells that are present in each Grid object.
-	 * @param gridIndex The index of this particular Grid object, so that it can be identified easily.
+	 * Constructor instantiates a new grid and the grid index.
+	 *
+	 * @param gridIndex The index of this particular Grid, ranging 0-8.
 	 */
 	public Grid(int gridIndex) {
 		this.gridTable = new ArrayList<ArrayList<Cell>>();
@@ -21,7 +29,8 @@ public class Grid {
 	}
 	
 	/**
-	 * A getter for the 2-d arrayList that contains the 9 Cell objects that are contained in each Grid.
+	 * A getter for the double arrayList that contains the 9 Cell objects.
+	 * 
 	 * @return the gridTable 2-d arrayList which is a list of lists containing the Cells contained in the grid.
 	 */
 	public ArrayList<ArrayList<Cell>> getGridTable(){
@@ -30,6 +39,7 @@ public class Grid {
 	
 	/**
 	 * A getter for the grid's index within the Sudoku puzzle.
+	 * 
 	 * @return the index of the Grid object.
 	 */
 	public int getGridIndex(){
@@ -64,6 +74,7 @@ public class Grid {
 	
 	/**
 	 * A setter that sets a certain grid cell to a cell value, given the Cell's index and value to be added.
+	 * 
 	 * @param index the positional index of a Cell within the Grid.
 	 * @param value the number of the Cell to be stored in the Grid
 	 */
@@ -76,8 +87,9 @@ public class Grid {
 	}
 	
 	/**
-	 * This method takes in a number from 1-9 and checks if the Grid object contains a Cell which contains
-	 * this number.
+	 * This method takes in a number from 1-9 and checks if the Grid object 
+	 * contains a Cell which contains this number.
+	 * 
 	 * @param number the number whose presence in the Grid is to be checked.
 	 * @return true if the grid contains such a number, false otherwise.
 	 */
@@ -94,7 +106,10 @@ public class Grid {
 	}
 	
 	/**
-	 * This method copies the contents of the gridTable 2-d arraylist in a string in a readable format.
+	 * This method copies the contents of the gridTable 2-d arraylist in a string 
+	 * in a readable format.
+	 *
+	 * @return the string
 	 */
 	@Override
 	public String toString(){
@@ -107,7 +122,6 @@ public class Grid {
 				string.append(gridTable.get(i).get(j).getNumber() + " | ");
 			}
 			string.append("\n -----------\n");
-
 		}
 		string.append("\n");
 		return string.toString();

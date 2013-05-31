@@ -3,7 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Row.
+ */
 public class Row implements RowColumnInterface{
+	
+	/** The row cells. */
 	private ArrayList<Cell> rowCells;
 	
 	/**
@@ -26,6 +32,8 @@ public class Row implements RowColumnInterface{
 	/**
 	 * This method adds a cell to the list of cells contained in the Row object, if the rowCells arrayList
 	 * is not full.
+	 *
+	 * @param cell the cell
 	 */
 	@Override
 	public void addToList(Cell cell) {
@@ -34,6 +42,8 @@ public class Row implements RowColumnInterface{
 	
 	/**
 	 * This method copies the contents of the rowCells arrayList into a string in a readable format.
+	 *
+	 * @return the string
 	 */
 	@Override
 	public String toString() {

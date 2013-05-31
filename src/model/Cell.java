@@ -3,8 +3,11 @@ package model;
 import java.util.ArrayList;
 
 /**
- * @author Nikhil
- *
+ * Cell represents a single square within a sudoku grid, thereby this object is replicated 9*9=81
+ * times within the sudoku grid. Cell being the main store of data relating to a puzzle game, implemented
+ * an array of details such as the number itself, the generated solution, its gridIndex, and other details
+ * that aid in the game-play.
+ * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
  */
 public class Cell {
 	
@@ -17,8 +20,7 @@ public class Cell {
 	
 	/**
 	 * A constructor for a cell of a Sudoku game that is "non-changing" i.e. provided at the start of a game.
-	 * @param number the number that shall be allocated to the cell that will already be present at the start
-	 * of a Sudoku game.
+	 * @param number: the number that shall be allocated to the cell
 	 */
 	public Cell(int number) throws NullPointerException
 	{
@@ -29,12 +31,20 @@ public class Cell {
 		this.addToPossibilities(new int[] {1,2,3,4,5,6,7,8,9});
 	}
 	
+	/**
+	 * Returns the gridIndex that the cell is located at. 
+	 * Helps in calculating the possibilities that the user can make. 
+	 * 
+	 * @return the gridIndex of itself, possible pass of null if undefined
+	 */
 	public int getGrid()
 	{
 		return gridIndex;
 	}
+	
 	/**
 	 * A boolean for checking if a cell of a Sudoku game is non-changing/fixed
+	 * 
 	 * @return true if fixed, false otherwise
 	 */
 	public boolean isFixed(){
@@ -42,8 +52,10 @@ public class Cell {
 	}
 	
 	/**
-	 * A boolean for checking if a cell of a Sudoku game is empty.
-	 * @return true if empty, false otherwise.
+	 * A boolean for checking if a cell of a Sudoku game is empty of a number. 
+	 * Does not related to the "solution"
+	 * 
+	 * @return true if it is cleared of a set number, false otherwise.
 	 */
 	public boolean isEmpty(){
 		return isEmpty;
@@ -51,6 +63,7 @@ public class Cell {
 	
 	/**
 	 * A method to set a cell's isFixed flag to true
+	 * 
 	 * @param set determines if a particular cell is a fixed cell or not.
 	 */
 	public void setFixed(boolean set){
@@ -58,8 +71,9 @@ public class Cell {
 	}
 	
 	/**
-	 * A getter that returns the number contained in a particular cell, regardless of whether it is correct or
-	 * wrong.
+	 * A getter that returns the current number contained in a particular cell, 
+	 * regardless of whether it is correct or wrong.
+	 * 
 	 * @return number contained in the cell.
 	 */
 	public Integer getNumber() throws NullPointerException{
@@ -67,7 +81,9 @@ public class Cell {
 	}
 	
 	/**
-	 * A getter that returns the correct solution to the number that should be contained in a particular cell.
+	 * A getter that returns the correct solution to the number that should be contained
+	 * in a particular cell.
+	 * 
 	 * @return correct solution of the cell
 	 */
 	public Integer getSolution() throws NullPointerException{
@@ -75,8 +91,9 @@ public class Cell {
 	}
 	
 	/**
-	 * A setter that gives a number (not necessarily correct) to a particular cell. If the cell used to be 
-	 * empty, its isEmpty flag is disabled to false.
+	 * A setter that gives a number (not necessarily correct) to a particular cell. 
+	 * If the cell used to be empty, its isEmpty flag is disabled to false.
+	 * 
 	 * @param num the number to be added to the cell.
 	 */
 	public void setNumber(int num) throws NullPointerException{
@@ -89,6 +106,7 @@ public class Cell {
 	/**
 	 * A setter that gives a number to a particular cell. This number is correct and is part of the solution
 	 * to the Sudoku puzzle.
+	 * 
 	 * @param num the number solution to be added to the cell
 	 * @throws NullPointerException
 	 */
@@ -125,11 +143,21 @@ public class Cell {
 		this.addToPossibilities(new int[] {1,2,3,4,5,6,7,8,9});
 	}
 
+	/**
+	 * Returns the list of possible numbers to UI. 
+	 *
+	 * @return the possibilities
+	 */
 	public ArrayList<Integer> getPossibilities()
 	{
 		return possibilities;
 	}
+	
+	
 	/**
+	 * Adds to the list of possibilities, usually done when 
+	 * a cell has changed.
+	 * 
 	 * @param value
 	 */
 	public void addToPossibilities(int value)
@@ -141,6 +169,8 @@ public class Cell {
 	}
 	
 	/**
+	 * Another form of adding to possibilities form a generated array. 
+	 * 
 	 * @param newPossibilities
 	 */
 	public void addToPossibilities(int[] newPossibilities)
@@ -155,6 +185,8 @@ public class Cell {
 	}
 
 	/**
+	 * Completely clears the list of possibilities.
+	 * 
 	 * @param value
 	 */
 	public void removeFromPossibilities()
@@ -163,6 +195,8 @@ public class Cell {
 	}
 	
 	/**
+	 * Removes a single number from the possibilities list.
+	 * 
 	 * @param value
 	 */
 	public void removeFromPossibilities(int value)
@@ -175,6 +209,8 @@ public class Cell {
 	}
 	
 	/**
+	 * Replaces the possibilities list with the generated.
+	 * 
 	 * @param newPossibilities
 	 */
 	public void removeFromPossibilities(int[] newPossibilities)

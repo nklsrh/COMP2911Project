@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface RowColumnInterface.
+ */
 public interface RowColumnInterface {
 	/**
 	 * A getter for the arrayList of cells that is stored in a single Row or Column Object. 
@@ -11,6 +15,8 @@ public interface RowColumnInterface {
 	
 	/**
 	 * This method adds a cell to the list of cells contained in the Row or Column object.
+	 *
+	 * @param cell the cell
 	 */
 	public void addToList(Cell cell);
 	

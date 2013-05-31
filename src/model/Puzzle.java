@@ -3,14 +3,28 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
+// TODO: Auto-generated Javadoc
+/**
+ * The Puzzle Class, used as the front
+ */
 public class Puzzle implements PuzzleInterface {
+	
+	/** The Constant NUM_GRIDS. */
 	public static final int NUM_GRIDS = 9;
+	
+	/** The Constant NUM_ROWS. */
 	public static final int NUM_ROWS = 9;
+	
+	/** The Constant NUM_COLUMNS. */
 	public static final int NUM_COLUMNS = 9;
 	
+	/** The grid store, an Arraylist of grids, used for easy look-through */
 	private ArrayList<Grid> gridStore;
+	
+	/** The row store. likewise with the gridStore*/
 	private ArrayList<Row> rowStore;
+	
+	/** The column store. likewise with the gridStore*/
 	private ArrayList<Column> columnStore;
 	
 	/**
@@ -27,10 +41,9 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * This method initialises the puzzle to a state where the Sudoku structures (9x9 puzzle, 9 3x3 grids etc)
-	 * are constructed, and is ready to take in numbers such that a full Sudoku puzzle can be created.
-	 * 9 each of Grid, Row and Column objects are initialised to represent the 9 Grids, 9 Rows and 9 Columns
-	 * that make up a Sudoku puzzle.
+	 * This method initializes the puzzle to a state where the inter-locking cells in the Rows, Columns 
+	 * and Grid are tied to each other by referencing the same cells.
+	 * 
 	 */
 	private void puzzleInit(){
 		//make 9 grids
@@ -40,21 +53,24 @@ public class Puzzle implements PuzzleInterface {
 		//make 9 rows
 		for(int i=0; i < NUM_ROWS; i++){
 			Row row = new Row();
-			row = rowBuilder(gridStore, row, i);
+			row = rowBuilder(row, i);
 			rowStore.add(row);
 		}
 		//make 9 columns
 		for(int i=0; i < NUM_COLUMNS; i++){
 			Column column = new Column();
-			column = columnBuilder(rowStore, column, i);
+			column = columnBuilder(column, i);
 			columnStore.add(column);
 		}
 	}
 	
 	/**
-	 * Initialises and creates the grid cells that make up a Grid object.
+	 * Initializes and creates the grid cells that make up a Grid object, this is the first
+	 * point where a new Cell(0) is created. The rest in building of row and column are referring to
+	 * the grid index.
+	 * 
 	 * @param gridIndex the index of the particular Grid object that is being created.
-	 * @return a fully-initialised empty Grid object.
+	 * @return a fully-initialized empty Grid object.
 	 */
 	private Grid gridInit(int gridIndex){
 		Grid grid = new Grid(gridIndex);
@@ -71,15 +87,17 @@ public class Puzzle implements PuzzleInterface {
 	
 	
 	/**
-	 * Initialises and creates the cells that make up a Row object, by using the gridStore arrayList
-	 * of Grid objects. a rowNumber is taken in to identify the position of the Row that is being
-	 * created.
+	 * Takes in the row provided and the row's index and according to where the cell 
+	 * is stored in the gridStore, it passes the cell reference from the grid to this 
+	 * row. By arithmetic of how a square puzzle of equal side is made, this should be 
+	 * referencing correctly. Assumes the gridStore has already been built
+	 *
 	 * @param gridStore The arraylist of Grids.
-	 * @param row 
+	 * @param row the row
 	 * @param rowNumber the row that is being built/initialised
 	 * @return a fully-initialised empty Row object
 	 */
-	private Row rowBuilder(ArrayList<Grid> gridStore, Row row, int rowNumber){
+	private Row rowBuilder(Row row, int rowNumber){
 		int numSide = Grid.NUM_CELLS_PER_SIDE; //number of rows on grid
 		
 		int firstGridNo = 0;
@@ -111,15 +129,14 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * Initialises and creates the cells that make up a Column object, by using the gridStore arrayList
-	 * of Grid objects. a rowNumber is taken in to identify the position of the Column that is being
-	 * created.
-	 * @param rowStore
-	 * @param column
-	 * @param ColIndex
-	 * @return
+	 * Likewise with the rowBuilder, due to less calculation it takes cell references 
+	 * from the rowStore instead.
+	 *
+	 * @param column the column
+	 * @param ColIndex the col index
+	 * @return the column
 	 */
-	private Column columnBuilder(ArrayList<Row> rowStore, Column column, int ColIndex){
+	private Column columnBuilder(Column column, int ColIndex){
 		
 		Iterator<Row> rit = rowStore.iterator();
 		while(rit.hasNext()){
@@ -131,7 +148,7 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * A getter for the arrayList of grids that is used in initialisation of the Puzzle.
+	 * A getter for the arrayList of grids
 	 * @return the arrayList of Grid objects
 	 */
 	public ArrayList<Grid> getGridList(){
@@ -139,7 +156,7 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * A getter for the arrayList of rows that is used in initialisation of the Puzzle.
+	 * A getter for the arrayList of rows.
 	 * @return the arrayList of Row objects
 	 */
 	public ArrayList<Row> getRowList(){
@@ -147,7 +164,7 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * A getter for the arrayList of columns that is used in initialisation of the Puzzle.
+	 * A getter for the arrayList of columns.
 	 * @return the arrayList of Column objects
 	 */
 	public ArrayList<Column> getColumnList(){
@@ -155,13 +172,13 @@ public class Puzzle implements PuzzleInterface {
 	}
 
 	/**
-	 * A setter which defines a particular cell in the puzzle. The cell is located via row and column index 
+	 * A setter which defines a particular cell in the puzzle. The cell is located via row and column index
 	 * coordinates that are taken in as arguments. The number given to the cell is "value" that is taken in
 	 * as well.
+	 *
 	 * @param row the y-coordinate of the Cell to be set.
 	 * @param column the x-coordinate of the Cell to be set.
 	 * @param value the number that is to be given as the value of the cell.
-	 * @param isPlayerSetting Is it changing upon player interaction, or are we editing beforehand
 	 */
 	public void setCell(int row, int column, int value){
 		if (value == -1)
@@ -178,6 +195,13 @@ public class Puzzle implements PuzzleInterface {
 		}
 	}
 	
+	/**
+	 * Update possibilities.
+	 *
+	 * @param row the row
+	 * @param column the column
+	 * @param value the value
+	 */
 	public void updatePossibilities(int row, int column, int value)
 	{		
 		// loop through the rest of the ROW AND COLUMN and remove the new value from possibilities
@@ -217,7 +241,10 @@ public class Puzzle implements PuzzleInterface {
 	}
 	
 	/**
-	 * A getter for a Cell object in the puzzle, located at a given set of coordinates
+	 * A getter for a Cell object in the puzzle, located at a given set of coordinates.
+	 *
+	 * @param row the row
+	 * @param column the column
 	 * @return the cell located at the given coordinates if it is present, and return null otherwise.
 	 */
 	public Cell getCell(int row, int column){
@@ -229,6 +256,8 @@ public class Puzzle implements PuzzleInterface {
 	
 	/**
 	 * A getter for a Grid object in the puzzle, given its index.
+	 *
+	 * @param gridIndex the grid index
 	 * @return the grid located at a certain index in the Puzzle.
 	 */
 	@Override
@@ -250,6 +279,8 @@ public class Puzzle implements PuzzleInterface {
 	
 	/**
 	 * This method copies the contents of the Puzzle into a string in a readable format.
+	 *
+	 * @return the string
 	 */
 	@Override
 	public String toString(){
