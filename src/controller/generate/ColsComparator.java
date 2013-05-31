@@ -2,6 +2,7 @@ package controller.generate;
 
 import java.util.Comparator;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class implements the comparator interface to compare the columns of Square objects and determine their
  * order.
@@ -10,6 +11,9 @@ import java.util.Comparator;
  */
 public class ColsComparator implements Comparator<Square>{
 	
+	/* (non-Javadoc)
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	 */
 	@Override
 	public int compare(Square c1, Square c2) {
 		

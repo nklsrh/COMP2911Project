@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * The Puzzle Class, used as the front
+ * The Puzzle Class, used as an functional access of the model package, interfacing with sudoku elements
+ * that requires storage would fetch from this class.
+ * 
+ * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
  */
 public class Puzzle implements PuzzleInterface {
 	

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 // TODO: Auto-generated Javadoc
 /**
  * The Interface RowColumnInterface.
+ * 
+ * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
  */
 public interface RowColumnInterface {
 	/**

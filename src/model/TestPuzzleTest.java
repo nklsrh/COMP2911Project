@@ -5,7 +5,8 @@ import java.util.Iterator;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class TestPuzzleTest.
+ * TestPuzzleTest, 
+ * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
  */
 public class TestPuzzleTest {
 

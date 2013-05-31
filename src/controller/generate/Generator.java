@@ -10,16 +10,36 @@ import model.Cell;
 import model.Puzzle;
 import model.Row;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Generator.
+ */
 public class Generator {
 	
+	/** The row groups. */
 	private LinkedList<LinkedList<Square>> rowGroups;
+	
+	/** The col groups. */
 	private LinkedList<LinkedList<Square>> colGroups;
+	
+	/** The rc. */
 	private RowsComparator rc;
+	
+	/** The cc. */
 	private ColsComparator cc;
+	
+	/** The cells. */
 	private Square[] cells;
+	
+	/** The rand. */
 	private Random rand;
+	
+	/** The Constant NUM_SHUFFLES. */
 	private final static int NUM_SHUFFLES = 5;
 	
+	/**
+	 * Instantiates a new generator.
+	 */
 	public Generator(){
 		rc = new RowsComparator();
 		cc = new ColsComparator();
@@ -60,6 +80,9 @@ public class Generator {
 		}
 	}
 	
+	/**
+	 * Shuffle puzzle.
+	 */
 	public void shufflePuzzle(){
 		for(int i=0; i<NUM_SHUFFLES; i++){
 			shuffleRowsInGrid();
@@ -73,6 +96,9 @@ public class Generator {
 		}
 	}
 	
+	/**
+	 * Shuffle rows in grid.
+	 */
 	private void shuffleRowsInGrid(){
 		//random 2 row ints
 		int grid = rand.nextInt(3) * 3;
@@ -109,6 +135,9 @@ public class Generator {
 		
 	}
 	
+	/**
+	 * Shuffle cols in grid.
+	 */
 	private void shuffleColsInGrid(){
 		//random 2 row ints
 		int grid = rand.nextInt(3) * 3;
@@ -146,6 +175,11 @@ public class Generator {
 	}
 	
 	
+	/**
+	 * Check sanity.
+	 *
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
 	private void checkSanity() throws IllegalArgumentException{
 		
 		//checks every group has 1..9
@@ -172,6 +206,11 @@ public class Generator {
 		
 	}
 	
+	/**
+	 * Gets the required.
+	 *
+	 * @return the required
+	 */
 	private LinkedList<Integer> getRequired(){
 		LinkedList<Integer> list = new LinkedList<Integer>();
 		for(int i=1; i<10; i++){
@@ -180,6 +219,12 @@ public class Generator {
 		return list;
 	}
 	
+	/**
+	 * Package up.
+	 *
+	 * @param puzzle the puzzle
+	 * @return the puzzle
+	 */
 	public Puzzle packageUp(Puzzle puzzle){
 		//according to groups listing
 		ArrayList<Row> puzzleRows = puzzle.getRowList();
@@ -196,6 +241,12 @@ public class Generator {
 		return puzzle;
 	}
 	
+	/**
+	 * Puzzle pretty print by groups.
+	 *
+	 * @param type the type
+	 * @return the string
+	 */
 	public String puzzlePrettyPrintByGroups(String type){
 		String result = "";
 		Iterator<LinkedList<Square>> git = null;
@@ -232,6 +283,11 @@ public class Generator {
 		return result;
 	}
 	
+	/**
+	 * Puzzle pretty print.
+	 *
+	 * @return the string
+	 */
 	public String puzzlePrettyPrint(){
         String result = "";
         int i = 0;
