@@ -37,7 +37,7 @@ public class FrameGame extends JFrame {
 	
 	private JPanel contentPane;
 	private ArrayList<ArrayList<JButton>> cells;
-	private ArrayList<ArrayList<JButton>> keypadButtons;
+	private ArrayList<JButton> keypadButtons;
 	private JLabel hintLabel;
 	private JLabel actionStats;
 	private JLabel buttonStats;
@@ -143,15 +143,8 @@ public class FrameGame extends JFrame {
 		JPanel keypadPanel = new JPanel();
 		keypadPanel.setBackground(Color.WHITE);
 		//keypadPanel.setBackground(SystemColor.windowBorder);
-		keypadPanel.setBounds(totalWidthOfGrid + padding + 25, 0, 287, 400); //314 - padding, 297 - height
+		keypadPanel.setBounds(526, 0, 90, 501); //314 - padding, 297 - height
 		fullPanel.add(keypadPanel);
-		
-		GridBagLayout gbl_keypadPanel = new GridBagLayout();
-		gbl_keypadPanel.columnWidths = new int[] {100, 100, 100, 100};
-		gbl_keypadPanel.rowHeights = new int[] {100, 100, 100, 100};
-		gbl_keypadPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_keypadPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
-		keypadPanel.setLayout(gbl_keypadPanel);
 
 		
 		//////////////////////////////////////////////////////////////////////////////////////
@@ -362,26 +355,7 @@ public class FrameGame extends JFrame {
 		/////////////////////////////////////////////////////////////////////////
 		
 		setupKeypad(keypadPanel, puzzleControl);
-		
-		JButton btnClearCell = new JButton("CLEAR");
-		btnClearCell.setBackground(new Color(251,251,251));
-		btnClearCell.setFont(font.deriveFont(24f));
-		btnClearCell.setBorder(BorderFactory.createEmptyBorder());	
-		btnClearCell.setVisible(false);
-		btnClearCell.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				clearCell(lastPressedCell[1], lastPressedCell[0], pz);
-			}
-		});
-		
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.gridwidth = 3;
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 3;
-		keypadPanel.add(btnClearCell, gbc_btnNewButton);
+		keypadPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		///////////////////////////////////////////////////////////////////////////
 		
@@ -444,11 +418,11 @@ public class FrameGame extends JFrame {
 	 * @param thisY
 	 * @param pz
 	 */
-	private void keyPressed(int row, int col, PuzzleControl pz)
+	private void keyPressed(int index, PuzzleControl pz)
 	{
-		if (keypadButtons.get(row).get(col).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
+		if (keypadButtons.get(index).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
 		{  
-			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(row).get(col).getText()));
+			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(index).getText()));
 
 			if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
 			{
@@ -472,38 +446,34 @@ public class FrameGame extends JFrame {
 	 */
 	private void setupKeypad(JPanel keypadPanel, PuzzleControl puzzleControl)
 	{
-		keypadButtons = new ArrayList<ArrayList<JButton>>();
-		for (int y = 0; y < 3; y++)
+		keypadButtons = new ArrayList<JButton>();
+		for (int i = 0; i < 9; i++)
 		{
-			final int row = y;
-			keypadButtons.add(new ArrayList<JButton>());
-			for (int x = 0; x < 3; x++)
-			{
-				final int col = x;
-				final PuzzleControl pz = puzzleControl;
-				
-				keypadButtons.get(row).add(new JButton(String.valueOf(((row * 3) + (col + 1)))));	// set value of number according to position (like telephone buttons
-				keypadButtons.get(row).get(col).setFont(font.deriveFont(40f));	
-				keypadButtons.get(row).get(col).setSize(50, 50);
-				keypadButtons.get(row).get(col).setBackground(Color.WHITE);
-				keypadButtons.get(row).get(col).setForeground(new Color(100,100,100));
-				keypadButtons.get(row).get(col).setBorder(BorderFactory.createEmptyBorder());
-				
-				GridBagConstraints gbc_button = new GridBagConstraints();
-				gbc_button.fill = GridBagConstraints.BOTH;
-				gbc_button.insets = new Insets(0, 0, 5, 5);
-				gbc_button.gridx = col;
-				gbc_button.gridy = row;
-				
-				keypadButtons.get(row).get(col).addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						keyPressed(row, col, pz);
-					}
-				});
-				
-				keypadPanel.add(keypadButtons.get(row).get(col), gbc_button);
-			}
+			final PuzzleControl pz = puzzleControl;
+			final int index = i;
+			
+			keypadButtons.add(new JButton(String.valueOf(i + 1)));	// set value of number according to position (like telephone buttons
+			keypadButtons.get(i).setFont(font.deriveFont(20f));	
+//			keypadButtons.get(i).setSize(10, 10);
+			keypadButtons.get(i).setBackground(Color.WHITE);
+			keypadButtons.get(i).setForeground(new Color(100,100,100));
+			keypadButtons.get(i).setBorder(BorderFactory.createEmptyBorder());
+			
+			GridBagConstraints gbc_button = new GridBagConstraints();
+			gbc_button.fill = GridBagConstraints.BOTH;
+			gbc_button.insets = new Insets(0, 0, 5, 5);
+			gbc_button.gridy = i;
+			gbc_button.weighty = 0;
+			gbc_button.weightx = 100;
+						
+			keypadButtons.get(i).addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					keyPressed(index, pz);
+				}
+			});
+			
+			keypadPanel.add(keypadButtons.get(i), gbc_button);
 		}
 	}
 	
