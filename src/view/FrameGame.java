@@ -33,7 +33,16 @@ public class FrameGame extends JFrame {
 	private Font font;
 	private Font fontMed;
 	private Font fontLight;
-	private Color nicholasisgay;
+	private Font fontItalic;
+	
+	private Color colorBackground = new Color(238,238,238); 	
+	private Color colorFixedCell1 = new Color(244,244,244);
+	private Color colorNormalCell1 = new Color(254,254,254);	
+	private Color colorFixedCell2 = new Color(226,226,226);
+	private Color colorNormalCell2 = new Color(235,235,235);
+	private Color colorHoverCell = new Color(206,239,241);	
+	private Color colorCorrectNumber = new Color(150,255,147);
+	private Color colorWrongNumber = new Color(255,171,171);
 	
 	private JPanel contentPane;
 	private ArrayList<ArrayList<JButton>> cells;
@@ -45,11 +54,14 @@ public class FrameGame extends JFrame {
 	private JLabel cheatStats;
 	private JLabel hintStats;
 	private JLabel progressStats;
-	
+		
 	private JPanel tabHints;
 	private JPanel tabTimer;
 	private JPanel tabStats;
 	private JPanel sidebarBottomPanel;
+	private JPanel keypadPanel;
+	private JPanel toolTipPanel;
+	private JLabel lblPossible;
 	
 	private JButton btnAutofill;
 	private JButton btnHints;
@@ -84,7 +96,7 @@ public class FrameGame extends JFrame {
 	 * in an attractive and accessible manner
 	 */
 	public FrameGame() {
-		nicholasisgay = new Color(240,240,240);
+		colorBackground = new Color(240,240,240);
 		
 		numberOfRows = 9;
 		padding = 0; //6
@@ -115,32 +127,49 @@ public class FrameGame extends JFrame {
 		final PuzzleControl pz = puzzleControl;
 		
 		contentPane = new JPanel();
-		contentPane.setBackground(nicholasisgay);
+		contentPane.setBackground(colorBackground);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel fullPanel = new JPanel();
-		fullPanel.setBackground(nicholasisgay);
+		fullPanel.setBackground(colorBackground);
 		contentPane.add(fullPanel);
 		fullPanel.setLayout(null);
 		
 		File font_file_light = new File("assets/Roboto-Regular.ttf");
 		File font_file_reg = new File("assets/Roboto-Light.ttf");
 		File font_file_med = new File("assets/Roboto-Medium.ttf");
+		File font_file_ita = new File("assets/Roboto-LightItalic.ttf");
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, font_file_reg);
 			fontLight = Font.createFont(Font.TRUETYPE_FONT, font_file_light);
 			fontMed = Font.createFont(Font.TRUETYPE_FONT, font_file_med);
+			fontItalic = Font.createFont(Font.TRUETYPE_FONT, font_file_ita);
 		} catch (Exception e1) {
 			font = Font.getFont("Lucida Sans");
 			fontLight = Font.getFont("Lucida Sans");
 			fontMed = Font.getFont("Lucida Sans");
+			fontItalic = Font.getFont("Lucida Sans");
 		}
+		
+		//////////////////////////////////////////////////////////////////////////////////////////
+		
+		toolTipPanel = new JPanel();
+		toolTipPanel.setBackground(Color.WHITE);
+		toolTipPanel.setBounds(400, 100, 260, 100);
+		fullPanel.add(toolTipPanel);
+		toolTipPanel.setLayout(new GridLayout());
+		
+		lblPossible = new JLabel("Possible: [1,2,3,4,5,6,7,8,9]");
+		lblPossible.setFont(fontItalic.deriveFont(24f));
+		lblPossible.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPossible.setVerticalAlignment(SwingConstants.CENTER);
+		toolTipPanel.add(lblPossible);
 		
 		//////////////////////////////////////////////////////////////////////////
 		
-		JPanel keypadPanel = new JPanel();
+		keypadPanel = new JPanel();
 		keypadPanel.setBackground(Color.WHITE);
 		//keypadPanel.setBackground(SystemColor.windowBorder);
 		keypadPanel.setBounds(526, 0, 90, 501); //314 - padding, 297 - height
@@ -165,7 +194,7 @@ public class FrameGame extends JFrame {
 		//////////////////////////////////////////////////////////////////////////////////////////
 
 		JPanel sidebarTopPanel = new JPanel();
-		sidebarTopPanel.setBackground(nicholasisgay);
+		sidebarTopPanel.setBackground(colorBackground);
 		GridBagConstraints gbc_sidebarTopPanel = new GridBagConstraints();
 		gbc_sidebarTopPanel.fill = GridBagConstraints.BOTH;
 		gbc_sidebarTopPanel.insets = new Insets(0, 0, 5, 0);
@@ -174,7 +203,7 @@ public class FrameGame extends JFrame {
 		sidebarPanel.add(sidebarTopPanel, gbc_sidebarTopPanel);		
 		
 		btnHints = new JButton("Hints");
-		btnHints.setBackground(nicholasisgay);
+		btnHints.setBackground(colorBackground);
 		btnHints.setFont(fontMed.deriveFont(24f));
 		btnHints.setBorder(BorderFactory.createEmptyBorder());	
 		btnHints.addActionListener(new ActionListener(){
@@ -185,7 +214,7 @@ public class FrameGame extends JFrame {
 		});
 		
 		btnTimer = new JButton("Timer");
-		btnTimer.setBackground(nicholasisgay);
+		btnTimer.setBackground(colorBackground);
 		btnTimer.setFont(font.deriveFont(24f));
 		btnTimer.setBorder(BorderFactory.createEmptyBorder());	
 		btnTimer.addActionListener(new ActionListener(){
@@ -196,7 +225,7 @@ public class FrameGame extends JFrame {
 		});
 		
 		btnStats = new JButton("Stats");
-		btnStats.setBackground(nicholasisgay);
+		btnStats.setBackground(colorBackground);
 		btnStats.setFont(font.deriveFont(24f));
 		btnStats.setBorder(BorderFactory.createEmptyBorder());	
 		btnStats.addActionListener(new ActionListener(){
@@ -232,7 +261,7 @@ public class FrameGame extends JFrame {
 		//tabs.addTab("HINTS", null, tabHints, null);
 		sidebarBottomPanel.add(tabHints, "name_1369870411837636000");
 		tabHints.setLayout(new GridLayout(4, 1, 0, 0));
-		
+				
 		JLabel lblHint = new JLabel("HINTS");
 		lblHint.setBackground(Color.WHITE);
 		lblHint.setHorizontalAlignment(SwingConstants.CENTER);
@@ -347,7 +376,7 @@ public class FrameGame extends JFrame {
 		//////////////////////////////////////////////////////////////////
 		
 		JPanel gridPanel = new JPanel();
-		gridPanel.setBackground(nicholasisgay);
+		gridPanel.setBackground(colorBackground);
 		gridPanel.setBounds(15 + padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
 		fullPanel.add(gridPanel);
 		gridPanel.setLayout(new GridLayout(9, 9));
@@ -398,19 +427,28 @@ public class FrameGame extends JFrame {
 	 * @param pz
 	 */
 	private void cellClicked(int row, int col, PuzzleControl pz)
-	{
+	{				
 		if (lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
 		{
 			setCellFont(lastPressedCell[1], lastPressedCell[0], false);
 		}
 		if (!pz.getCell(row, col).isFixed())
     	{
-			lastPressedCell[1] = row;
-			lastPressedCell[0] = col;
+			if (lastPressedCell[0] == col && lastPressedCell[1] == row)
+			{
+				keypadPanel.setVisible(false);
+			}
+			else
+			{
+				lastPressedCell[1] = row;
+				lastPressedCell[0] = col;
+			}
 			setCellFont(row, col, true);
     	}
 		incrementNumButtons(pz, 1);
 		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
+		
+		keypadPanel.setVisible(true);
 	}
 	
 	/**
@@ -438,6 +476,8 @@ public class FrameGame extends JFrame {
 		incrementNumButtons(pz, 1);
 		actionStats.setText("Number of actions performed: " + pz.getStatistics().getActionCount());
 		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
+		
+		keypadPanel.setVisible(false);
 	}
 	
 	/**
@@ -454,7 +494,6 @@ public class FrameGame extends JFrame {
 			
 			keypadButtons.add(new JButton(String.valueOf(i + 1)));	// set value of number according to position (like telephone buttons
 			keypadButtons.get(i).setFont(font.deriveFont(20f));	
-//			keypadButtons.get(i).setSize(10, 10);
 			keypadButtons.get(i).setBackground(Color.WHITE);
 			keypadButtons.get(i).setForeground(new Color(100,100,100));
 			keypadButtons.get(i).setBorder(BorderFactory.createEmptyBorder());
@@ -475,6 +514,7 @@ public class FrameGame extends JFrame {
 			
 			keypadPanel.add(keypadButtons.get(i), gbc_button);
 		}
+		keypadPanel.setVisible(false);
 	}
 	
 	/**
@@ -494,7 +534,7 @@ public class FrameGame extends JFrame {
 				final PuzzleControl pz = puzzleControl;
 				
 				cells.get(row).add(new JButton("0"));
-				cells.get(row).get(col).setFont(font.deriveFont(16f));				
+				cells.get(row).get(col).setFont(font.deriveFont(18f));				
 				cells.get(row).get(col).setBounds(padding + (col * widthBetweenTextBoxes), padding + (row * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 				cells.get(row).get(col).setBorder(BorderFactory.createEmptyBorder());
 				
@@ -514,7 +554,37 @@ public class FrameGame extends JFrame {
 					}
 			    });
 				
-				//setCellColour(row, col, puzzleControl);				
+				cells.get(row).get(col).addMouseListener(new MouseAdapter(){
+					@Override
+		            public void mouseEntered(MouseEvent evt)
+		            {
+						if (!pz.getCell(row, col).isFixed())
+						{
+							cells.get(row).get(col).setBackground(colorHoverCell);	// green, but a nicer shade
+							toolTipPanel.setVisible(true);
+							if (col < 6)
+							{
+								toolTipPanel.setLocation(cells.get(row).get(col).getLocation().x + 100, cells.get(row).get(col).getLocation().y - 10);
+							}
+							else
+							{
+								toolTipPanel.setLocation(cells.get(row).get(col).getLocation().x - 350, cells.get(row).get(col).getLocation().y - 10);
+							}
+							loadHint(row, col, pz);
+						}
+						else
+						{
+							toolTipPanel.setVisible(false);
+						}
+		            }
+					@Override
+		            public void mouseExited(MouseEvent evt)
+		            {
+						setCellNumber(row, col, pz);
+						toolTipPanel.setVisible(false);
+		            }
+				});
+				
 				gridPanel.add(cells.get(y).get(x), gbc_button);
 			}
 		}	
@@ -563,15 +633,30 @@ public class FrameGame extends JFrame {
 	{
 		if (puzzleControl.getCell(row, col).isFixed())
 		{
-			System.out.println("F: " + row + ", " + col);
 			cells.get(row).get(col).setEnabled(false);
-			cells.get(row).get(col).setForeground(Color.DARK_GRAY);	
-			cells.get(row).get(col).setBackground(nicholasisgay);	// gray
+			if ((row < 3 && col < 3) || (row < 3 && col > 5) || (row > 5 && col < 3) || (row > 5 && col > 5) || (row >= 3 && row <= 5 && col >= 3 && col <= 5))
+			{
+				cells.get(row).get(col).setBackground(colorFixedCell1);	// gray
+				cells.get(row).get(col).setForeground(Color.DARK_GRAY);	
+			}
+			else
+			{
+				cells.get(row).get(col).setBackground(colorFixedCell2);	// gray
+				cells.get(row).get(col).setForeground(Color.WHITE);	
+			}
 		}
 		else
 		{
-			System.out.println("SETWHITE: " + row + ", " + col);
-			cells.get(row).get(col).setBackground(Color.WHITE);			
+			if ((row < 3 && col < 3) || (row < 3 && col > 5) || (row > 5 && col < 3) || (row > 5 && col > 5) || (row >= 3 && row <= 5 && col >= 3 && col <= 5))
+			{
+				cells.get(row).get(col).setBackground(colorNormalCell1);
+				cells.get(row).get(col).setForeground(Color.DARK_GRAY);				
+			}
+			else
+			{
+				cells.get(row).get(col).setBackground(colorNormalCell2);
+				cells.get(row).get(col).setForeground(Color.BLACK);		
+			}
 			incrementTotalEmptyBoxes(puzzleControl, 1);
 		}		
 	}
@@ -585,14 +670,14 @@ public class FrameGame extends JFrame {
 	{
 		if (puzzleControl.checkNumberSolution(row, col))
 		{
-			cells.get(row).get(col).setBackground(new Color(150,255,147));	// green, but a nicer shade
+			//cells.get(row).get(col).setBackground(colorCorrectNumber);	// green, but a nicer shade
 			
 			incrementNumProgress(puzzleControl, 1);
 			progressStats.setText("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
 		}
 		else
 		{
-			cells.get(row).get(col).setBackground(new Color(255,171,171));	// red, but a nicer shade
+			//cells.get(row).get(col).setBackground(colorWrongNumber);	// red, but a nicer shade
 	    }		
 	}
 	
@@ -610,10 +695,13 @@ public class FrameGame extends JFrame {
 			if (!puzzleControl.getCell(row, col).isEmpty())
 			{
 				hintLabel.setText("Cell already filled");
+				lblPossible.setText("");
+				toolTipPanel.setVisible(false);
 			}
 			else
 			{
 				hintLabel.setText("Possible: " + puzzleControl.getCell(row, col).getPossibilities());
+				lblPossible.setText("Possible: " + puzzleControl.getCell(row, col).getPossibilities());
 			}
 			incrementNumHints(puzzleControl, 1);
 		}
