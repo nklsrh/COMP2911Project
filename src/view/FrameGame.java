@@ -30,6 +30,8 @@ import java.awt.CardLayout;
  *
  */
 public class FrameGame extends JFrame {
+	private JFrame f;
+	
 	private Font font;
 	private Font fontMed;
 	private Font fontLight;
@@ -47,26 +49,19 @@ public class FrameGame extends JFrame {
 	private JPanel contentPane;
 	private ArrayList<ArrayList<JButton>> cells;
 	private ArrayList<JButton> keypadButtons;
-	private JLabel hintLabel;
 	private JLabel actionStats;
 	private JLabel buttonStats;
 	private JLabel winStats;
 	private JLabel cheatStats;
 	private JLabel hintStats;
 	private JLabel progressStats;
-		
-	private JPanel tabHints;
 	private JPanel tabTimer;
 	private JPanel tabStats;
-	private JPanel sidebarBottomPanel;
 	private JPanel keypadPanel;
 	private JPanel toolTipPanel;
 	private JLabel lblPossible;
 	
 	private JButton btnAutofill;
-	private JButton btnHints;
-	private JButton btnTimer;
-	private JButton btnStats;
 	
 	private int numberOfRows;
 	private int padding;
@@ -81,6 +76,7 @@ public class FrameGame extends JFrame {
 	 * first element is X value (column)
 	 */
 	private int[] lastPressedCell;
+	private JLabel asdlabel;
 		
 	private void startNewGame(int difficulty, PuzzleControl puzzleControl)
 	{		
@@ -95,8 +91,10 @@ public class FrameGame extends JFrame {
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
 	 * in an attractive and accessible manner
 	 */
-	public FrameGame(int difficulty) {
+	public FrameGame(JFrame mainFrame, int difficulty) {
 		colorBackground = new Color(240,240,240);
+		
+		f = mainFrame;
 		
 		numberOfRows = 9;
 		padding = 0; //6
@@ -116,7 +114,7 @@ public class FrameGame extends JFrame {
 		setResizable(false);
 		setBackground(SystemColor.window);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, totalWidthOfGrid + widthOfSidebar + widthOfKeypad + 50, totalWidthOfGrid + textboxWidth);
+		setBounds(100, 100, totalWidthOfGrid + widthOfKeypad + 100, totalWidthOfGrid + textboxWidth);
 
 		PuzzleControl puzzleControl = new PuzzleControl();
 		startNewGame(difficulty, puzzleControl);
@@ -173,115 +171,9 @@ public class FrameGame extends JFrame {
 		keypadPanel = new JPanel();
 		keypadPanel.setBackground(colorHoverCell);
 		//keypadPanel.setBackground(SystemColor.windowBorder);
-		keypadPanel.setBounds(526, 0, 90, 501); //314 - padding, 297 - height
+		keypadPanel.setBounds(526, 0, 70, 501); //314 - padding, 297 - height
 		fullPanel.add(keypadPanel);
-
-		
-		//////////////////////////////////////////////////////////////////////////////////////
-		
-		JPanel sidebarPanel = new JPanel();
-		sidebarPanel.setBackground(Color.WHITE);
-		//sidebarPanel.setBackground(SystemColor.windowBorder);
-		sidebarPanel.setBounds(826, 0, widthOfSidebar, totalWidthOfGrid);
-		fullPanel.add(sidebarPanel);
-		sidebarPanel.addMouseListener(new MouseAdapter(){
-			@Override
-            public void mouseEntered(MouseEvent evt)
-            {
-				toolTipPanel.setVisible(false);
-            }
-		});
-		
-		GridBagLayout gbl_sidebarPanel = new GridBagLayout();
-		gbl_sidebarPanel.columnWidths = new int[] {0, 0};
-		gbl_sidebarPanel.rowHeights = new int[] {0, 0};
-		gbl_sidebarPanel.columnWeights = new double[]{1};
-		gbl_sidebarPanel.rowWeights = new double[]{0.1, 0.9};
-		sidebarPanel.setLayout(gbl_sidebarPanel);
-		
-		//////////////////////////////////////////////////////////////////////////////////////////
-
-		JPanel sidebarTopPanel = new JPanel();
-		sidebarTopPanel.setBackground(colorBackground);
-		GridBagConstraints gbc_sidebarTopPanel = new GridBagConstraints();
-		gbc_sidebarTopPanel.fill = GridBagConstraints.BOTH;
-		gbc_sidebarTopPanel.insets = new Insets(0, 0, 5, 0);
-		gbc_sidebarTopPanel.gridx = 0;
-		gbc_sidebarTopPanel.gridy = 0;
-		sidebarPanel.add(sidebarTopPanel, gbc_sidebarTopPanel);		
-		
-		btnHints = new JButton("Hints");
-		btnHints.setBackground(colorBackground);
-		btnHints.setFont(fontMed.deriveFont(24f));
-		btnHints.setBorder(BorderFactory.createEmptyBorder());	
-		btnHints.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setTab(0);
-			}
-		});
-		
-		btnTimer = new JButton("Timer");
-		btnTimer.setBackground(colorBackground);
-		btnTimer.setFont(font.deriveFont(24f));
-		btnTimer.setBorder(BorderFactory.createEmptyBorder());	
-		btnTimer.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setTab(1);
-			}
-		});
-		
-		btnStats = new JButton("Stats");
-		btnStats.setBackground(colorBackground);
-		btnStats.setFont(font.deriveFont(24f));
-		btnStats.setBorder(BorderFactory.createEmptyBorder());	
-		btnStats.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setTab(2);
-			}
-		});
-		sidebarTopPanel.setLayout(new GridLayout(0, 3, 0, 0));
-		
-		sidebarTopPanel.add(btnHints);
-		sidebarTopPanel.add(btnTimer);
-		sidebarTopPanel.add(btnStats);
-		
-		TimerLabel timer = puzzleControl.getTimer();
-		timer.setVerticalAlignment(SwingConstants.BOTTOM);
-		timer.setFont(font.deriveFont(84f));
-		
-		sidebarBottomPanel = new JPanel();
-		sidebarBottomPanel.setBackground(Color.GRAY);
-		GridBagConstraints gbc_sidebarBottomPanel = new GridBagConstraints();
-		gbc_sidebarBottomPanel.fill = GridBagConstraints.BOTH;
-		gbc_sidebarBottomPanel.gridx = 0;
-		gbc_sidebarBottomPanel.gridy = 1;
-		sidebarPanel.add(sidebarBottomPanel, gbc_sidebarBottomPanel);		
-		sidebarBottomPanel.setLayout(new CardLayout(0, 0));
-		
-		///////////////////////////////////////////////////////////
-		
-		tabHints = new JPanel();
-		tabHints.setName("tabHints");
-		tabHints.setBackground(Color.WHITE);
-		//tabs.addTab("HINTS", null, tabHints, null);
-		sidebarBottomPanel.add(tabHints, "name_1369870411837636000");
-		tabHints.setLayout(new GridLayout(4, 1, 0, 0));
 				
-		JLabel lblHint = new JLabel("HINTS");
-		lblHint.setBackground(Color.WHITE);
-		lblHint.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHint.setFont(fontLight.deriveFont(30f));
-		tabHints.add(lblHint);
-		
-		hintLabel = new JLabel("No hints revealed");
-		hintLabel.setBackground(Color.WHITE);
-		hintLabel.setFont(font.deriveFont(30f));
-		hintLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		tabHints.add(hintLabel);
-		
 		JButton btnGetHint = new JButton("Get hint");
 		btnGetHint.setBackground(new Color(251,251,251));
 		btnGetHint.setFont(font.deriveFont(24f));
@@ -292,13 +184,69 @@ public class FrameGame extends JFrame {
 				loadHint(lastPressedCell[1], lastPressedCell[0], pz);
 			}
 		});
+		
+		/////////////////////////////////////////////////////////////
+
+		tabTimer = new JPanel();
+		tabTimer.setBounds(606, 0, 269, 146);
+		tabTimer.setName("tabTimer");		
+		tabTimer.setBackground(Color.WHITE);
+		fullPanel.add(tabTimer);
+		
+		GridBagLayout gbl_tabTimer = new GridBagLayout();
+		gbl_tabTimer.columnWidths = new int[]{269, 0};
+		gbl_tabTimer.rowHeights = new int[] {43, 0};
+		gbl_tabTimer.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_tabTimer.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		tabTimer.setLayout(gbl_tabTimer);				
+		
+		JLabel lblNewLabel = new JLabel("ELAPSED TIME");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(fontLight.deriveFont(30f));			
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();	
+		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 0;
+		
+		tabTimer.add(lblNewLabel, gbc_lblNewLabel);			
+
+		TimerLabel timer = puzzleControl.getTimer();
+		timer.setVerticalAlignment(SwingConstants.BOTTOM);
+		timer.setHorizontalAlignment(SwingConstants.CENTER);
+		timer.setForeground(Color.GRAY);		
+		timer.setFont(font.deriveFont(84f));		
+		timer.setText("0:00");		
+		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 1;
+		
+		tabTimer.add(timer, gbc_lblNewLabel);	
+		
+		//////////////////////////////////////////////////////////////////
+		
+		JPanel gridPanel = new JPanel();
+		gridPanel.setBackground(colorBackground);
+		gridPanel.setBounds(15 + padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
+		fullPanel.add(gridPanel);
+		gridPanel.setLayout(new GridLayout(9, 9));
+
+		/////////////////////////////////////////////////////////////////////////
+		
+		setupKeypad(puzzleControl);
+		keypadPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		///////////////////////////////////////////////////////////////////////////
+		
+		setupCells(gridPanel, puzzleControl);
 		//tabHints.add(btnGetHint);
 		
 		btnAutofill = new JButton("Autofill a cell");
-		btnAutofill.setBackground(new Color(248,248,248));
+		btnAutofill.setBounds(606, 157, 269, 84);
+		fullPanel.add(btnAutofill);
+		btnAutofill.setBackground(Color.WHITE);
 		btnAutofill.setFont(font.deriveFont(24f));
 		btnAutofill.setEnabled(true);
-		btnAutofill.setBorder(BorderFactory.createEmptyBorder());		
+		btnAutofill.setBorder(BorderFactory.createEmptyBorder());	
 		btnAutofill.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -310,40 +258,29 @@ public class FrameGame extends JFrame {
             public void mouseEntered(MouseEvent evt)
             {
 				toolTipPanel.setVisible(false);
+				btnAutofill.setBackground(colorHoverCell);
             }
-		});
-		tabHints.add(btnAutofill);
-		
-		/////////////////////////////////////////////////////////////
-		
-		tabTimer = new JPanel();
-		tabTimer.setName("tabTimer");
-		tabTimer.setBackground(Color.WHITE);
-		sidebarBottomPanel.add(tabTimer, "name_1369870411857197000");
-		//tabs.addTab("TIMER", null, tabTimer, null);
-		
-		JLabel lblNewLabel = new JLabel("ELAPSED TIME");
-		lblNewLabel.setFont(fontLight.deriveFont(30f));
-		tabTimer.add(lblNewLabel);
-		
-		
-		//Timer stuff
-		JLabel timerExplanation = new JLabel("Minutes : Seconds");
-		timerExplanation.setFont(font.deriveFont(24f));
-		tabTimer.add(timerExplanation);
-		tabTimer.add(timer);		
+			@Override
+            public void mouseExited(MouseEvent evt)
+            {
+				btnAutofill.setBackground(Color.WHITE);
+            }
+		});	
 		
 		////////////////////////////////////////////////////////////////
 		
 		tabStats = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) tabStats.getLayout();
+		tabStats.setBounds(606, 252, 269, 249);
+		fullPanel.add(tabStats);
 		tabStats.setName("tabStats");
 		tabStats.setBackground(Color.WHITE);
-		sidebarBottomPanel.add(tabStats, "name_1369870411886906000");
 		//tabs.addTab("STATISTICS", null, tabStats, null);
 		
 		JLabel lblStats = new JLabel("STATISTICS");
 		lblStats.setFont(fontLight.deriveFont(30f));
 		lblStats.setVerticalAlignment(SwingConstants.TOP);
+		lblStats.setHorizontalAlignment(SwingConstants.CENTER);
 		tabStats.add(lblStats);
 		
 		JLabel difficultyStats = new JLabel("Difficulty chosen: " + puzzleControl.getStatistics().difficultyToString());
@@ -387,54 +324,6 @@ public class FrameGame extends JFrame {
 		progressStats.setVerticalAlignment(SwingConstants.CENTER);
 		progressStats.setFont(font.deriveFont(17f));
 		tabStats.add(progressStats);
-		
-		//////////////////////////////////////////////////////////////////
-		
-		JPanel gridPanel = new JPanel();
-		gridPanel.setBackground(colorBackground);
-		gridPanel.setBounds(15 + padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
-		fullPanel.add(gridPanel);
-		gridPanel.setLayout(new GridLayout(9, 9));
-
-		/////////////////////////////////////////////////////////////////////////
-		
-		setupKeypad(puzzleControl);
-		keypadPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		///////////////////////////////////////////////////////////////////////////
-		
-		setupCells(gridPanel, puzzleControl);
-	}
-	
-	private void setTab(int tabIndex)
-	{
-		switch(tabIndex)
-		{
-			case 0:
-				tabHints.setVisible(true);
-				tabTimer.setVisible(false);
-				tabStats.setVisible(false);
-				btnHints.setFont(fontMed.deriveFont(24f));
-				btnTimer.setFont(font.deriveFont(24f));
-				btnStats.setFont(font.deriveFont(24f));
-				break;
-			case 1:
-				tabHints.setVisible(false);
-				tabTimer.setVisible(true);
-				tabStats.setVisible(false);
-				btnHints.setFont(font.deriveFont(24f));
-				btnTimer.setFont(fontMed.deriveFont(24f));
-				btnStats.setFont(font.deriveFont(24f));
-				break;
-			case 2:	
-				tabHints.setVisible(false);
-				tabTimer.setVisible(false);
-				tabStats.setVisible(true);
-				btnHints.setFont(font.deriveFont(24f));
-				btnTimer.setFont(font.deriveFont(24f));
-				btnStats.setFont(fontMed.deriveFont(24f));
-				break;
-		}		
 	}
 	/**
 	 * @param thisX
@@ -726,21 +615,15 @@ public class FrameGame extends JFrame {
 			// and even that only if they've not filled in a cell, so the chance of reaching a dead end is larger now
 			if (!puzzleControl.getCell(row, col).isEmpty())
 			{
-				hintLabel.setText("Cell already filled");
 				lblPossible.setText("");
 				toolTipPanel.setVisible(false);
 			}
 			else
 			{
-				hintLabel.setText("Possible: " + puzzleControl.getCell(row, col).getPossibilities());
 				lblPossible.setText("Possible: " + puzzleControl.getCell(row, col).getPossibilities());
 			}
 			incrementNumHints(puzzleControl, 1);
 		}
-		else
-		{
-			hintLabel.setText("No hint available");
-		}	
 		
 		hintStats.setText("Hints requested: " + puzzleControl.getStatistics().getHintCount());
 	}
@@ -758,6 +641,11 @@ public class FrameGame extends JFrame {
 			setCellNumber(values[0], values[1], puzzleControl);
 	  		setDEBUGCellColour(values[0], values[1], puzzleControl);
 		}
+		else		
+		{
+			lblPossible.setText("Autofill unavailable");
+			toolTipPanel.setVisible(true);
+		}
 	}
 	
 	/**
@@ -772,10 +660,9 @@ public class FrameGame extends JFrame {
 			winStats.setText("Wins: " + puzzleControl.getStatistics().getWinCount());
 			
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
-			//startNewGame(puzzleControl);
-			FrameMain f = new FrameMain();
-			f.setVisible(true);
+
 			setVisible(false);
+			f.setVisible(true);
 			return true;
 		}
 		return false;

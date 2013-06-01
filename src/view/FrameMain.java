@@ -52,7 +52,8 @@ public class FrameMain extends JFrame {
 	 * in an attractive and accessible manner
 	 */
 	public FrameMain() {
-
+		final JFrame thisFrame = this;
+		
 		setResizable(false);
 		setBackground(SystemColor.window);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -216,7 +217,7 @@ public class FrameMain extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				FrameGame f = new FrameGame(1);
+				FrameGame f = new FrameGame(thisFrame, 1);
 				f.setVisible(true);
 				setVisible(false);
 			}
@@ -294,7 +295,7 @@ public class FrameMain extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				FrameGame f = new FrameGame(2);
+				FrameGame f = new FrameGame(thisFrame, 2);
 				f.setVisible(true);
 				setVisible(false);
 			}
@@ -358,7 +359,7 @@ public class FrameMain extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				FrameGame f = new FrameGame(3);
+				FrameGame f = new FrameGame(thisFrame, 3);
 				f.setVisible(true);
 				setVisible(false);
 			}
