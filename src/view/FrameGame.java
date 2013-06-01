@@ -65,6 +65,8 @@ public class FrameGame extends JFrame {
 	
 	private JButton btnAutofill;
 	
+	private TimerLabel timer;
+	
 	private int numberOfRows;
 	private int padding;
 	private int textboxWidth;
@@ -212,7 +214,7 @@ public class FrameGame extends JFrame {
 		
 		tabTimer.add(lblNewLabel, gbc_lblNewLabel);			
 
-		TimerLabel timer = puzzleControl.getTimer();
+		timer = puzzleControl.getTimer();
 		timer.setVerticalAlignment(SwingConstants.BOTTOM);
 		timer.setHorizontalAlignment(SwingConstants.CENTER);
 		timer.setForeground(Color.GRAY);		
@@ -221,7 +223,6 @@ public class FrameGame extends JFrame {
 		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 1;
-		
 		tabTimer.add(timer, gbc_lblNewLabel);	
 		
 		//////////////////////////////////////////////////////////////////
@@ -656,7 +657,28 @@ public class FrameGame extends JFrame {
 			
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
 
-			puzzleControl.getStatistics().makeFile("GoodBye World!");
+			if (puzzleControl.getStatistics().getDifficulty() == 1)
+				updateBestEasyTime(puzzleControl);
+			else if (puzzleControl.getStatistics().getDifficulty() == 2)
+				updateBestMediumTime(puzzleControl);
+			else
+				updateBestHardTime(puzzleControl);
+			
+			System.out.println("BestEasy: "+puzzleControl.getStatistics().getBestEasyTime()+" BestMedium: "+puzzleControl.getStatistics().getBestMediumTime()+" BestHard: "+puzzleControl.getStatistics().getBestHardTime());
+			
+			/**
+			 *  Format: bestEasyTime, bestMediumTime, bestHardTime, numEasyGames, numMediumGames, numHardGames, 
+			 *			totalCheat, numPuzzlesStarted, numPuzzlesFinished
+			 */ 		  
+			puzzleControl.getStatistics().makeFile(puzzleControl.getStatistics().getBestEasyTime()+" "+
+												   puzzleControl.getStatistics().getBestMediumTime()+" "+
+												   puzzleControl.getStatistics().getBestHardTime()+" "+
+												   puzzleControl.getStatistics().getNumEasyGames()+" "+
+												   puzzleControl.getStatistics().getNumMediumGames()+" "+
+												   puzzleControl.getStatistics().getNumHardGames()+" "+
+												   puzzleControl.getStatistics().getTotalCheat()+" "+
+												   puzzleControl.getStatistics().getNumPuzzlesStarted()+" "+
+												   puzzleControl.getStatistics().getNumPuzzlesFinished());
 			
 			setVisible(false);
 			f.setVisible(true);
@@ -679,6 +701,30 @@ public class FrameGame extends JFrame {
 	 * @param pz
 	 * @param value
 	 */
+	public void updateBestEasyTime(PuzzleControl pz)
+	{
+		if (timer.getText().compareTo(pz.getStatistics().getBestEasyTime()) < 0)
+		{
+			pz.getStatistics().setBestEasyTime(timer.getText());
+		}
+	}
+	
+	public void updateBestMediumTime(PuzzleControl pz)
+	{
+		if (timer.getText().compareTo(pz.getStatistics().getBestMediumTime()) < 0)
+		{
+			pz.getStatistics().setBestMediumTime(timer.getText());
+		}
+	}
+	
+	public void updateBestHardTime(PuzzleControl pz)
+	{
+		if (timer.getText().compareTo(pz.getStatistics().getBestHardTime()) < 0)
+		{
+			pz.getStatistics().setBestHardTime(timer.getText());
+		}
+	}
+	
 	public void incrementNumActions(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setActionCount(pz.getStatistics().getActionCount() + value);

@@ -6,7 +6,7 @@ import java.io.IOException;
 import view.FrameMain;
 
 public class Statistics
-{
+{	
 	private int difficulty;
 	private int actionCount;
 	private int buttonCount;
@@ -15,11 +15,42 @@ public class Statistics
 	private int hintCount;
 	private int progressCount;
 	private int emptyBoxesCount;
+	
+	private String bestEasyTime;
+	private String bestMediumTime;
+	private String bestHardTime;
+	private int numEasyGames;
+	private int numMediumGames;
+	private int numHardGames;
+	private int totalCheat;
+	private int numPuzzlesStarted;
+	private int numPuzzlesFinished;
 	private SaveFile saveFile;
+	
+	public Statistics()
+	{
+		difficulty = 0;
+		actionCount = 0;
+		buttonCount = 0;
+		cheatCount = 0;
+		winCount = 0;
+		hintCount = 0;
+		progressCount = 0;
+		emptyBoxesCount = 0;
+		bestEasyTime = "99:00";
+		bestMediumTime = "99:00";
+		bestHardTime = "99:00";
+		numEasyGames = 0;
+		numMediumGames = 0;
+		numHardGames = 0;
+		totalCheat = 0;
+		numPuzzlesStarted = 0;
+		numPuzzlesFinished = 0;
+		saveFile = new SaveFile("./stats.txt", false);
+	}
 	
 	public void makeFile(String text)
 	{
-		saveFile = new SaveFile("./stats.txt", false);
 		try {
 			saveFile.writeToFile(text);
 		} catch (IOException e) {
@@ -82,6 +113,51 @@ public class Statistics
 		emptyBoxesCount = numBoxes;
 	}
 	
+	public void setBestEasyTime(String bestEasyTime)
+	{
+		this.bestEasyTime = bestEasyTime; 
+	}
+	
+	public void setBestMediumTime(String bestMediumTime)
+	{
+		this.bestMediumTime = bestMediumTime; 
+	}
+	
+	public void setBestHardTime(String bestHardTime)
+	{
+		this.bestHardTime = bestHardTime;
+	}
+	
+	public void setNumEasyGames(int numEasyGames)
+	{
+		this.numEasyGames = numEasyGames;
+	}
+	
+	public void setNumMediumGames(int numMediumGames)
+	{
+		this.numMediumGames = numMediumGames;
+	}
+	
+	public void setNumHardGames(int numHardGames)
+	{
+		this.numHardGames = numHardGames;
+	}
+	
+	public void setTotalCheat(int totalCheat)
+	{
+		this.totalCheat = totalCheat;
+	}
+	
+	public void setNumPuzzlesStarted(int numPuzzles)
+	{
+		numPuzzlesStarted = numPuzzles;
+	}
+	
+	public void setNumPuzzlesFinished(int numPuzzles)
+	{
+		numPuzzlesFinished = numPuzzles;
+	}
+	
 	public int getActionCount()
 	{
 		return actionCount;
@@ -121,4 +197,49 @@ public class Statistics
 	{
 		return difficulty;
 	}	
+	
+	public int getNumPuzzlesFinished()
+	{
+		return numPuzzlesFinished;
+	}
+	
+	public int getNumPuzzlesStarted()
+	{
+		return numPuzzlesStarted;
+	}
+	
+	public int getTotalCheat()
+	{
+		return totalCheat;
+	}
+	
+	public int getNumHardGames()
+	{
+		return numHardGames;
+	}
+	
+	public int getNumMediumGames()
+	{
+		return numMediumGames;
+	}
+	
+	public int getNumEasyGames()
+	{
+		return numEasyGames;
+	}
+	
+	public String getBestHardTime()
+	{
+		return bestHardTime;
+	}
+	
+	public String getBestEasyTime()
+	{
+		return bestEasyTime;
+	}
+	
+	public String getBestMediumTime()
+	{
+		return bestMediumTime;
+	}
 }
