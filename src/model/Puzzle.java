@@ -80,8 +80,10 @@ public class Puzzle implements PuzzleInterface {
 		for(int i=0; i<Grid.NUM_CELLS_PER_SIDE; i++) {
 			grid.getGridTable().add(new ArrayList<Cell>());
 			for(int j=0; j<Grid.NUM_CELLS_PER_SIDE; j++) {
-				grid.getGridTable().get(i).add(new Cell(0));
-
+				Cell cell = new Cell(0);
+				cell.resetPossibilties();
+				cell.setGrid(grid);
+				grid.getGridTable().get(i).add(cell);
 			}
 		}
 		return grid;
@@ -123,6 +125,7 @@ public class Puzzle implements PuzzleInterface {
 			
 			for(int j=0; j < numSide; j++){
 				Cell cell = curGrid.getGridTable().get(gridRowNumber).get(j);
+				cell.setRow(row);
 				row.addToList(cell);
 			}
 		}
@@ -143,6 +146,7 @@ public class Puzzle implements PuzzleInterface {
 		Iterator<Row> rit = rowStore.iterator();
 		while(rit.hasNext()){
 			Cell cell = rit.next().getList().get(ColIndex);
+			cell.setColumn(column);
 			column.addToList(cell);
 		}
 		
@@ -191,42 +195,10 @@ public class Puzzle implements PuzzleInterface {
 			if (row >= 0 && row < NUM_ROWS){
 				rowStore.get(row).getList().get(column).setNumber(value);			
 				columnStore.get(column).getList().get(row).setNumber(value);
-				updatePossibilities(row, column, value);
 			}
 		}
 	}
 	
-	/**
-	 * Update possibilities based on the row and column representation.
-	 *
-	 * @param row the row
-	 * @param column the column
-	 * @param value the value
-	 */
-	public void updatePossibilities(int row, int column, int value)
-	{		
-		// loop through the rest of the ROW AND COLUMN and remove the new value from possibilities
-		for (int i = 0; i < NUM_ROWS; i++)
-		{
-			if (i != column)
-			{
-				rowStore.get(row).getList().get(i).removeFromPossibilities(value);
-			}
-			if (i != row)
-			{
-				columnStore.get(column).getList().get(i).removeFromPossibilities(value);
-			}
-		}
-		// loop through the rest of the COLUMN and remove the new value from possibilities
-		for (int i = 0; i < NUM_ROWS; i++)
-		{
-			if (i != row)
-			{
-				// do same as above, but for gridStore
-				//gridStore.get(column).getList().get(i).removeFromPossibilities(value);
-			}
-		}
-	}
 	
 	/**
 	 * This method sets a cell at a particular set of coordinates as empty 

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Cell represents a single square within a sudoku grid, thereby this object is replicated 9*9=81
@@ -13,10 +14,13 @@ public class Cell {
 	
 	private Integer number;
 	private Integer solution;
-	private Integer gridIndex;
 	private boolean isFixed;
 	private boolean isEmpty;
+	private Row row;
+	private Column column;
+	private Grid grid;
 	private ArrayList<Integer> possibilities = new ArrayList<Integer>();
+	public Object resetPossibilties;
 	
 	/**
 	 * A constructor for a cell of a Sudoku game that is "non-changing" i.e. provided at the start of a game.
@@ -28,18 +32,32 @@ public class Cell {
 		this.solution = number;
 		this.isFixed = true;
 		this.isEmpty = false;
-		this.addToPossibilities(new int[] {1,2,3,4,5,6,7,8,9});
+		resetPossibilties();
 	}
 	
-	/**
-	 * Returns the gridIndex that the cell is located at. 
-	 * Helps in calculating the possibilities that the user can make. 
-	 * 
-	 * @return the gridIndex of itself, possible pass of null if undefined
-	 */
-	public int getGrid()
-	{
-		return gridIndex;
+	public Column getColumn(){
+		return column;
+	}
+	
+	public void setColumn(Column column){
+		this.column = column;
+	}
+	
+	public Row getRow(){
+		return row;
+	}
+	
+	public void setRow(Row row){
+		this.row = row;
+	}
+	
+	public Grid getGrid(){
+		return grid;
+	}
+	
+	
+	public void setGrid(Grid grid){
+		this.grid = grid;
 	}
 	
 	/**
@@ -91,19 +109,6 @@ public class Cell {
 	}
 	
 	/**
-	 * A setter that gives a number (not necessarily correct) to a particular cell. 
-	 * If the cell used to be empty, its isEmpty flag is disabled to false.
-	 * 
-	 * @param num the number to be added to the cell.
-	 */
-	public void setNumber(int num) throws NullPointerException{
-		this.number = num;
-		this.isEmpty = false;
-		removeFromPossibilities();
-		addToPossibilities(num);
-	}
-	
-	/**
 	 * A setter that gives a number to a particular cell. This number is correct and is part of the solution
 	 * to the Sudoku puzzle.
 	 * 
@@ -113,6 +118,24 @@ public class Cell {
 	public void setSolution(int num) throws NullPointerException{
 		this.solution = num;
 	}
+	
+	/**
+	 * A setter that gives a number (not necessarily correct) to a particular cell. 
+	 * If the cell used to be empty, its isEmpty flag is disabled to false.
+	 * 
+	 * @param num the number to be added to the cell.
+	 */
+	public void setNumber(int num) throws NullPointerException{
+
+		this.isEmpty = false;
+		this.number = num;
+		removeNeighbourPossibles(num);
+		if(this.number != null){
+			addNeighbourPossibles(this.number);
+		}
+		removePossibilties(num);
+	}
+	
 	
 	/**
 	 * This method compares the number placed by a user with the predefined solution of the Sudoku game, to
@@ -137,10 +160,13 @@ public class Cell {
 	 * This method resets a cell such that it is completely empty.
 	 */
 	public void nullCell(){
+		if(this.number != null){
+			addNeighbourPossibles(this.number);
+		}
 		this.number = null;
 		this.isEmpty = true;
 		this.isFixed = false;
-		this.addToPossibilities(new int[] {1,2,3,4,5,6,7,8,9});
+		resetPossibilties();		
 	}
 
 	/**
@@ -148,80 +174,94 @@ public class Cell {
 	 *
 	 * @return the possibilities
 	 */
-	public ArrayList<Integer> getPossibilities()
-	{
+	public ArrayList<Integer> getPossibilities(){
 		return possibilities;
 	}
 	
+	public void resetPossibilties(){
+		this.possibilities = new ArrayList<Integer>();
+		for(int i=1; i<10; i++){
+			possibilities.add(i);
+		}
+	}
 	
-	/**
-	 * Adds to the list of possibilities, usually done when 
-	 * a cell has changed.
-	 * 
-	 * @param value
-	 */
-	public void addToPossibilities(int value)
-	{
-		if (this.possibilities.indexOf(value) == -1)
-		{
+	public void addPossibilties(int value){
+		if(this.possibilities.indexOf(value) != -1){
 			this.possibilities.add(value);
 		}
 	}
 	
-	/**
-	 * Another form of adding to possibilities form a generated array. 
-	 * 
-	 * @param newPossibilities
-	 */
-	public void addToPossibilities(int[] newPossibilities)
-	{
-		for (int i = 0; i < newPossibilities.length; i++)
-		{
-			if (!this.possibilities.contains(newPossibilities[i]))
-			{
-				this.possibilities.add(newPossibilities[i]);
-			}
+	public void removePossibilties(int value){
+		if(this.possibilities.indexOf(value) != -1){
+			this.possibilities.remove(possibilities.indexOf(value));
 		}
 	}
-
+	
 	/**
 	 * Completely clears the list of possibilities.
-	 * 
-	 * @param value
 	 */
-	public void removeFromPossibilities()
-	{
+	public void removePossibilties(){
 		this.possibilities = new ArrayList<Integer>();
 	}
 	
-	/**
-	 * Removes a single number from the possibilities list.
-	 * 
-	 * @param value
-	 */
-	public void removeFromPossibilities(int value)
-	{
-		if (this.possibilities.indexOf(value) != -1)
-		{
-			// remove function removes the object at index, so we get the indexOf of the required object
-			this.possibilities.remove(this.possibilities.indexOf(value));
+	private void removeNeighbourPossibles(int num){
+		Iterator<Cell> rit = row.getList().iterator();
+		while(rit.hasNext()){
+			Cell rowCell = rit.next();
+			if(this != rowCell){
+				rowCell.removePossibilties(num);
+			}
+		}
+		
+		Iterator<Cell> cit = column.getList().iterator();
+		while(cit.hasNext()){
+			Cell columnCell = cit.next();
+			if(this != columnCell){
+				columnCell.removePossibilties(num);
+			}
+		}
+		
+		Iterator<ArrayList<Cell>> git = grid.getGridTable().iterator();
+		while(git.hasNext()){
+			Iterator<Cell> gRow = git.next().iterator(); 
+			while(gRow.hasNext()){
+				Cell gridCell = gRow.next();
+				if(this != gridCell){
+					gridCell.removePossibilties(num);
+				}
+			}
 		}
 	}
 	
-	/**
-	 * Replaces the possibilities list with the generated.
-	 * 
-	 * @param newPossibilities
-	 */
-	public void removeFromPossibilities(int[] newPossibilities)
-	{
-		for (int i = 0; i < newPossibilities.length; i++)
-		{
-			// remove function removes the object at index, so we get the indexOf of the required object
-			this.possibilities.remove(this.possibilities.indexOf(newPossibilities[i]));
+	private void addNeighbourPossibles(int num){
+		Iterator<Cell> rit = row.getList().iterator();
+		while(rit.hasNext()){
+			Cell rowCell = rit.next();
+			if(this != rowCell){
+				rowCell.addPossibilties(num);
+			}
+		}
+		
+		Iterator<Cell> cit = column.getList().iterator();
+		while(cit.hasNext()){
+			Cell columnCell = cit.next();
+			if(this != columnCell){
+				columnCell.addPossibilties(num);
+			}
+		}
+		
+		Iterator<ArrayList<Cell>> git = grid.getGridTable().iterator();
+		while(git.hasNext()){
+			Iterator<Cell> gRow = git.next().iterator(); 
+			while(gRow.hasNext()){
+				Cell gridCell = gRow.next();
+				if(this != gridCell){
+					gridCell.addPossibilties(num);
+				}
+			}
 		}
 	}
-	
+		
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
