@@ -13,8 +13,8 @@ import model.*;
 
 public class PuzzleControl {
 	private static final int EASY_MISSING = 35;
-	private static final int MEDIUM_MISSING = 50;
-	private static final int HARD_MISSING = 70;
+	private static final int MEDIUM_MISSING = 43;
+	private static final int HARD_MISSING = 55;
 	private Puzzle puzzle;
 	private TimerLabel timer;
 	private Statistics statistics;
