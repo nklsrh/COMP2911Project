@@ -11,20 +11,13 @@ import java.awt.SystemColor;
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.event.*;
-import java.awt.BorderLayout;
+
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontFormatException;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
 import java.awt.FlowLayout;
-import java.awt.CardLayout;
 
 /**
  * The class that represents the GUI of the Sudoku puzzle game.
@@ -389,13 +382,13 @@ public class FrameGame extends JFrame {
 	 */
 	private void keyPressed(int index, PuzzleControl pz)
 	{
-		if (keypadButtons.get(index).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
-		{  
+		if (keypadButtons.get(index).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0){
+			
 			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(index).getText()));			 
 			setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);	
 			setCellNumber(lastPressedCell[1],lastPressedCell[0], pz);	 		  
 		}
-		  
+		
 		incrementNumActions(pz, 1);
 		incrementNumButtons(pz, 1);
 		actionStats.setText("Number of actions performed: " + pz.getStatistics().getActionCount());

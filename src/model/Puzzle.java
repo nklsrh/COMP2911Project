@@ -80,7 +80,7 @@ public class Puzzle implements PuzzleInterface {
 		for(int i=0; i<Grid.NUM_CELLS_PER_SIDE; i++) {
 			grid.getGridTable().add(new ArrayList<Cell>());
 			for(int j=0; j<Grid.NUM_CELLS_PER_SIDE; j++) {
-				Cell cell = new Cell(0);
+				Cell cell = new Cell();
 				cell.resetPossibilties();
 				cell.setGrid(grid);
 				grid.getGridTable().get(i).add(cell);
@@ -194,7 +194,7 @@ public class Puzzle implements PuzzleInterface {
 		}else{
 			if (row >= 0 && row < NUM_ROWS){
 				rowStore.get(row).getList().get(column).setNumber(value);			
-				columnStore.get(column).getList().get(row).setNumber(value);
+//				columnStore.get(column).getList().get(row).setNumber(value);
 			}
 		}
 	}
@@ -211,7 +211,7 @@ public class Puzzle implements PuzzleInterface {
 	public void setCellAsEmpty(int row, int column){
 		if (row >= 0 && row < NUM_ROWS && column >= 0 && column < NUM_ROWS){
 			rowStore.get(row).getList().get(column).nullCell();
-			columnStore.get(column).getList().get(row).nullCell();
+//			columnStore.get(column).getList().get(row).nullCell();
 		}
 	}
 	

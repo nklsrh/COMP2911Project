@@ -26,10 +26,10 @@ public class Cell {
 	 * A constructor for a cell of a Sudoku game that is "non-changing" i.e. provided at the start of a game.
 	 * @param number: the number that shall be allocated to the cell
 	 */
-	public Cell(int number) throws NullPointerException
+	public Cell() throws NullPointerException
 	{
-		this.number = number;
-		this.solution = number;
+//		this.number = ;
+//		this.solution = number;
 		this.isFixed = true;
 		this.isEmpty = false;
 		resetPossibilties();
@@ -127,13 +127,14 @@ public class Cell {
 	 */
 	public void setNumber(int num) throws NullPointerException{
 
-		this.isEmpty = false;
-		this.number = num;
-		removeNeighbourPossibles(num);
 		if(this.number != null){
 			addNeighbourPossibles(this.number);
 		}
-		removePossibilties(num);
+		
+		this.isEmpty = false;
+		this.number = num;
+//		removePossibilties();
+		removeNeighbourPossibles(num);		
 	}
 	
 	
@@ -185,14 +186,15 @@ public class Cell {
 		}
 	}
 	
-	public void addPossibilties(int value){
-		if(this.possibilities.indexOf(value) != -1){
+	public void addPossibilties(Integer value){
+		if(!this.possibilities.contains(value)){
 			this.possibilities.add(value);
+//			this.possibilities.add(this.possibilities.indexOf(value), element)
 		}
 	}
 	
 	public void removePossibilties(int value){
-		if(this.possibilities.indexOf(value) != -1){
+		if(this.possibilities.contains(value)){
 			this.possibilities.remove(possibilities.indexOf(value));
 		}
 	}

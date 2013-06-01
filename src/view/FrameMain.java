@@ -3,27 +3,18 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import controller.PuzzleControl;
-import controller.timer.TimerLabel;
 
 import java.awt.GridLayout;
 import java.awt.SystemColor;
-import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontFormatException;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.awt.FlowLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
 
 /**
  * The class that represents the GUI of the Sudoku puzzle game.
