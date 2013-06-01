@@ -1,5 +1,6 @@
 package controller.statistics;
 
+
 import java.io.File;
 import java.io.IOException;
 
@@ -25,6 +26,10 @@ public class Statistics
 	private int totalCheat;
 	private int numPuzzlesStarted;
 	private int numPuzzlesFinished;
+	
+	private File file;
+	
+	private ReadFile acceptFile;
 	private SaveFile saveFile;
 	
 	public Statistics()
@@ -46,11 +51,45 @@ public class Statistics
 		totalCheat = 0;
 		numPuzzlesStarted = 0;
 		numPuzzlesFinished = 0;
+		file = new File("./stats.txt");
+		acceptFile = new ReadFile();
 		saveFile = new SaveFile("./stats.txt", false);
 	}
 	
-	public void makeFile(String text)
+	
+	public boolean fileExists()
 	{
+		if (file.exists())
+			return true;
+		else
+			return false;
+	}
+	
+	public void readFile()
+	{
+		bestEasyTime = acceptFile.getConsole().next();
+		bestMediumTime = acceptFile.getConsole().next();
+		bestHardTime = acceptFile.getConsole().next();
+		numEasyGames = acceptFile.getConsole().nextInt();
+		numMediumGames = acceptFile.getConsole().nextInt();
+		numHardGames = acceptFile.getConsole().nextInt();
+		totalCheat = acceptFile.getConsole().nextInt();
+		numPuzzlesStarted = acceptFile.getConsole().nextInt();
+		numPuzzlesFinished = acceptFile.getConsole().nextInt();
+	}
+	
+	public void makeFile()
+	{
+		String text = getBestEasyTime()+" "+
+				   	  getBestMediumTime()+" "+
+				      getBestHardTime()+" "+
+				      getNumEasyGames()+" "+
+				      getNumMediumGames()+" "+
+				      getNumHardGames()+" "+
+				      getTotalCheat()+" "+
+				      getNumPuzzlesStarted()+" "+
+				      getNumPuzzlesFinished();
+		System.out.println(text);
 		try {
 			saveFile.writeToFile(text);
 		} catch (IOException e) {

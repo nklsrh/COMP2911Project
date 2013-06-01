@@ -1,5 +1,6 @@
 package view;
 
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -9,6 +10,8 @@ import controller.timer.TimerLabel;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.BorderLayout;
@@ -20,6 +23,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -75,7 +79,6 @@ public class FrameGame extends JFrame {
 	private int widthOfSidebar;
 	private int widthOfKeypad;
 	
-	private final int diff;
 	/**
 	 * Contains coordinates for X,Y of last pressed cell button (so we know what cell to change)
 	 * first element is X value (column)
@@ -85,6 +88,10 @@ public class FrameGame extends JFrame {
 		
 	private void startNewGame(int difficulty, PuzzleControl puzzleControl)
 	{		
+		if (!puzzleControl.getStatistics().fileExists())
+			puzzleControl.getStatistics().makeFile();
+		puzzleControl.getStatistics().readFile();
+		
 		puzzleControl.createPuzzle(difficulty);
 		setupFrame(puzzleControl);
 		
@@ -99,7 +106,6 @@ public class FrameGame extends JFrame {
 	public FrameGame(JFrame mainFrame, int difficulty) {
 		colorBackground = new Color(240,240,240);
 		
-		diff = difficulty;
 		f = mainFrame;
 		
 		numberOfRows = 9;
@@ -171,7 +177,6 @@ public class FrameGame extends JFrame {
 		lblPossible.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPossible.setVerticalAlignment(SwingConstants.CENTER);
 		toolTipPanel.add(lblPossible);
-		toolTipPanel.setVisible(false);
 		
 		//////////////////////////////////////////////////////////////////////////
 		
@@ -247,7 +252,7 @@ public class FrameGame extends JFrame {
 		//tabHints.add(btnGetHint);
 		
 		btnAutofill = new JButton("Autofill a cell");
-		btnAutofill.setBounds(606, 157, 269, 65);
+		btnAutofill.setBounds(606, 157, 269, 84);
 		fullPanel.add(btnAutofill);
 		btnAutofill.setBackground(Color.WHITE);
 		btnAutofill.setFont(font.deriveFont(24f));
@@ -277,7 +282,7 @@ public class FrameGame extends JFrame {
 		
 		tabStats = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) tabStats.getLayout();
-		tabStats.setBounds(608, 231, 269, 198);
+		tabStats.setBounds(606, 252, 269, 249);
 		fullPanel.add(tabStats);
 		tabStats.setName("tabStats");
 		tabStats.setBackground(Color.WHITE);
@@ -318,32 +323,6 @@ public class FrameGame extends JFrame {
 		cheatStats.setVerticalAlignment(SwingConstants.CENTER);
 		cheatStats.setFont(font.deriveFont(17f));
 		tabStats.add(cheatStats);
-		
-		final JButton btnRestartPuzzle = new JButton("New puzzle");
-		btnRestartPuzzle.setBounds(608, 436, 269, 65);
-		btnRestartPuzzle.setBackground(Color.WHITE);
-		btnRestartPuzzle.setFont(font.deriveFont(24f));
-		btnRestartPuzzle.setEnabled(true);
-		btnRestartPuzzle.setBorder(BorderFactory.createEmptyBorder());	
-		btnRestartPuzzle.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				startNewGame(diff, pz);
-			}
-		});
-		btnRestartPuzzle.addMouseListener(new MouseAdapter(){
-			@Override
-            public void mouseEntered(MouseEvent evt)
-            {
-				btnRestartPuzzle.setBackground(colorHoverCell);
-            }
-			@Override
-            public void mouseExited(MouseEvent evt)
-            {
-				btnRestartPuzzle.setBackground(Color.WHITE);
-            }
-		});	
-		fullPanel.add(btnRestartPuzzle);
 		
 //		progressStats = new JLabel("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
 //		progressStats.setHorizontalAlignment(SwingConstants.LEFT);
@@ -699,15 +678,7 @@ public class FrameGame extends JFrame {
 			 *  Format: bestEasyTime, bestMediumTime, bestHardTime, numEasyGames, numMediumGames, numHardGames, 
 			 *			totalCheat, numPuzzlesStarted, numPuzzlesFinished
 			 */ 		  
-			puzzleControl.getStatistics().makeFile(puzzleControl.getStatistics().getBestEasyTime()+" "+
-												   puzzleControl.getStatistics().getBestMediumTime()+" "+
-												   puzzleControl.getStatistics().getBestHardTime()+" "+
-												   puzzleControl.getStatistics().getNumEasyGames()+" "+
-												   puzzleControl.getStatistics().getNumMediumGames()+" "+
-												   puzzleControl.getStatistics().getNumHardGames()+" "+
-												   puzzleControl.getStatistics().getTotalCheat()+" "+
-												   puzzleControl.getStatistics().getNumPuzzlesStarted()+" "+
-												   puzzleControl.getStatistics().getNumPuzzlesFinished());
+			puzzleControl.getStatistics().makeFile();
 			
 			setVisible(false);
 			f.setVisible(true);
