@@ -82,9 +82,9 @@ public class FrameGame extends JFrame {
 	 */
 	private int[] lastPressedCell;
 		
-	private void startNewGame(PuzzleControl puzzleControl)
+	private void startNewGame(int difficulty, PuzzleControl puzzleControl)
 	{		
-		puzzleControl.createPuzzle(1);
+		puzzleControl.createPuzzle(difficulty);
 		setupFrame(puzzleControl);
 		
 		lastPressedCell = new int[2];
@@ -95,7 +95,7 @@ public class FrameGame extends JFrame {
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
 	 * in an attractive and accessible manner
 	 */
-	public FrameGame() {
+	public FrameGame(int difficulty) {
 		colorBackground = new Color(240,240,240);
 		
 		numberOfRows = 9;
@@ -119,7 +119,7 @@ public class FrameGame extends JFrame {
 		setBounds(100, 100, totalWidthOfGrid + widthOfSidebar + widthOfKeypad + 50, totalWidthOfGrid + textboxWidth);
 
 		PuzzleControl puzzleControl = new PuzzleControl();
-		startNewGame(puzzleControl);
+		startNewGame(difficulty, puzzleControl);
 	}
 	
 	private void setupFrame(PuzzleControl puzzleControl)
@@ -156,13 +156,14 @@ public class FrameGame extends JFrame {
 		//////////////////////////////////////////////////////////////////////////////////////////
 		
 		toolTipPanel = new JPanel();
-		toolTipPanel.setBackground(Color.WHITE);
+		toolTipPanel.setBackground(colorHoverCell);
 		toolTipPanel.setBounds(400, 100, 260, 100);
 		fullPanel.add(toolTipPanel);
 		toolTipPanel.setLayout(new GridLayout());
 		
 		lblPossible = new JLabel("Possible: [1,2,3,4,5,6,7,8,9]");
 		lblPossible.setFont(fontItalic.deriveFont(24f));
+		lblPossible.setBackground(colorHoverCell);
 		lblPossible.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPossible.setVerticalAlignment(SwingConstants.CENTER);
 		toolTipPanel.add(lblPossible);
@@ -170,7 +171,7 @@ public class FrameGame extends JFrame {
 		//////////////////////////////////////////////////////////////////////////
 		
 		keypadPanel = new JPanel();
-		keypadPanel.setBackground(Color.WHITE);
+		keypadPanel.setBackground(colorHoverCell);
 		//keypadPanel.setBackground(SystemColor.windowBorder);
 		keypadPanel.setBounds(526, 0, 90, 501); //314 - padding, 297 - height
 		fullPanel.add(keypadPanel);
@@ -462,6 +463,7 @@ public class FrameGame extends JFrame {
 		incrementNumButtons(pz, 1);
 		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
 		
+		toolTipPanel.validate();
 		keypadPanel.setVisible(true);
 	}
 	
@@ -500,9 +502,9 @@ public class FrameGame extends JFrame {
 			final int index = i;
 			
 			keypadButtons.add(new JButton(String.valueOf(i + 1)));	// set value of number according to position (like telephone buttons
-			keypadButtons.get(i).setFont(font.deriveFont(20f));	
-			keypadButtons.get(i).setBackground(Color.WHITE);
-			keypadButtons.get(i).setForeground(new Color(100,100,100));
+			keypadButtons.get(i).setFont(fontItalic.deriveFont(24f));	
+			keypadButtons.get(i).setBackground(colorHoverCell);
+			keypadButtons.get(i).setForeground(new Color(200,100,100));
 			keypadButtons.get(i).setBorder(BorderFactory.createEmptyBorder());
 			
 			GridBagConstraints gbc_button = new GridBagConstraints();
@@ -526,6 +528,18 @@ public class FrameGame extends JFrame {
 					toolTipPanel.setVisible(true);
 					loadHint(lastPressedCell[1], lastPressedCell[0], pz);
 					toolTipPanel.setLocation(keypadButtons.get(index).getLocationOnScreen().x - 400, keypadButtons.get(index).getLocation().y - 20);
+	            }
+			});
+			keypadButtons.get(i).addMouseListener(new MouseAdapter(){
+				@Override
+	            public void mouseEntered(MouseEvent evt)
+	            {
+					keypadButtons.get(index).setBackground(Color.WHITE);	// green, but a nicer shade
+	            }
+				@Override
+	            public void mouseExited(MouseEvent evt)
+	            {
+					keypadButtons.get(index).setBackground(colorHoverCell);	// green, but a nicer shade
 	            }
 			});
 			
@@ -655,7 +669,7 @@ public class FrameGame extends JFrame {
 			if ((row < 3 && col < 3) || (row < 3 && col > 5) || (row > 5 && col < 3) || (row > 5 && col > 5) || (row >= 3 && row <= 5 && col >= 3 && col <= 5))
 			{
 				cells.get(row).get(col).setBackground(colorFixedCell1);
-				cells.get(row).get(col).setForeground(Color.DARK_GRAY);	
+				cells.get(row).get(col).setForeground(Color.BLACK);	
 			}
 			else
 			{
@@ -758,7 +772,10 @@ public class FrameGame extends JFrame {
 			winStats.setText("Wins: " + puzzleControl.getStatistics().getWinCount());
 			
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
-			startNewGame(puzzleControl);
+			//startNewGame(puzzleControl);
+			FrameMain f = new FrameMain();
+			f.setVisible(true);
+			setVisible(false);
 			return true;
 		}
 		return false;
