@@ -196,6 +196,29 @@ public class PuzzleControl {
 		return null;
 	}
 	
+	/**
+	 * Returns the first empty cell with a single possible solution
+	 * @return An array [i,j,k] that corresponds to the [row,col] of the cell, as well as [k] which is the solution
+	 */
+	public int[] getFirstCellWithSinglePossible()
+	{
+		for (int i = 0; i < puzzle.getRowList().size(); i++)
+		{
+			for (int j = 0; j < puzzle.getColumnList().size(); j++)
+			{
+				System.out.println(i + "," + j + ": " + puzzle.getCell(i, j).getPossibilities());
+				if (!puzzle.getCell(i, j).isFixed() && puzzle.getCell(i, j).getPossibilities().size() == 1)
+				{
+					if (puzzle.getCell(i, j).getPossibilities().get(0) != puzzle.getCell(i, j).getNumber())
+					{
+						return new int[] {i, j, puzzle.getCell(i, j).getPossibilities().get(0)};
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	public TimerLabel getTimer()
 	{
 		return timer;

@@ -383,7 +383,7 @@ public class FrameGame extends JFrame {
 
 		/////////////////////////////////////////////////////////////////////////
 		
-		setupKeypad(keypadPanel, puzzleControl);
+		setupKeypad(puzzleControl);
 		keypadPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		///////////////////////////////////////////////////////////////////////////
@@ -460,16 +460,9 @@ public class FrameGame extends JFrame {
 	{
 		if (keypadButtons.get(index).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
 		{  
-			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(index).getText()));
-
-			if (pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber() != null)
-			{
-				cells.get(lastPressedCell[1]).get(lastPressedCell[0]).setText(Integer.toString(pz.getCell(lastPressedCell[1], lastPressedCell[0]).getNumber()));
-			}
-			  
-			setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);
-			  
-			checkIfPuzzleComplete(pz);
+			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(index).getText()));			 
+			setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);	
+			setCellNumber(lastPressedCell[1],lastPressedCell[0], pz);	 		  
 		}
 		  
 		incrementNumActions(pz, 1);
@@ -484,7 +477,7 @@ public class FrameGame extends JFrame {
 	 * @param keypadPanel
 	 * @param puzzleControl
 	 */
-	private void setupKeypad(JPanel keypadPanel, PuzzleControl puzzleControl)
+	private void setupKeypad(PuzzleControl puzzleControl)
 	{
 		keypadButtons = new ArrayList<JButton>();
 		for (int i = 0; i < 9; i++)
@@ -509,7 +502,17 @@ public class FrameGame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					keyPressed(index, pz);
+					toolTipPanel.setVisible(false);
 				}
+			});
+			keypadButtons.get(i).addMouseListener(new MouseAdapter(){
+				@Override
+	            public void mouseEntered(MouseEvent evt)
+	            {
+					toolTipPanel.setVisible(true);
+					loadHint(lastPressedCell[1], lastPressedCell[0], pz);
+					toolTipPanel.setLocation(keypadButtons.get(index).getLocationOnScreen().x - 400, keypadButtons.get(index).getLocation().y - 20);
+	            }
 			});
 			
 			keypadPanel.add(keypadButtons.get(i), gbc_button);
@@ -622,6 +625,7 @@ public class FrameGame extends JFrame {
 			cells.get(row).get(col).setText("");
 		}
 		setCellColour(row, col, puzzleControl);
+		checkIfPuzzleComplete(puzzleControl);
 	}
 	
 	/**
@@ -650,7 +654,7 @@ public class FrameGame extends JFrame {
 			if ((row < 3 && col < 3) || (row < 3 && col > 5) || (row > 5 && col < 3) || (row > 5 && col > 5) || (row >= 3 && row <= 5 && col >= 3 && col <= 5))
 			{
 				cells.get(row).get(col).setBackground(colorNormalCell1);
-				cells.get(row).get(col).setForeground(Color.DARK_GRAY);				
+				cells.get(row).get(col).setForeground(Color.BLACK);				
 			}
 			else
 			{
@@ -670,14 +674,14 @@ public class FrameGame extends JFrame {
 	{
 		if (puzzleControl.checkNumberSolution(row, col))
 		{
-			//cells.get(row).get(col).setBackground(colorCorrectNumber);	// green, but a nicer shade
+			cells.get(row).get(col).setBackground(colorCorrectNumber);	// green, but a nicer shade
 			
 			incrementNumProgress(puzzleControl, 1);
 			progressStats.setText("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
 		}
 		else
 		{
-			//cells.get(row).get(col).setBackground(colorWrongNumber);	// red, but a nicer shade
+			cells.get(row).get(col).setBackground(colorWrongNumber);	// red, but a nicer shade
 	    }		
 	}
 	
@@ -714,30 +718,17 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
+	 * looks through the cells to find one with ONLY ONE possible legal value, then fills it with that value
 	 * @param puzzleControl
 	 */
 	private void autoFill(PuzzleControl puzzleControl)
 	{
-		int[] values = puzzleControl.getFirstEmptyCellCoordinates();
+		int[] values = puzzleControl.getFirstCellWithSinglePossible();	
 		if (values != null)
 		{
 			puzzleControl.setCell(values[0], values[1], values[2]);
-			cellClicked(values[0], values[1], puzzleControl);
 			setCellNumber(values[0], values[1], puzzleControl);
 	  		setDEBUGCellColour(values[0], values[1], puzzleControl);
-	  		if (checkIfPuzzleComplete(puzzleControl))
-	  		{
-	  			if (checkIfPuzzleComplete(puzzleControl))
-		  		{
-					btnAutofill.setEnabled(false);
-		  		}
-	  		}
-			incrementNumCheat(puzzleControl, 1);
-			cheatStats.setText("Number of autofills: " + puzzleControl.getStatistics().getCheatCount());
-		}
-		else
-		{
-			btnAutofill.setEnabled(false);
 		}
 	}
 	
