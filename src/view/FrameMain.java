@@ -146,6 +146,7 @@ public class FrameMain extends JFrame {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		final JPanel panelButtonEasy = new JPanel();
+		panelButtonEasy.setToolTipText("Easy mode contains fewer cells to fill, and cells usually have very few possibilities. Best for beginners.");
 		panelButtonEasy.setBackground(new Color(255, 255, 255));
 		panelButtons.add(panelButtonEasy);
 		GridBagLayout gbl_panelButtonEasy = new GridBagLayout();
@@ -224,6 +225,7 @@ public class FrameMain extends JFrame {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		JPanel panelButtonMedium = new JPanel();
+		panelButtonMedium.setToolTipText("Medium mode is slightly more complex, with less pre-filled cells and more possibilities for each cell. This also means some puzzles may have multiple solutions.");
 		panelButtonMedium.setBackground(new Color(255, 255, 255));
 		panelButtons.add(panelButtonMedium);
 		GridBagLayout gbl_panelButtonMedium = new GridBagLayout();
@@ -301,6 +303,7 @@ public class FrameMain extends JFrame {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		JPanel panelButtonHard = new JPanel();
+		panelButtonHard.setToolTipText("Hard mode is for expert Sudoku solvers.\r\nVery few cells have been pre-filled, meaning there may be a high number of possible solutions. \r\nThis also means each empty cell may have many legal possibilities.");
 		panelButtonHard.setBackground(Color.WHITE);
 		panelButtons.add(panelButtonHard);
 		GridBagLayout gbl_panelButtonHard = new GridBagLayout();
