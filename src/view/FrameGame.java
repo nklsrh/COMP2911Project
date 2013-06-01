@@ -38,9 +38,9 @@ public class FrameGame extends JFrame {
 	private Color colorBackground = new Color(238,238,238); 	
 	private Color colorFixedCell1 = new Color(244,244,244);
 	private Color colorNormalCell1 = new Color(254,254,254);	
-	private Color colorFixedCell2 = new Color(226,226,226);
-	private Color colorNormalCell2 = new Color(235,235,235);
-	private Color colorHoverCell = new Color(206,239,241);	
+	private Color colorFixedCell2 = new Color(183,226,226);
+	private Color colorNormalCell2 = new Color(222,235,235);
+	private Color colorHoverCell = new Color(255,181,113);	
 	private Color colorCorrectNumber = new Color(150,255,147);
 	private Color colorWrongNumber = new Color(255,171,171);
 	
@@ -183,6 +183,13 @@ public class FrameGame extends JFrame {
 		//sidebarPanel.setBackground(SystemColor.windowBorder);
 		sidebarPanel.setBounds(826, 0, widthOfSidebar, totalWidthOfGrid);
 		fullPanel.add(sidebarPanel);
+		sidebarPanel.addMouseListener(new MouseAdapter(){
+			@Override
+            public void mouseEntered(MouseEvent evt)
+            {
+				toolTipPanel.setVisible(false);
+            }
+		});
 		
 		GridBagLayout gbl_sidebarPanel = new GridBagLayout();
 		gbl_sidebarPanel.columnWidths = new int[] {0, 0};
@@ -284,7 +291,7 @@ public class FrameGame extends JFrame {
 				loadHint(lastPressedCell[1], lastPressedCell[0], pz);
 			}
 		});
-		tabHints.add(btnGetHint);
+		//tabHints.add(btnGetHint);
 		
 		btnAutofill = new JButton("Autofill a cell");
 		btnAutofill.setBackground(new Color(248,248,248));
@@ -296,6 +303,13 @@ public class FrameGame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				autoFill(pz);
 			}
+		});
+		btnAutofill.addMouseListener(new MouseAdapter(){
+			@Override
+            public void mouseEntered(MouseEvent evt)
+            {
+				toolTipPanel.setVisible(false);
+            }
 		});
 		tabHints.add(btnAutofill);
 		
@@ -640,12 +654,12 @@ public class FrameGame extends JFrame {
 			cells.get(row).get(col).setEnabled(false);
 			if ((row < 3 && col < 3) || (row < 3 && col > 5) || (row > 5 && col < 3) || (row > 5 && col > 5) || (row >= 3 && row <= 5 && col >= 3 && col <= 5))
 			{
-				cells.get(row).get(col).setBackground(colorFixedCell1);	// gray
+				cells.get(row).get(col).setBackground(colorFixedCell1);
 				cells.get(row).get(col).setForeground(Color.DARK_GRAY);	
 			}
 			else
 			{
-				cells.get(row).get(col).setBackground(colorFixedCell2);	// gray
+				cells.get(row).get(col).setBackground(colorFixedCell2);
 				cells.get(row).get(col).setForeground(Color.WHITE);	
 			}
 		}

@@ -206,7 +206,6 @@ public class PuzzleControl {
 		{
 			for (int j = 0; j < puzzle.getColumnList().size(); j++)
 			{
-				System.out.println(i + "," + j + ": " + puzzle.getCell(i, j).getPossibilities());
 				if (!puzzle.getCell(i, j).isFixed() && puzzle.getCell(i, j).getPossibilities().size() == 1)
 				{
 					if (puzzle.getCell(i, j).getPossibilities().get(0) != puzzle.getCell(i, j).getNumber())
