@@ -1,5 +1,8 @@
 package controller.statistics;
 
+import java.io.File;
+import java.io.IOException;
+
 import view.FrameMain;
 
 public class Statistics
@@ -12,6 +15,18 @@ public class Statistics
 	private int hintCount;
 	private int progressCount;
 	private int emptyBoxesCount;
+	private SaveFile saveFile;
+	
+	public void makeFile(String text)
+	{
+		saveFile = new SaveFile("C:/Users/Nicholas/Desktop/stats.txt", false);
+		try {
+			saveFile.writeToFile(text);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public void setDifficulty (int difficulty)
 	{

@@ -19,8 +19,10 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.awt.FlowLayout;
 import java.awt.CardLayout;
 
@@ -301,7 +303,7 @@ public class FrameGame extends JFrame {
 		buttonStats.setFont(font.deriveFont(17f));
 		tabStats.add(buttonStats);
 		
-		winStats = new JLabel("Number of wins this session: " + puzzleControl.getStatistics().getWinCount());
+		winStats = new JLabel("Number of wins: " + puzzleControl.getStatistics().getWinCount());
 		winStats.setHorizontalAlignment(SwingConstants.LEFT);
 		winStats.setVerticalAlignment(SwingConstants.CENTER);
 		winStats.setFont(font.deriveFont(17f));
@@ -313,17 +315,11 @@ public class FrameGame extends JFrame {
 		cheatStats.setFont(font.deriveFont(17f));
 		tabStats.add(cheatStats);
 		
-		hintStats = new JLabel("Number of hints requested: " + puzzleControl.getStatistics().getHintCount());
-		hintStats.setHorizontalAlignment(SwingConstants.LEFT);
-		hintStats.setVerticalAlignment(SwingConstants.CENTER);
-		hintStats.setFont(font.deriveFont(17f));
-		tabStats.add(hintStats);
-		
-		progressStats = new JLabel("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
-		progressStats.setHorizontalAlignment(SwingConstants.LEFT);
-		progressStats.setVerticalAlignment(SwingConstants.CENTER);
-		progressStats.setFont(font.deriveFont(17f));
-		tabStats.add(progressStats);
+//		progressStats = new JLabel("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
+//		progressStats.setHorizontalAlignment(SwingConstants.LEFT);
+//		progressStats.setVerticalAlignment(SwingConstants.CENTER);
+//		progressStats.setFont(font.deriveFont(17f));
+//		tabStats.add(progressStats);
 	}
 	/**
 	 * @param thisX
@@ -592,9 +588,6 @@ public class FrameGame extends JFrame {
 		if (puzzleControl.checkNumberSolution(row, col))
 		{
 			cells.get(row).get(col).setBackground(colorCorrectNumber);	// green, but a nicer shade
-			
-			incrementNumProgress(puzzleControl, 1);
-			progressStats.setText("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
 		}
 		else
 		{
@@ -622,10 +615,7 @@ public class FrameGame extends JFrame {
 			{
 				lblPossible.setText("Possible: " + puzzleControl.getCell(row, col).getPossibilities());
 			}
-			incrementNumHints(puzzleControl, 1);
 		}
-		
-		hintStats.setText("Hints requested: " + puzzleControl.getStatistics().getHintCount());
 	}
 	
 	/**
@@ -640,6 +630,11 @@ public class FrameGame extends JFrame {
 			puzzleControl.setCell(values[0], values[1], values[2]);
 			setCellNumber(values[0], values[1], puzzleControl);
 	  		setDEBUGCellColour(values[0], values[1], puzzleControl);
+	  		
+	  		incrementNumCheat(puzzleControl, 1);
+			cheatStats.setText("Number of times you've cheated: " + puzzleControl.getStatistics().getCheatCount());
+			incrementNumButtons(puzzleControl, 1);
+			buttonStats.setText("Number of buttons pressed: " + puzzleControl.getStatistics().getButtonCount());
 		}
 		else		
 		{
@@ -657,10 +652,12 @@ public class FrameGame extends JFrame {
 		if (puzzleControl.boardIsValid())
 		{
 			incrementNumWins(puzzleControl, 1);
-			winStats.setText("Wins: " + puzzleControl.getStatistics().getWinCount());
+			winStats.setText("Number of wins: " + puzzleControl.getStatistics().getWinCount());
 			
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
 
+			puzzleControl.getStatistics().makeFile("GoodBye World!");
+			
 			setVisible(false);
 			f.setVisible(true);
 			return true;
