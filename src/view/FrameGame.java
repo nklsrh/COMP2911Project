@@ -92,6 +92,15 @@ public class FrameGame extends JFrame {
 			puzzleControl.getStatistics().makeFile();
 		puzzleControl.getStatistics().readFile();
 		
+		incrementNumPuzzlesStarted(puzzleControl, 1);
+		
+		if (difficulty == 1)
+			incrementNumEasyGames(puzzleControl, 1);
+		else if (difficulty == 2)
+			incrementNumMediumGames(puzzleControl, 1);
+		else
+			incrementNumHardGames(puzzleControl, 1);
+		
 		puzzleControl.createPuzzle(difficulty);
 		setupFrame(puzzleControl);
 		
@@ -312,13 +321,13 @@ public class FrameGame extends JFrame {
 		buttonStats.setFont(font.deriveFont(17f));
 		tabStats.add(buttonStats);
 		
-		winStats = new JLabel("Number of wins: " + puzzleControl.getStatistics().getWinCount());
+		winStats = new JLabel("Number of wins: " + puzzleControl.getStatistics().getNumPuzzlesFinished());
 		winStats.setHorizontalAlignment(SwingConstants.LEFT);
 		winStats.setVerticalAlignment(SwingConstants.CENTER);
 		winStats.setFont(font.deriveFont(17f));
 		tabStats.add(winStats);
 		
-		cheatStats = new JLabel("Number of times you've cheated: " + puzzleControl.getStatistics().getCheatCount());
+		cheatStats = new JLabel("Number of Autofills used: " + puzzleControl.getStatistics().getCheatCount());
 		cheatStats.setHorizontalAlignment(SwingConstants.LEFT);
 		cheatStats.setVerticalAlignment(SwingConstants.CENTER);
 		cheatStats.setFont(font.deriveFont(17f));
@@ -641,7 +650,7 @@ public class FrameGame extends JFrame {
 	  		setDEBUGCellColour(values[0], values[1], puzzleControl);
 	  		
 	  		incrementNumCheat(puzzleControl, 1);
-			cheatStats.setText("Number of times you've cheated: " + puzzleControl.getStatistics().getCheatCount());
+			cheatStats.setText("Number of Autofills used: " + puzzleControl.getStatistics().getCheatCount());
 			incrementNumButtons(puzzleControl, 1);
 			buttonStats.setText("Number of buttons pressed: " + puzzleControl.getStatistics().getButtonCount());
 		}
@@ -672,7 +681,13 @@ public class FrameGame extends JFrame {
 			else
 				updateBestHardTime(puzzleControl);
 			
-			System.out.println("BestEasy: "+puzzleControl.getStatistics().getBestEasyTime()+" BestMedium: "+puzzleControl.getStatistics().getBestMediumTime()+" BestHard: "+puzzleControl.getStatistics().getBestHardTime());
+			puzzleControl.getStatistics().calculateTotalCheat();
+			
+			incrementNumPuzzlesFinished(puzzleControl, 1);
+			
+			System.out.println("BestEasy: "+puzzleControl.getStatistics().getBestEasyTime()+
+							   " BestMedium: "+puzzleControl.getStatistics().getBestMediumTime()+
+							   " BestHard: "+puzzleControl.getStatistics().getBestHardTime());
 			
 			/**
 			 *  Format: bestEasyTime, bestMediumTime, bestHardTime, numEasyGames, numMediumGames, numHardGames, 
@@ -759,4 +774,29 @@ public class FrameGame extends JFrame {
 	{
 		pz.getStatistics().setProgressCount(pz.getStatistics().getTotalEmptyBoxesCount() + value);
 	}	
+	
+	public void incrementNumEasyGames(PuzzleControl pz, int value)
+	{
+		pz.getStatistics().setNumEasyGames(pz.getStatistics().getNumEasyGames() + value);
+	}
+	
+	public void incrementNumMediumGames(PuzzleControl pz, int value)
+	{
+		pz.getStatistics().setNumMediumGames(pz.getStatistics().getNumMediumGames() + value);
+	}
+	
+	public void incrementNumHardGames(PuzzleControl pz, int value)
+	{
+		pz.getStatistics().setNumHardGames(pz.getStatistics().getNumHardGames() + value);
+	}
+	
+	public void incrementNumPuzzlesStarted(PuzzleControl pz, int value)
+	{
+		pz.getStatistics().setNumPuzzlesStarted(pz.getStatistics().getNumPuzzlesStarted() + value);
+	}
+	
+	public void incrementNumPuzzlesFinished(PuzzleControl pz, int value)
+	{
+		pz.getStatistics().setNumPuzzlesFinished(pz.getStatistics().getNumPuzzlesFinished() + value);
+	}
 }

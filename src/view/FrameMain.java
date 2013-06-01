@@ -46,6 +46,8 @@ public class FrameMain extends JFrame {
 	private final Color colorHard = new Color(249,205,185);
 	
 	private JPanel contentPane;
+	
+	
 
 	/**
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
@@ -53,6 +55,12 @@ public class FrameMain extends JFrame {
 	 */
 	public FrameMain() {
 		final JFrame thisFrame = this;
+		
+		PuzzleControl puzzleControl = new PuzzleControl();//TODO
+		
+		if (!puzzleControl.getStatistics().fileExists())
+			puzzleControl.getStatistics().makeFile();
+		puzzleControl.getStatistics().readFile();
 		
 		setResizable(false);
 		setBackground(SystemColor.window);
@@ -181,7 +189,7 @@ public class FrameMain extends JFrame {
 		gbc_panelButtonEasyHeader.gridy = 0;
 		panelButtonEasy.add(panelButtonEasyHeader, gbc_panelButtonEasyHeader);
 		
-		JLabel lblEasy = new JLabel("Easy");
+		JLabel lblEasy = new JLabel("Easy");				
 		lblEasy.setFont(fontThin.deriveFont(32f));
 		lblEasy.setHorizontalAlignment(SwingConstants.LEFT);
 		panelButtonEasyHeader.add(lblEasy);
@@ -200,7 +208,7 @@ public class FrameMain extends JFrame {
 		lblBestTime.setHorizontalAlignment(SwingConstants.LEFT);
 		panelButtonEasyStats.add(lblBestTime);
 		
-		JLabel panelButtonEasyFastestTime = new JLabel("999s");
+		JLabel panelButtonEasyFastestTime = new JLabel(puzzleControl.getStatistics().getBestEasyTime());
 		panelButtonEasyFastestTime.setFont(fontMed.deriveFont(42f));
 		panelButtonEasyFastestTime.setHorizontalAlignment(SwingConstants.LEFT);
 		panelButtonEasyStats.add(panelButtonEasyFastestTime);
@@ -247,6 +255,7 @@ public class FrameMain extends JFrame {
 		panelButtonMedium.add(panelButtonMediumHeader, gbc_panelButtonMediumHeader);
 		panelButtonMediumHeader.setBackground(Color.WHITE);
 		
+		// used to be JLabel panelButtonMediumHeaderText
 		JLabel panelButtonMediumHeaderText = new JLabel("Medium");
 		panelButtonMediumHeaderText.setFont(fontThin.deriveFont(32f));
 		panelButtonMediumHeaderText.setHorizontalAlignment(SwingConstants.LEFT);
@@ -266,7 +275,7 @@ public class FrameMain extends JFrame {
 		panelButtonMediumTimeHeader.setHorizontalAlignment(SwingConstants.LEFT);
 		panelButtonMediumStats.add(panelButtonMediumTimeHeader);
 		
-		JLabel panelButtonMediumFastestTime = new JLabel("999s");
+		JLabel panelButtonMediumFastestTime = new JLabel(puzzleControl.getStatistics().getBestMediumTime());
 		panelButtonMediumFastestTime.setFont(fontMed.deriveFont(42f));
 		panelButtonMediumFastestTime.setHorizontalAlignment(SwingConstants.LEFT);
 		panelButtonMediumStats.add(panelButtonMediumFastestTime);
@@ -344,7 +353,7 @@ public class FrameMain extends JFrame {
 		lblFastestTime_1.setHorizontalAlignment(SwingConstants.LEFT);
 		panelButtonHardStats.add(lblFastestTime_1);
 		
-		JLabel panelButtonHardFastestTime = new JLabel("999s");
+		JLabel panelButtonHardFastestTime = new JLabel(puzzleControl.getStatistics().getBestHardTime());
 		panelButtonHardFastestTime.setFont(fontMed.deriveFont(42f));
 		panelButtonHardFastestTime.setHorizontalAlignment(SwingConstants.LEFT);
 		panelButtonHardStats.add(panelButtonHardFastestTime);
@@ -426,7 +435,7 @@ public class FrameMain extends JFrame {
 		panelStatsMode.add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblStatsFavouriteMode = new JLabel("Medium");
+		JLabel lblStatsFavouriteMode = new JLabel(puzzleControl.getStatistics().findFavouriteDifficulty());
 		lblStatsFavouriteMode.setVerticalAlignment(SwingConstants.TOP);
 		lblStatsFavouriteMode.setFont(fontLight.deriveFont(32f));
 		panelStatsMode.add(lblStatsFavouriteMode);
@@ -437,12 +446,12 @@ public class FrameMain extends JFrame {
 		panelStatsTables.add(panelStatsCompletion);
 		panelStatsCompletion.setLayout(new GridLayout(2, 1, 0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("Completion Rate");
+		JLabel lblNewLabel_1 = new JLabel("Puzzles Completed");
 		lblNewLabel_1.setFont(font.deriveFont(17f));
 		panelStatsCompletion.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblStatsCompletion = new JLabel("99%");
+		JLabel lblStatsCompletion = new JLabel(String.valueOf(puzzleControl.getStatistics().getNumPuzzlesFinished()));
 		lblStatsCompletion.setVerticalAlignment(SwingConstants.TOP);
 		lblStatsCompletion.setFont(fontLight.deriveFont(32f));
 		panelStatsCompletion.add(lblStatsCompletion);
@@ -458,7 +467,7 @@ public class FrameMain extends JFrame {
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		panelStatsAutofills.add(lblNewLabel_2);
 		
-		JLabel lblStatsAutofills = new JLabel("1234");
+		JLabel lblStatsAutofills = new JLabel(String.valueOf(puzzleControl.getStatistics().getTotalCheat()));
 		lblStatsAutofills.setVerticalAlignment(SwingConstants.TOP);
 		lblStatsAutofills.setFont(fontLight.deriveFont(32f));
 		lblStatsAutofills.setHorizontalAlignment(SwingConstants.CENTER);
