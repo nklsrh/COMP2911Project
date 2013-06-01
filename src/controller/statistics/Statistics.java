@@ -19,7 +19,7 @@ public class Statistics
 	
 	public void makeFile(String text)
 	{
-		saveFile = new SaveFile("C:/Users/Nicholas/Desktop/stats.txt", false);
+		saveFile = new SaveFile("./stats.txt", false);
 		try {
 			saveFile.writeToFile(text);
 		} catch (IOException e) {
