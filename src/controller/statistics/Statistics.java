@@ -1,7 +1,9 @@
 package controller.statistics;
 
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import view.FrameMain;
 
@@ -25,7 +27,15 @@ public class Statistics
 	private int totalCheat;
 	private int numPuzzlesStarted;
 	private int numPuzzlesFinished;
+	
+	private File file;
+	
+	private ReadFile acceptFile;
 	private SaveFile saveFile;
+	
+	private static final int EASY = 1;
+	private static final int MEDIUM = 2;
+	private static final int HARD = 3;
 	
 	public Statistics()
 	{
@@ -46,11 +56,45 @@ public class Statistics
 		totalCheat = 0;
 		numPuzzlesStarted = 0;
 		numPuzzlesFinished = 0;
+		file = new File("./stats.txt");
+		acceptFile = new ReadFile();
 		saveFile = new SaveFile("./stats.txt", false);
 	}
 	
-	public void makeFile(String text)
+	
+	public boolean fileExists()
 	{
+		if (file.exists())
+			return true;
+		else
+			return false;
+	}
+	
+	public void readFile()
+	{
+		bestEasyTime = acceptFile.getConsole().next();
+		bestMediumTime = acceptFile.getConsole().next();
+		bestHardTime = acceptFile.getConsole().next();
+		numEasyGames = acceptFile.getConsole().nextInt();
+		numMediumGames = acceptFile.getConsole().nextInt();
+		numHardGames = acceptFile.getConsole().nextInt();
+		totalCheat = acceptFile.getConsole().nextInt();
+		numPuzzlesStarted = acceptFile.getConsole().nextInt();
+		numPuzzlesFinished = acceptFile.getConsole().nextInt();
+	}
+	
+	public void makeFile()
+	{
+		String text = getBestEasyTime()+" "+
+				   	  getBestMediumTime()+" "+
+				      getBestHardTime()+" "+
+				      getNumEasyGames()+" "+
+				      getNumMediumGames()+" "+
+				      getNumHardGames()+" "+
+				      getTotalCheat()+" "+
+				      getNumPuzzlesStarted()+" "+
+				      getNumPuzzlesFinished();
+		System.out.println(text);
 		try {
 			saveFile.writeToFile(text);
 		} catch (IOException e) {
@@ -59,18 +103,67 @@ public class Statistics
 		}
 	}
 	
+	public int calculateCompletionRate()
+	{
+		int percentage = 100;
+		
+		if (numPuzzlesFinished != 0)
+			percentage = numPuzzlesStarted * 100 / numPuzzlesFinished;
+		
+		return percentage;
+	}
+	
+	public void calculateTotalCheat()
+	{		
+		totalCheat = totalCheat + cheatCount;
+	}
+	
+	public String findFavouriteDifficulty()
+	{
+		int favouriteDifficulty = 0;
+		String favDiffString = null;
+		
+		if (numEasyGames >= numMediumGames && numEasyGames >= numHardGames)
+			favouriteDifficulty = EASY;
+		else if (numMediumGames >= numEasyGames && numMediumGames >= numHardGames)
+			favouriteDifficulty = MEDIUM;
+		else if (numHardGames >= numEasyGames && numHardGames >= numMediumGames)
+			favouriteDifficulty = HARD;
+		
+		favDiffString = difficultyToString(favouriteDifficulty);
+		
+		if (numEasyGames == numMediumGames && numMediumGames == numHardGames)
+			favDiffString = "None";
+		
+		return favDiffString;	
+	}
+	
 	public void setDifficulty (int difficulty)
 	{
 		this.difficulty = difficulty;
 	}
 	
-	public String difficultyToString()
+	public String difficultyToString(int difficulty)
 	{
 		String difficultyString = null;
 		
 		if (difficulty == 1)
 			difficultyString = "Easy";
 		else if (difficulty == 2)
+			difficultyString = "Medium";
+		else
+			difficultyString = "Hard";
+		
+		return difficultyString;
+	}
+	
+	public String difficultyToString()
+	{
+		String difficultyString = null;
+		
+		if (this.difficulty == 1)
+			difficultyString = "Easy";
+		else if (this.difficulty == 2)
 			difficultyString = "Medium";
 		else
 			difficultyString = "Hard";
@@ -230,16 +323,25 @@ public class Statistics
 	
 	public String getBestHardTime()
 	{
-		return bestHardTime;
+		if (bestHardTime.equals("99:00"))
+			return "---";
+		else
+			return bestHardTime;
 	}
 	
 	public String getBestEasyTime()
 	{
-		return bestEasyTime;
+		if (bestEasyTime.equals("99:00"))
+			return "---";
+		else
+			return bestEasyTime;
 	}
 	
 	public String getBestMediumTime()
 	{
-		return bestMediumTime;
+		if (bestMediumTime.equals("99:00"))
+			return "---";
+		else
+			return bestMediumTime;
 	}
 }

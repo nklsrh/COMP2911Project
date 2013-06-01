@@ -235,61 +235,58 @@ public class PuzzleControl {
 	 * - all rows are filled with 1-9
 	 * - all columns are filled with 1-9
 	 * - all grids are filled with 1-9
-	 * And fills and required valid parameter. 
 	 *
 	 * @return true, if successful
 	 */
 	public boolean boardIsValid(){
 		//check grid is valid
 		Iterator<Grid> git = puzzle.getGridList().iterator();
-		LinkedList<Integer> valids = null;
 		while(git.hasNext()){
-			valids = fillValids(Puzzle.NUM_GRIDS);
+			LinkedList<Integer> possibles = fillPossibles(Puzzle.NUM_GRIDS);
 			
 			Iterator<ArrayList<Cell>> cit = git.next().getGridTable().iterator();
 			while(cit.hasNext()){
 				for(Cell cell : cit.next()){
 					if(cell.getNumber() != null){
-						valids = removeFromValids(cell.getNumber(), valids);
+						possibles = removeFromPossibles(cell.getNumber(), possibles);
 					}
 				}
 			}
 			
-			if(!valids.isEmpty()){
+			if(!possibles.isEmpty()){
 				return false;
 			}
 		}
 		
 		Iterator<Row> rit = puzzle.getRowList().iterator();
 		while(rit.hasNext()){
-			valids = fillValids(Puzzle.NUM_ROWS);
+			LinkedList<Integer> possibles = fillPossibles(Puzzle.NUM_ROWS);
 			
 			Iterator<Cell> cit = rit.next().getList().iterator();
 			while(cit.hasNext()){
-				valids = removeFromValids(cit.next().getNumber(), valids);
+				possibles = removeFromPossibles(cit.next().getNumber(), possibles);
 			}
 			
-			if(!valids.isEmpty()){
+			if(!possibles.isEmpty()){
 				return false;
 			}
 		}
 		
 		Iterator<Column> colit = puzzle.getColumnList().iterator();
 		while(colit.hasNext()){
-			valids = fillValids(Puzzle.NUM_COLUMNS);
+			LinkedList<Integer> possibles = fillPossibles(Puzzle.NUM_COLUMNS);
 			
 			Iterator<Cell> cit = colit.next().getList().iterator();
 			while(cit.hasNext()){
-				valids = removeFromValids(cit.next().getNumber(), valids);
+				possibles = removeFromPossibles(cit.next().getNumber(), possibles);
 			}
-			if(!valids.isEmpty()){
+			if(!possibles.isEmpty()){
 				return false;
 			}
 		}
 		//check with helper function
 		return boardCheckFilled();
 	}
-	
 	
 	/**
 	 * Helper function, fills possibles according to the provided size.
@@ -299,7 +296,7 @@ public class PuzzleControl {
 	 * @param total the total
 	 * @return the linked list
 	 */
-	private LinkedList<Integer> fillValids(int total){
+	private LinkedList<Integer> fillPossibles(int total){
 		LinkedList<Integer> result = new LinkedList<Integer>();
 		for(int i=1; i<=total; i++){
 			result.add(i);
@@ -315,15 +312,15 @@ public class PuzzleControl {
 	 * WIN scenario
 	 *
 	 * @param number the number
-	 * @param valids the valids
+	 * @param possibles the possibles
 	 * @return the linked list
 	 */
-	private LinkedList<Integer> removeFromValids(int number, LinkedList<Integer> valids){
-		int index = valids.indexOf(number);
+	private LinkedList<Integer> removeFromPossibles(int number, LinkedList<Integer> possibles){
+		int index = possibles.indexOf(number);
 		if(index > -1){
-			valids.remove(index);
+			possibles.remove(index);
 		}
-		return valids;
+		return possibles;
 	}
 	
 	/**
