@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="11.5.1">
-  <zoom_level>10</zoom_level>
+  <zoom_level>5</zoom_level>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
+<<<<<<< HEAD
       <x>0</x>
       <y>40</y>
       <w>350</w>
@@ -25,11 +26,101 @@ Package::controller.generator
 /- getRequired() : LinkedList&lt;Integer&gt; /
 /+ puzzlePrettyByGroup(String):String/
 --</panel_attributes>
+=======
+      <x>95</x>
+      <y>70</y>
+      <w>50</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>JLabel</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
+      <x>35</x>
+      <y>160</y>
+      <w>125</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+ActionListener
+--
++actionPerformed(ActionEvent) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>170</x>
+      <y>95</y>
+      <w>125</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>TimerLabel
+*controller.timer*
+--
+-startTime : long
+--
++TimerLabel()
++actionPerformed(ActionEvent) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>180</x>
+      <y>170</y>
+      <w>85</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>ReadFile
+*controller.statistics*
+--
+-console : Scanner
+--
++ReadFile()
++getConsole() : Scanner</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>45</x>
+      <y>205</y>
+      <w>90</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>SaveFile
+*controller.statistics*
+--
+-path : String
+-appendToFile : boolean
+--
++SaveFile(String,boolean)
++writeToFile(String) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>320</x>
+      <y>85</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>ColsComparator
+*controller.generate*
+--
++ColsComparator()
++compare(Square,Square) : int</panel_attributes>
+>>>>>>> 39cfeb16c533a09cd3e40dde01640a476e77ea7b
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+<<<<<<< HEAD
       <x>380</x>
       <y>50</y>
       <w>210</w>
@@ -51,6 +142,286 @@ Package::controller.generator
 /- getRequired() : LinkedList&lt;Integer&gt; /
 /+ puzzlePrettyByGroup(String):String/
 --</panel_attributes>
+=======
+      <x>300</x>
+      <y>175</y>
+      <w>210</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>PuzzleControl
+*controller*
+--
+_-EASY_MISSING : int_
+_-MEDIUM_MISSING : int_
+_-HARD_MISSING : int_
+-puzzle : Puzzle
+--
++PuzzleControl()
++createPuzzle(int) : void
++createMissingCells(int) : LinkedList&lt;LinkedList&lt;Integer&gt;&gt;
++createPuzzleAndSolution(Puzzle,LinkedList&lt;LinkedList&lt;Integer&gt;&gt;
++populateSolutionFromArrayString(ArrayList&lt;String&gt;) : Puzzle
++boardIsValid() : boolean
+-boardCheckFilled() : boolean</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>165</x>
+      <y>280</y>
+      <w>100</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Statistics
+*controller.statistics*
+--
+-file : File
+_-EASY : int_
+_-MEDIUM : int_
+_-HARD : int_
+--
++Statistics()
++fileExists() : boolean
++readFile() : void
++makeFile() : void
++calculateTotalCheat() : void
++findFavouriteDifficulty() : String
++difficultyToString(int) : String
++difficultyToString() : String
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>555</x>
+      <y>265</y>
+      <w>70</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>PuzzleStore
+*controller.generate*
+--
++PuzzleStore()
+_+getPuzzle() : String_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>550</x>
+      <y>135</y>
+      <w>145</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Generator
+*controller.generate*
+--
+-rowGroups : LinkedList&lt;LinkedList&lt;Square&gt;&gt;
+-colGroups : LinkedList&lt;LinkedList&lt;Square&gt;&gt;
+-rand : Random
+_-NUM_SHUFFLES : int_
+--
++Generator()
++shufflePuzzle() : void
+-shuffleRowsInGrid() : void
+-shuffleColsInGrid() : void
++packageUp(Puzzle) : Puzzle
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>510</x>
+      <y>35</y>
+      <w>65</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Square
+*controller.generate*
+--
++row : int
++col : int
++value : int
+--
++Square(int,int,int)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>630</x>
+      <y>60</y>
+      <w>105</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>RowsComparator
+*controller.generate*
+--
++RowsComparator()
++compare(Square,Square) : int</panel_attributes>
+>>>>>>> 39cfeb16c533a09cd3e40dde01640a476e77ea7b
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>120</x>
+      <y>70</y>
+      <w>59</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>15;15;50;35</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>115</x>
+      <y>110</y>
+      <w>64</w>
+      <h>59</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>15;50;55;15</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>195</x>
+      <y>205</y>
+      <w>29</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=  1
+m2=  1
+</panel_attributes>
+    <additional_attributes>15;15;20;75</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>120</x>
+      <y>230</y>
+      <w>59</w>
+      <h>59</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=    1
+m2=     1</panel_attributes>
+    <additional_attributes>15;15;50;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>250</x>
+      <y>235</y>
+      <w>59</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 1
+m2= 1</panel_attributes>
+    <additional_attributes>15;55;50;15</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>495</x>
+      <y>185</y>
+      <w>64</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>55;15;15;15</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>580</x>
+      <y>220</y>
+      <w>24</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>15;45;15;15</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>405</x>
+      <y>100</y>
+      <w>154</w>
+      <h>59</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 1
+m2= 1</panel_attributes>
+    <additional_attributes>15;15;145;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>540</x>
+      <y>80</y>
+      <w>44</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=    *
+m2=   1</panel_attributes>
+    <additional_attributes>15;15;35;55</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>405</x>
+      <y>50</y>
+      <w>114</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>105;15;15;40</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>560</x>
+      <y>50</y>
+      <w>79</w>
+      <h>29</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>15;15;70;20</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>645</x>
+      <y>85</y>
+      <w>29</w>
+      <h>59</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 1
+m2= 1</panel_attributes>
+    <additional_attributes>20;15;15;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>270</x>
+      <y>130</y>
+      <w>49</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=    1
+m2=    1</panel_attributes>
+    <additional_attributes>15;15;40;45</additional_attributes>
   </element>
 </diagram>

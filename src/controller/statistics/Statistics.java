@@ -16,7 +16,6 @@ public class Statistics
 	private int actionCount;
 	private int buttonCount;
 	private int cheatCount;
-	private int winCount;
 	private int hintCount;
 	private int progressCount;
 	private int emptyBoxesCount;
@@ -49,7 +48,6 @@ public class Statistics
 		actionCount = 0;
 		buttonCount = 0;
 		cheatCount = 0;
-		winCount = 0;
 		hintCount = 0;
 		progressCount = 0;
 		emptyBoxesCount = 0;
@@ -112,7 +110,6 @@ public class Statistics
 				      getTotalCheat()+" "+
 				      getNumPuzzlesStarted()+" "+
 				      getNumPuzzlesFinished();
-		System.out.println(text);
 		try {
 			saveFile.writeToFile(text);
 		} catch (IOException e) {
@@ -241,11 +238,6 @@ public class Statistics
 		cheatCount = numCheat;
 	}
 	
-	public void setWinCount(int numWins)
-	{
-		winCount = numWins;
-	}
-	
 	public void setHintCount(int numHints)
 	{
 		hintCount = numHints;
@@ -319,11 +311,6 @@ public class Statistics
 	public int getCheatCount()
 	{
 		return cheatCount;
-	}
-	
-	public int getWinCount()
-	{
-		return winCount;
 	}
 	
 	public int getHintCount()
