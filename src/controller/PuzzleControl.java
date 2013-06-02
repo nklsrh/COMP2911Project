@@ -15,6 +15,7 @@ public class PuzzleControl {
 	private static final int EASY_MISSING = 35;
 	private static final int MEDIUM_MISSING = 43;
 	private static final int HARD_MISSING = 55;
+	
 	private Puzzle puzzle;
 	private TimerLabel timer;
 	private Statistics statistics;
@@ -37,6 +38,15 @@ public class PuzzleControl {
 		
 		// DEBUG
 		System.out.println(puzzle.toString());
+	}
+	
+	public void loadSaveFile()
+	{
+		if (!getStatistics().fileExists())
+		{
+			getStatistics().makeFile();
+		}
+		getStatistics().readFile();		
 	}
 	
 	/**

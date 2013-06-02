@@ -263,7 +263,7 @@ public class Puzzle implements PuzzleInterface {
 	 */
 	@Override
 	public String toString(){
-	    String result = "In Rows:\n";
+	    String result = "";
 	    
 	    int j = 1;
 	    Iterator<Row> rit = rowStore.iterator();

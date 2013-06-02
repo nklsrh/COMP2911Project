@@ -23,10 +23,9 @@ import java.awt.FlowLayout;
  * @author Nikhil Suresh, Ryan Tan, Nicholas Ho
  */
 public class FrameGame extends JFrame {
-	private JFrame mainFrameFinal;
+	private FrameMain mainFrameFinal;
 	
 	private Font font;
-	private Font fontMed;
 	private Font fontLight;
 	private Font fontItalic;
 	
@@ -61,7 +60,6 @@ public class FrameGame extends JFrame {
 	private int textboxWidth;
 	private int widthBetweenTextBoxes;
 	private int totalWidthOfGrid;
-	private int widthOfSidebar;
 	private int widthOfKeypad;
 	
 	/**
@@ -69,67 +67,36 @@ public class FrameGame extends JFrame {
 	 * first element is X value (column)
 	 */
 	private int[] lastPressedCell;
-	private JLabel asdlabel;
 		
-	private void startNewGame(int difficulty, PuzzleControl puzzleControl)
-	{		
-		if (!puzzleControl.getStatistics().fileExists())
-			puzzleControl.getStatistics().makeFile();
-		puzzleControl.getStatistics().readFile();
-		
-		incrementNumPuzzlesStarted(puzzleControl, 1);
-		
-		if (difficulty == 1)
-			incrementNumEasyGames(puzzleControl, 1);
-		else if (difficulty == 2)
-			incrementNumMediumGames(puzzleControl, 1);
-		else
-			incrementNumHardGames(puzzleControl, 1);
-		
-		puzzleControl.createPuzzle(difficulty);
-		setupFrame(puzzleControl);
-		
-		lastPressedCell = new int[2];
-		lastPressedCell[0] = -1;
-		lastPressedCell[1] = -1;
-	}
 	/**
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
 	 * in an attractive and accessible manner
 	 */
-	public FrameGame(JFrame mainFrame, int difficulty) 
-	{
-		
-		colorBackground = new Color(240,240,240);
-		
+	public FrameGame(FrameMain mainFrame, int difficulty) 
+	{		
 		mainFrameFinal = mainFrame;
-		final JFrame thisFrame = this;
+		final FrameGame thisFrame = this;
 				
 		numberOfRows = 9;
 		padding = 0; //6
 		textboxWidth = 42; // 28
 		widthBetweenTextBoxes = 51; // 31
-		widthOfSidebar = 300;
 		widthOfKeypad = 300;
 		
 		totalWidthOfGrid = padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth;
-		
-		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		} 
-		
+				
 		setResizable(false);
-		setBackground(SystemColor.window);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBackground(colorBackground);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, totalWidthOfGrid + widthOfKeypad + 100, totalWidthOfGrid + textboxWidth);
 
 		PuzzleControl puzzleControl = new PuzzleControl();
 		startNewGame(difficulty, puzzleControl);
-		
 
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		// final is used for access in WindowListener functions
+		final PuzzleControl pz = puzzleControl;
+
+		// when closing, make sure to double check with user
 		this.addWindowListener(new WindowListener()
         {
             public void windowClosing(WindowEvent e)
@@ -137,7 +104,7 @@ public class FrameGame extends JFrame {
             	if (JOptionPane.showOptionDialog(thisFrame, "You will lose all progress", "Exit puzzle?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null) 
             			== 0)
             	{
-                	goBackToMainMenu();
+                	goBackToMainMenu(pz);
             	}
             }
             public void windowOpened(WindowEvent e) {
@@ -152,25 +119,63 @@ public class FrameGame extends JFrame {
             }
             public void windowDeactivated(WindowEvent e) {
             }
-        });
+        });		
+	}
+	
+	private void startNewGame(int difficulty, PuzzleControl puzzleControl)
+	{		
+		// if available, load stats data
+		puzzleControl.loadSaveFile();
 		
+		// add to some stats
+		incrementNumPuzzlesStarted(puzzleControl, 1);
+		updateNumStarts(difficulty, puzzleControl);
+
+		// create new puzzle
+		puzzleControl.createPuzzle(difficulty);
+		
+		// creates frame UI elements based on puzzle data
+		setupFrame(puzzleControl);
+		
+		resetLastPressedCell();
 	}
 	
 	private void setupFrame(PuzzleControl puzzleControl)
 	{
+		// final is used for access in ActionListener functions
 		final PuzzleControl pz = puzzleControl;
 		
+		// the base panel
 		contentPane = new JPanel();
 		contentPane.setBackground(colorBackground);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(1, 0, 0, 0));
 		
+		// the parent panel for all new panels
 		JPanel fullPanel = new JPanel();
 		fullPanel.setBackground(colorBackground);
-		contentPane.add(fullPanel);
 		fullPanel.setLayout(null);
+		contentPane.add(fullPanel);
 		
+		loadFonts();		
+		//////////////// POSSIBILITIES TOOLTIP /////////////////////////////////////////////		
+		createPossibilitiesObject(fullPanel);			
+		////////////////////// TIMER PANEL ///////////////////////////////////
+		createTimerObject(fullPanel, puzzleControl);		
+		/////////////////////////// KEYPAD ////////////////////////////////////////////		
+		setupKeypad(fullPanel, puzzleControl);		
+		//////////////////////////// CELLS //////////////////////////////////////////		
+		setupCells(fullPanel, puzzleControl);		
+		// autofill button //////////////////////////////////////
+		createAutofillObject(fullPanel, puzzleControl);		
+		//////////////////////// STATISTICS PANEL ////////////////////////////////////////
+		createStatsObjects(fullPanel, puzzleControl);
+	}
+	
+	private void loadFonts()
+	{
+		// load pretty fonts, fallback to Lucida Sans
 		File font_file_light = new File("assets/Roboto-Regular.ttf");
 		File font_file_reg = new File("assets/Roboto-Light.ttf");
 		File font_file_med = new File("assets/Roboto-Medium.ttf");
@@ -178,17 +183,18 @@ public class FrameGame extends JFrame {
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, font_file_reg);
 			fontLight = Font.createFont(Font.TRUETYPE_FONT, font_file_light);
-			fontMed = Font.createFont(Font.TRUETYPE_FONT, font_file_med);
+			Font.createFont(Font.TRUETYPE_FONT, font_file_med);
 			fontItalic = Font.createFont(Font.TRUETYPE_FONT, font_file_ita);
 		} catch (Exception e1) {
 			font = Font.getFont("Lucida Sans");
 			fontLight = Font.getFont("Lucida Sans");
-			fontMed = Font.getFont("Lucida Sans");
+			Font.getFont("Lucida Sans");
 			fontItalic = Font.getFont("Lucida Sans");
 		}
-		
-		//////////////////////////////////////////////////////////////////////////////////////////
-		
+	}
+	
+	private void createPossibilitiesObject(JPanel fullPanel)
+	{
 		toolTipPanel = new JPanel();
 		toolTipPanel.setBackground(colorHoverCell);
 		toolTipPanel.setBounds(400, 100, 260, 100);
@@ -200,29 +206,11 @@ public class FrameGame extends JFrame {
 		lblPossible.setBackground(colorHoverCell);
 		lblPossible.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPossible.setVerticalAlignment(SwingConstants.CENTER);
-		toolTipPanel.add(lblPossible);
-		
-		//////////////////////////////////////////////////////////////////////////
-		
-		keypadPanel = new JPanel();
-		keypadPanel.setBackground(colorHoverCell);
-		//keypadPanel.setBackground(SystemColor.windowBorder);
-		keypadPanel.setBounds(526, 0, 70, 501); //314 - padding, 297 - height
-		fullPanel.add(keypadPanel);
-				
-		JButton btnGetHint = new JButton("Get hint");
-		btnGetHint.setBackground(new Color(251,251,251));
-		btnGetHint.setFont(font.deriveFont(24f));
-		btnGetHint.setBorder(BorderFactory.createEmptyBorder());	
-		btnGetHint.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loadHint(lastPressedCell[1], lastPressedCell[0], pz);
-			}
-		});
-		
-		/////////////////////////////////////////////////////////////
-
+		toolTipPanel.add(lblPossible);		
+	}
+	
+	private void createTimerObject(JPanel fullPanel, PuzzleControl puzzleControl)
+	{
 		tabTimer = new JPanel();
 		tabTimer.setBounds(606, 0, 269, 146);
 		tabTimer.setName("tabTimer");		
@@ -246,38 +234,27 @@ public class FrameGame extends JFrame {
 		
 		tabTimer.add(lblNewLabel, gbc_lblNewLabel);			
 
+		// create a Timer instance based on the TimerLabel class	
 		timer = puzzleControl.getTimer();
 		timer.setVerticalAlignment(SwingConstants.BOTTOM);
 		timer.setHorizontalAlignment(SwingConstants.CENTER);
 		timer.setForeground(Color.GRAY);		
 		timer.setFont(font.deriveFont(84f));		
-		timer.setText("0:00");		
+		timer.setText("0:00");	
+		
 		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 1;
 		tabTimer.add(timer, gbc_lblNewLabel);	
-		
-		//////////////////////////////////////////////////////////////////
-		
-		JPanel gridPanel = new JPanel();
-		gridPanel.setBackground(colorBackground);
-		gridPanel.setBounds(15 + padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
-		fullPanel.add(gridPanel);
-		gridPanel.setLayout(new GridLayout(9, 9));
-
-		/////////////////////////////////////////////////////////////////////////
-		
-		setupKeypad(puzzleControl);
-		keypadPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		///////////////////////////////////////////////////////////////////////////
-		
-		setupCells(gridPanel, puzzleControl);
-		//tabHints.add(btnGetHint);
+	}
+	
+	private void createAutofillObject(JPanel fullPanel, PuzzleControl puzzleControl)
+	{
+		final PuzzleControl pz = puzzleControl;
 		
 		btnAutofill = new JButton("Autofill a cell");
-		btnAutofill.setBounds(606, 157, 269, 84);
 		fullPanel.add(btnAutofill);
+		btnAutofill.setBounds(606, 157, 269, 84);
 		btnAutofill.setBackground(Color.WHITE);
 		btnAutofill.setFont(font.deriveFont(24f));
 		btnAutofill.setEnabled(true);
@@ -287,9 +264,7 @@ public class FrameGame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				autoFill(pz);
 			}
-		});
-		
-		
+		});		
 		btnAutofill.addMouseListener(new MouseAdapter(){
 			@Override
             public void mouseEntered(MouseEvent evt)
@@ -303,16 +278,15 @@ public class FrameGame extends JFrame {
 				btnAutofill.setBackground(Color.WHITE);
             }
 		});	
-		
-		////////////////////////////////////////////////////////////////
-		
+	}
+	
+	private void createStatsObjects(JPanel fullPanel, PuzzleControl puzzleControl)
+	{
 		tabStats = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) tabStats.getLayout();
 		tabStats.setBounds(606, 252, 269, 249);
 		fullPanel.add(tabStats);
 		tabStats.setName("tabStats");
 		tabStats.setBackground(Color.WHITE);
-		//tabs.addTab("STATISTICS", null, tabStats, null);
 		
 		JLabel lblStats = new JLabel("STATISTICS");
 		lblStats.setFont(fontLight.deriveFont(30f));
@@ -407,12 +381,31 @@ public class FrameGame extends JFrame {
 	 * @param keypadPanel
 	 * @param puzzleControl
 	 */
-	private void setupKeypad(PuzzleControl puzzleControl)
+	private void setupKeypad(JPanel fullPanel, PuzzleControl puzzleControl)
 	{
+		final PuzzleControl pz = puzzleControl;
+		
+		keypadPanel = new JPanel();
+		keypadPanel.setBackground(colorHoverCell);
+		//keypadPanel.setBackground(SystemColor.windowBorder);
+		keypadPanel.setBounds(526, 0, 70, 501); //314 - padding, 297 - height
+		fullPanel.add(keypadPanel);
+				
+		JButton btnGetHint = new JButton("Get hint");
+		btnGetHint.setBackground(new Color(251,251,251));
+		btnGetHint.setFont(font.deriveFont(24f));
+		btnGetHint.setBorder(BorderFactory.createEmptyBorder());	
+		btnGetHint.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadHint(lastPressedCell[1], lastPressedCell[0], pz);
+			}
+		});
+		
+		keypadPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		keypadButtons = new ArrayList<JButton>();
 		for (int i = 0; i < 9; i++)
 		{
-			final PuzzleControl pz = puzzleControl;
 			final int index = i;
 			
 			keypadButtons.add(new JButton(String.valueOf(i + 1)));	// set value of number according to position (like telephone buttons
@@ -466,8 +459,14 @@ public class FrameGame extends JFrame {
 	 * @param gridPanel
 	 * @param puzzleControl
 	 */
-	private void setupCells(JPanel gridPanel, PuzzleControl puzzleControl)
+	private void setupCells(JPanel fullPanel, PuzzleControl puzzleControl)
 	{
+		JPanel gridPanel = new JPanel();
+		gridPanel.setBackground(colorBackground);
+		gridPanel.setBounds(15 + padding, padding, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth, padding + (numberOfRows * widthBetweenTextBoxes) + textboxWidth);
+		fullPanel.add(gridPanel);
+		gridPanel.setLayout(new GridLayout(9, 9));
+		
 		cells = new ArrayList<ArrayList<JButton>>();
 		for (int y = 0; y < numberOfRows; y++)
 		{
@@ -674,64 +673,70 @@ public class FrameGame extends JFrame {
 	
 	/**
 	 * @param puzzleControl
-	 * @return
 	 */
-	private boolean checkIfPuzzleComplete(PuzzleControl puzzleControl)
+	private void checkIfPuzzleComplete(PuzzleControl puzzleControl)
 	{
 		if (puzzleControl.boardIsValid())
-		{
-			incrementNumWins(puzzleControl, 1);
-			winStats.setText("Number of wins: " + puzzleControl.getStatistics().getWinCount());
-			
-			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
+		{		
+			incrementNumPuzzlesFinished(puzzleControl, 1);		
+			winStats.setText("Number of wins: " + puzzleControl.getStatistics().getNumPuzzlesFinished());			
+			updateBestTime(puzzleControl);		
 
-			if (puzzleControl.getStatistics().getDifficulty() == 1)
-			{
-				updateBestEasyTime(puzzleControl);
-			}
-			else if (puzzleControl.getStatistics().getDifficulty() == 2)
-			{
-				updateBestMediumTime(puzzleControl);
-			}
-			else
-			{
-				updateBestHardTime(puzzleControl);
-			}
-			
-			puzzleControl.getStatistics().calculateTotalCheat();
-			
-			incrementNumPuzzlesFinished(puzzleControl, 1);
-			
-			System.out.println("BestEasy: "+puzzleControl.getStatistics().getBestEasyTime()+
-							   " BestMedium: "+puzzleControl.getStatistics().getBestMediumTime()+
-							   " BestHard: "+puzzleControl.getStatistics().getBestHardTime());
-			
-			/**
-			 *  Format: bestEasyTime, bestMediumTime, bestHardTime, numEasyGames, numMediumGames, numHardGames, 
-			 *			totalCheat, numPuzzlesStarted, numPuzzlesFinished
-			 */ 		  
-			puzzleControl.getStatistics().makeFile();
-			
-			
-			goBackToMainMenu();
-			
-			return true;
+			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");	
+        	goBackToMainMenu(puzzleControl);
 		}
-		return false;
 	}
 	
-	public void goBackToMainMenu()
+	public void goBackToMainMenu(PuzzleControl puzzleControl)
 	{
-		setVisible(false);
+		puzzleControl.getStatistics().calculateTotalCheat();
+		/**
+		 *  Format: bestEasyTime, bestMediumTime, bestHardTime, numEasyGames, numMediumGames, numHardGames, 
+		 *			totalCheat, numPuzzlesStarted, numPuzzlesFinished
+		 */ 		  
+		puzzleControl.getStatistics().makeFile();	
+		this.dispose();		
+		mainFrameFinal = new FrameMain();
+		mainFrameFinal.setupFrame(puzzleControl);
 		mainFrameFinal.setVisible(true);
 	}
-
-	private void clearCell(int row, int col, PuzzleControl pz)
+	
+	private void resetLastPressedCell()
 	{
-		if (lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0)
+		lastPressedCell = new int[2];
+		lastPressedCell[0] = -1;
+		lastPressedCell[1] = -1;
+	}
+	
+	private void updateNumStarts(int difficulty, PuzzleControl puzzleControl)
+	{
+		if (difficulty == 1)
 		{
-			pz.setCell(row, col, -1);
-			setCellNumber(row, col, pz);
+			incrementNumEasyGames(puzzleControl, 1);
+		}
+		else if (difficulty == 2)
+		{
+			incrementNumMediumGames(puzzleControl, 1);
+		}
+		else
+		{
+			incrementNumHardGames(puzzleControl, 1);
+		}
+	}
+	
+	private void updateBestTime(PuzzleControl puzzleControl)
+	{
+		if (puzzleControl.getStatistics().getDifficulty() == 1)
+		{
+			updateBestEasyTime(puzzleControl);
+		}
+		else if (puzzleControl.getStatistics().getDifficulty() == 2)
+		{
+			updateBestMediumTime(puzzleControl);
+		}
+		else
+		{
+			updateBestHardTime(puzzleControl);
 		}
 	}
 	
@@ -777,11 +782,6 @@ public class FrameGame extends JFrame {
 	public void incrementNumCheat(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setCheatCount(pz.getStatistics().getCheatCount() + value);
-	}
-
-	public void incrementNumWins(PuzzleControl pz, int value)
-	{
-		pz.getStatistics().setWinCount(pz.getStatistics().getWinCount() + value);
 	}
 
 	public void incrementNumHints(PuzzleControl pz, int value)
