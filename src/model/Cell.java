@@ -24,7 +24,6 @@ public class Cell {
 	
 	/**
 	 * A constructor for a cell of a Sudoku game that is "non-changing" i.e. provided at the start of a game.
-	 * @param number: the number that shall be allocated to the cell
 	 */
 	public Cell() throws NullPointerException
 	{
