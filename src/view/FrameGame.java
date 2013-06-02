@@ -23,7 +23,7 @@ import java.awt.FlowLayout;
  * @author Nikhil Suresh, Ryan Tan, Nicholas Ho
  */
 public class FrameGame extends JFrame {
-	private JFrame f;
+	private JFrame mainFrameFinal;
 	
 	private Font font;
 	private Font fontMed;
@@ -97,11 +97,14 @@ public class FrameGame extends JFrame {
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
 	 * in an attractive and accessible manner
 	 */
-	public FrameGame(JFrame mainFrame, int difficulty) {
+	public FrameGame(JFrame mainFrame, int difficulty) 
+	{
+		
 		colorBackground = new Color(240,240,240);
 		
-		f = mainFrame;
-		
+		mainFrameFinal = mainFrame;
+		final JFrame thisFrame = this;
+				
 		numberOfRows = 9;
 		padding = 0; //6
 		textboxWidth = 42; // 28
@@ -124,6 +127,33 @@ public class FrameGame extends JFrame {
 
 		PuzzleControl puzzleControl = new PuzzleControl();
 		startNewGame(difficulty, puzzleControl);
+		
+
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowListener()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+            	if (JOptionPane.showOptionDialog(thisFrame, "You will lose all progress", "Exit puzzle?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null) 
+            			== 0)
+            	{
+                	goBackToMainMenu();
+            	}
+            }
+            public void windowOpened(WindowEvent e) {
+            }
+            public void windowClosed(WindowEvent e) {
+            }
+            public void windowIconified(WindowEvent e) {
+            }
+            public void windowDeiconified(WindowEvent e) {
+            }
+            public void windowActivated(WindowEvent e) {
+            }
+            public void windowDeactivated(WindowEvent e) {
+            }
+        });
+		
 	}
 	
 	private void setupFrame(PuzzleControl puzzleControl)
@@ -319,12 +349,6 @@ public class FrameGame extends JFrame {
 		cheatStats.setVerticalAlignment(SwingConstants.CENTER);
 		cheatStats.setFont(font.deriveFont(17f));
 		tabStats.add(cheatStats);
-		
-//		progressStats = new JLabel("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
-//		progressStats.setHorizontalAlignment(SwingConstants.LEFT);
-//		progressStats.setVerticalAlignment(SwingConstants.CENTER);
-//		progressStats.setFont(font.deriveFont(17f));
-//		tabStats.add(progressStats);
 	}
 	/**
 	 * @param thisX
@@ -662,11 +686,17 @@ public class FrameGame extends JFrame {
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
 
 			if (puzzleControl.getStatistics().getDifficulty() == 1)
+			{
 				updateBestEasyTime(puzzleControl);
+			}
 			else if (puzzleControl.getStatistics().getDifficulty() == 2)
+			{
 				updateBestMediumTime(puzzleControl);
+			}
 			else
+			{
 				updateBestHardTime(puzzleControl);
+			}
 			
 			puzzleControl.getStatistics().calculateTotalCheat();
 			
@@ -682,11 +712,18 @@ public class FrameGame extends JFrame {
 			 */ 		  
 			puzzleControl.getStatistics().makeFile();
 			
-			setVisible(false);
-			f.setVisible(true);
+			
+			goBackToMainMenu();
+			
 			return true;
 		}
 		return false;
+	}
+	
+	public void goBackToMainMenu()
+	{
+		setVisible(false);
+		mainFrameFinal.setVisible(true);
 	}
 
 	private void clearCell(int row, int col, PuzzleControl pz)
@@ -705,7 +742,7 @@ public class FrameGame extends JFrame {
 	 */
 	public void updateBestEasyTime(PuzzleControl pz)
 	{
-		if (timer.getText().compareTo(pz.getStatistics().getBestEasyTime()) < 0)
+		if (timer.getText().compareTo(pz.getStatistics().getBestEasyTime()) < 0 || pz.getStatistics().getBestEasyTime().equals("---"))
 		{
 			pz.getStatistics().setBestEasyTime(timer.getText());
 		}
@@ -713,7 +750,7 @@ public class FrameGame extends JFrame {
 	
 	public void updateBestMediumTime(PuzzleControl pz)
 	{
-		if (timer.getText().compareTo(pz.getStatistics().getBestMediumTime()) < 0)
+		if (timer.getText().compareTo(pz.getStatistics().getBestMediumTime()) < 0 || pz.getStatistics().getBestMediumTime().equals("---"))
 		{
 			pz.getStatistics().setBestMediumTime(timer.getText());
 		}
@@ -721,7 +758,7 @@ public class FrameGame extends JFrame {
 	
 	public void updateBestHardTime(PuzzleControl pz)
 	{
-		if (timer.getText().compareTo(pz.getStatistics().getBestHardTime()) < 0)
+		if (timer.getText().compareTo(pz.getStatistics().getBestHardTime()) < 0 || pz.getStatistics().getBestHardTime().equals("---"))
 		{
 			pz.getStatistics().setBestHardTime(timer.getText());
 		}
