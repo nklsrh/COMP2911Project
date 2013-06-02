@@ -4,29 +4,6 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-<<<<<<< HEAD
-      <x>0</x>
-      <y>40</y>
-      <w>350</w>
-      <h>320</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Generator:Class&gt;&gt;
-Package::controller.generator
---
-- rowGroups : LinkedList&lt; LinkedList&lt;Square&gt; &gt;
-- colGroups : LinkedList&lt; LinkedList&lt;Square&gt; &gt;
-- rand : Random
-- NUM_SHUFFLES : int
---
-/+ packageUp(Puzzle) : Puzzle /
-/+ shufflePuzzle() : void /
-/- shuffleRowsInGrid() : void /
-/- shuffleColsInGrid() : void /
-/- checkSanity() : void /
-/- getRequired() : LinkedList&lt;Integer&gt; /
-/+ puzzlePrettyByGroup(String):String/
---</panel_attributes>
-=======
       <x>95</x>
       <y>70</y>
       <w>50</w>
@@ -114,35 +91,11 @@ ActionListener
 --
 +ColsComparator()
 +compare(Square,Square) : int</panel_attributes>
->>>>>>> 39cfeb16c533a09cd3e40dde01640a476e77ea7b
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-<<<<<<< HEAD
-      <x>380</x>
-      <y>50</y>
-      <w>210</w>
-      <h>190</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Class&gt;&gt;
-Package::controller.generator
---
-- rowGroups : LinkedList&lt; LinkedList&lt;Square&gt; &gt;
-- colGroups : LinkedList&lt; LinkedList&lt;Square&gt; &gt;
-- rand : Random
-- NUM_SHUFFLES : int
---
-/+ packageUp(Puzzle) : Puzzle /
-/+ shufflePuzzle() : void /
-/- shuffleRowsInGrid() : void /
-/- shuffleColsInGrid() : void /
-/- checkSanity() : void /
-/- getRequired() : LinkedList&lt;Integer&gt; /
-/+ puzzlePrettyByGroup(String):String/
---</panel_attributes>
-=======
       <x>300</x>
       <y>175</y>
       <w>210</w>
@@ -263,7 +216,6 @@ _-NUM_SHUFFLES : int_
 --
 +RowsComparator()
 +compare(Square,Square) : int</panel_attributes>
->>>>>>> 39cfeb16c533a09cd3e40dde01640a476e77ea7b
     <additional_attributes/>
   </element>
   <element>
