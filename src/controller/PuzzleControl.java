@@ -11,20 +11,45 @@ import controller.timer.TimerLabel;
 
 import model.*;
 
+/**
+ * The Class PuzzleControl.
+ * 
+ * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
+ */
 public class PuzzleControl {
+	
+	/** The Constant EASY_MISSING, number of empty cells. */
 	private static final int EASY_MISSING = 35;
+	
+	/** The Constant MEDIUM_MISSING, number of empty cells. */
 	private static final int MEDIUM_MISSING = 43;
+	
+	/** The Constant HARD_MISSING, number of empty cells. */
 	private static final int HARD_MISSING = 55;
 	
+	/** The puzzle stored */
 	private Puzzle puzzle;
+	
+	/** The timer running */
 	private TimerLabel timer;
+	
+	/** The statistics. */
 	private Statistics statistics;
 	
+	/**
+	 * Instantiates a new puzzle control.
+	 */
 	public PuzzleControl()
 	{
 		statistics = new Statistics();
 	}
 	
+	/**
+	 * Creates the puzzle, using the generator first instanciates it, 
+	 * shuffles and packages it all up by setting all cell values
+	 *
+	 * @param difficulty the difficulty
+	 */
 	public void createPuzzle(int difficulty)
 	{
 		Generator gen = new Generator();
@@ -40,6 +65,9 @@ public class PuzzleControl {
 		System.out.println(puzzle.toString());
 	}
 	
+	/**
+	 * Load save file.
+	 */
 	public void loadSaveFile()
 	{
 		if (!getStatistics().fileExists())
@@ -97,6 +125,13 @@ public class PuzzleControl {
 	}
 	
 	
+	/**
+	 * Creates the puzzle and solution.
+	 *
+	 * @param s the s
+	 * @param missingCells the missing cells
+	 * @return the puzzle
+	 */
 	public Puzzle createPuzzleAndSolution(Puzzle s, LinkedList<LinkedList<Integer>> missingCells)
 	{
 		Puzzle p = s;
@@ -122,6 +157,12 @@ public class PuzzleControl {
 	}
 	
 	
+	/**
+	 * Populate solution from array string.
+	 *
+	 * @param gridsStrings the grids strings
+	 * @return the puzzle
+	 */
 	public Puzzle populateSolutionFromArrayString(ArrayList<String> gridsStrings)
 	{
 		Puzzle pz = new Puzzle();		
@@ -180,6 +221,9 @@ public class PuzzleControl {
 	/**
 	 * This method compares the number placed by a user with the predefined solution of the Sudoku game, to
 	 * see if the user has filled the cell with the correct number.
+	 *
+	 * @param row the row
+	 * @param col the col
 	 * @return true if the user has filled the cell correctly, false otherwise.
 	 */
 	public boolean checkNumberSolution(int row, int col)
@@ -188,7 +232,8 @@ public class PuzzleControl {
 	}
 	
 	/**
-	 * Returns the first empty cell's coordinates and solution in an array
+	 * Returns the first empty cell's coordinates and solution in an array.
+	 *
 	 * @return An array [i,j,k] that corresponds to the [row,col] of the cell, as well as [k] which is the solution
 	 */
 	public int[] getFirstEmptyCellCoordinates()
@@ -207,7 +252,8 @@ public class PuzzleControl {
 	}
 	
 	/**
-	 * Returns the first empty cell with a single possible solution
+	 * Returns the first empty cell with a single possible solution.
+	 *
 	 * @return An array [i,j,k] that corresponds to the [row,col] of the cell, as well as [k] which is the solution
 	 */
 	public int[] getFirstCellWithSinglePossible()
@@ -228,11 +274,21 @@ public class PuzzleControl {
 		return null;
 	}
 	
+	/**
+	 * Gets the timer.
+	 *
+	 * @return the timer
+	 */
 	public TimerLabel getTimer()
 	{
 		return timer;
 	}
 	
+	/**
+	 * Gets the statistics.
+	 *
+	 * @return the statistics
+	 */
 	public Statistics getStatistics()
 	{
 		return statistics;
@@ -240,11 +296,11 @@ public class PuzzleControl {
 	
 	
 	/**
-	 * Checks if 
+	 * Checks if
 	 * - all cells are filled in the board
 	 * - all rows are filled with 1-9
 	 * - all columns are filled with 1-9
-	 * - all grids are filled with 1-9
+	 * - all grids are filled with 1-9.
 	 *
 	 * @return true, if successful
 	 */
@@ -334,7 +390,7 @@ public class PuzzleControl {
 	}
 	
 	/**
-	 * Checks that every cell in the board is filled
+	 * Checks that every cell in the board is filled.
 	 *
 	 * @return true, if successful
 	 */
