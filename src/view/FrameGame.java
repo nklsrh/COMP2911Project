@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 import controller.PuzzleControl;
 import controller.timer.TimerLabel;
 import java.awt.GridLayout;
-import java.awt.SystemColor;
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.event.*;
@@ -15,10 +14,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
 
-import java.awt.FlowLayout;
-
 /**
- * The class that represents the GUI of the Sudoku puzzle game.
+ * Creates, handles, and displays the Game UI
  * 
  * @author Nikhil Suresh, Ryan Tan, Nicholas Ho
  */
@@ -122,6 +119,11 @@ public class FrameGame extends JFrame {
         });		
 	}
 	
+	/**
+	 * Resets values and begins a new game using a PuzzleControl
+	 * @param difficulty A difficulty level from 1 to 3, 3 being hardest
+	 * @param puzzleControl A PuzzleControl object which generates a puzzle
+	 */
 	private void startNewGame(int difficulty, PuzzleControl puzzleControl)
 	{		
 		// if available, load stats data
@@ -140,11 +142,12 @@ public class FrameGame extends JFrame {
 		resetLastPressedCell();
 	}
 	
+	/**
+	 * Sets up the Frame with elements that are populated with data from a PuzzleControl
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
+	 */
 	private void setupFrame(PuzzleControl puzzleControl)
-	{
-		// final is used for access in ActionListener functions
-		final PuzzleControl pz = puzzleControl;
-		
+	{		
 		// the base panel
 		contentPane = new JPanel();
 		contentPane.setBackground(colorBackground);
@@ -173,6 +176,9 @@ public class FrameGame extends JFrame {
 		createStatsObjects(fullPanel, puzzleControl);
 	}
 	
+	/**
+	 * Loads pretty fonts to be used in the drawing of other elements
+	 */
 	private void loadFonts()
 	{
 		// load pretty fonts, fallback to Lucida Sans
@@ -193,6 +199,10 @@ public class FrameGame extends JFrame {
 		}
 	}
 	
+	/**
+	 * Creates a Possibilities tooltip that floats around giving suggestions
+	 * @param fullPanel The panel that will contain the objects created within this function
+	 */
 	private void createPossibilitiesObject(JPanel fullPanel)
 	{
 		toolTipPanel = new JPanel();
@@ -209,6 +219,11 @@ public class FrameGame extends JFrame {
 		toolTipPanel.add(lblPossible);		
 	}
 	
+	/**
+	 * Creates a Timer panel
+	 * @param fullPanel Panel to contain all the created elements
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
+	 */
 	private void createTimerObject(JPanel fullPanel, PuzzleControl puzzleControl)
 	{
 		tabTimer = new JPanel();
@@ -248,8 +263,14 @@ public class FrameGame extends JFrame {
 		tabTimer.add(timer, gbc_lblNewLabel);	
 	}
 	
+	/**
+	 * Creates an Autofill button
+	 * @param fullPanel Panel to contain all the created elements
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
+	 */
 	private void createAutofillObject(JPanel fullPanel, PuzzleControl puzzleControl)
 	{
+		// final is used for access in ActionListener functions
 		final PuzzleControl pz = puzzleControl;
 		
 		btnAutofill = new JButton("Autofill a cell");
@@ -280,6 +301,11 @@ public class FrameGame extends JFrame {
 		});	
 	}
 	
+	/**
+	 * Creates a series of UI elements that provide statistics info
+	 * @param fullPanel Panel to contain all the created elements
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
+	 */
 	private void createStatsObjects(JPanel fullPanel, PuzzleControl puzzleControl)
 	{
 		tabStats = new JPanel();
@@ -324,10 +350,12 @@ public class FrameGame extends JFrame {
 		cheatStats.setFont(font.deriveFont(17f));
 		tabStats.add(cheatStats);
 	}
+	
 	/**
-	 * @param thisX
-	 * @param thisY
-	 * @param pz
+	 * Sets cell font, updates lastPressedCell, and opens keypad for use
+	 * @param row Row coordinate
+	 * @param col Column coordinate
+	 * @param pz A PuzzleControl object to generate puzzle data
 	 */
 	private void cellClicked(int row, int col, PuzzleControl pz)
 	{				
@@ -356,30 +384,32 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * @param thisX
-	 * @param thisY
-	 * @param pz
+	 * Sets a value based on which key is pressed
+	 * @param index 0-8 value that determines which keypad button was pressed
+	 * @param pz A PuzzleControl object to generate puzzle data
 	 */
 	private void keyPressed(int index, PuzzleControl pz)
 	{
 		if (keypadButtons.get(index).getText().length() > 0 && lastPressedCell[0] >= 0 && lastPressedCell[1] >= 0){
 			
 			pz.setCell(lastPressedCell[1], lastPressedCell[0], Integer.valueOf(keypadButtons.get(index).getText()));			 
-			setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);	
+			// debug cell coloring, useful to check if solution is close to autofill
+			//setDEBUGCellColour(lastPressedCell[1],lastPressedCell[0], pz);	
 			setCellNumber(lastPressedCell[1],lastPressedCell[0], pz);	 		  
-		}
-		
+		}		
 		incrementNumActions(pz, 1);
 		incrementNumButtons(pz, 1);
 		actionStats.setText("Number of actions performed: " + pz.getStatistics().getActionCount());
 		buttonStats.setText("Number of buttons pressed: " + pz.getStatistics().getButtonCount());
 		
+		// hide keypad so we can show user that they have to click a cell first
 		keypadPanel.setVisible(false);
 	}
 	
 	/**
-	 * @param keypadPanel
-	 * @param puzzleControl
+	 * Creates a keypad UI
+	 * @param fullPanel The panel to contain these keypad elements
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
 	 */
 	private void setupKeypad(JPanel fullPanel, PuzzleControl puzzleControl)
 	{
@@ -456,8 +486,9 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * @param gridPanel
-	 * @param puzzleControl
+	 * Creates an array of cell elements for UI
+	 * @param fullPanel The panel contains cell elements
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
 	 */
 	private void setupCells(JPanel fullPanel, PuzzleControl puzzleControl)
 	{
@@ -535,9 +566,10 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * @param row
-	 * @param col
-	 * @param isBold
+	 * Sets the font size and bolds the text of a cell if required
+	 * @param row Row coordinate
+	 * @param col Column coordinate
+	 * @param isBold Boolean specifying if the cell text needs to be Bolded
 	 */
 	private void setCellFont(int row, int col, boolean isBold)
 	{
@@ -550,10 +582,12 @@ public class FrameGame extends JFrame {
 			cells.get(row).get(col).setFont(font.deriveFont(19f));
 		}
 	}
+
 	/**
-	 * @param row
-	 * @param col
-	 * @param puzzleControl
+	 * Sets the number of a cell from PuzzleControl values, then sets the colour of that cell accordingly.
+	 * @param row Row coordinate
+	 * @param col Column coordinate
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
 	 */
 	private void setCellNumber(int row, int col, PuzzleControl puzzleControl)
 	{
@@ -570,9 +604,11 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * @param row
-	 * @param col
-	 * @param puzzleControl
+	 * Sets a cell to a pre-determined colour. Includes 3x3 grid colourings, and Fixed cell colorings
+	 * Also sets text color
+	 * @param row Row coordinate
+	 * @param col Column coordinate
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
 	 */
 	private void setCellColour(int row, int col, PuzzleControl puzzleControl)
 	{
@@ -607,9 +643,10 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * @param row
-	 * @param col
-	 * @param puzzleControl
+	 * A DEBUG method to test if an autofilled number was accurate
+	 * @param row Row coordinate
+	 * @param col Column coordinate
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
 	 */
 	private void setDEBUGCellColour(int row, int col, PuzzleControl puzzleControl)
 	{
@@ -624,9 +661,10 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * @param row
-	 * @param col
-	 * @param puzzleControl
+	 * Loads possible values for the given cell, and displays them on the ToolTip if possible
+	 * @param row Row coordinate
+	 * @param col Column coordinate
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
 	 */
 	private void loadHint(int row, int col, PuzzleControl puzzleControl) 
 	{
@@ -647,8 +685,8 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * looks through the cells to find one with ONLY ONE possible legal value, then fills it with that value
-	 * @param puzzleControl
+	 * Looks through the cells to find the first cell with ONLY ONE possible legal value, then fills it with that values
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
 	 */
 	private void autoFill(PuzzleControl puzzleControl)
 	{
@@ -672,7 +710,8 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * @param puzzleControl
+	 * Checks if the puzzle is complete, if yes then begins exit to menu procedure
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
 	 */
 	private void checkIfPuzzleComplete(PuzzleControl puzzleControl)
 	{
@@ -687,7 +726,11 @@ public class FrameGame extends JFrame {
 		}
 	}
 	
-	public void goBackToMainMenu(PuzzleControl puzzleControl)
+	/**
+	 * Exits this frame and goes back to the Main Screen
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
+	 */
+	private void goBackToMainMenu(PuzzleControl puzzleControl)
 	{
 		puzzleControl.getStatistics().calculateTotalCheat();
 		/**
@@ -701,6 +744,9 @@ public class FrameGame extends JFrame {
 		mainFrameFinal.setVisible(true);
 	}
 	
+	/**
+	 * Reset the lastPressedCell int array
+	 */
 	private void resetLastPressedCell()
 	{
 		lastPressedCell = new int[2];
@@ -708,6 +754,11 @@ public class FrameGame extends JFrame {
 		lastPressedCell[1] = -1;
 	}
 	
+	/**
+	 * Updates the number of starts made by the user on puzzles
+	 * @param difficulty The difficulty level from 1-3
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
+	 */
 	private void updateNumStarts(int difficulty, PuzzleControl puzzleControl)
 	{
 		if (difficulty == 1)
@@ -724,6 +775,10 @@ public class FrameGame extends JFrame {
 		}
 	}
 	
+	/**
+	 * Updates the BEST time for this puzzle's difficulty level
+	 * @param puzzleControl A PuzzleControl object to generate puzzle data
+	 */
 	private void updateBestTime(PuzzleControl puzzleControl)
 	{
 		if (puzzleControl.getStatistics().getDifficulty() == 1)
@@ -741,27 +796,34 @@ public class FrameGame extends JFrame {
 	}
 	
 	/**
-	 * Extensible setters woot
-	 * @param pz
-	 * @param value
+	 * Updates the BEST EASY time, if the time is "---" then sets it as the current time
+	 * @param pz A PuzzleControl object to generate puzzle data
 	 */
-	public void updateBestEasyTime(PuzzleControl pz)
+	private void updateBestEasyTime(PuzzleControl pz)
 	{
 		if (timer.getText().compareTo(pz.getStatistics().getBestEasyTime()) < 0 || pz.getStatistics().getBestEasyTime().equals("---"))
 		{
 			pz.getStatistics().setBestEasyTime(timer.getText());
 		}
 	}
-	
-	public void updateBestMediumTime(PuzzleControl pz)
+
+	/**
+	 * Updates the BEST MED time, if the time is "---" then sets it as the current time
+	 * @param pz A PuzzleControl object to generate puzzle data
+	 */
+	private void updateBestMediumTime(PuzzleControl pz)
 	{
 		if (timer.getText().compareTo(pz.getStatistics().getBestMediumTime()) < 0 || pz.getStatistics().getBestMediumTime().equals("---"))
 		{
 			pz.getStatistics().setBestMediumTime(timer.getText());
 		}
 	}
-	
-	public void updateBestHardTime(PuzzleControl pz)
+
+	/**
+	 * Updates the BEST HARD time, if the time is "---" then sets it as the current time
+	 * @param pz A PuzzleControl object to generate puzzle data
+	 */
+	private void updateBestHardTime(PuzzleControl pz)
 	{
 		if (timer.getText().compareTo(pz.getStatistics().getBestHardTime()) < 0 || pz.getStatistics().getBestHardTime().equals("---"))
 		{
@@ -769,57 +831,57 @@ public class FrameGame extends JFrame {
 		}
 	}
 	
-	public void incrementNumActions(PuzzleControl pz, int value)
+	private void incrementNumActions(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setActionCount(pz.getStatistics().getActionCount() + value);
 	}
 
-	public void incrementNumButtons(PuzzleControl pz, int value)
+	private void incrementNumButtons(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setButtonCount(pz.getStatistics().getButtonCount() + value);
 	}
 	
-	public void incrementNumCheat(PuzzleControl pz, int value)
+	private void incrementNumCheat(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setCheatCount(pz.getStatistics().getCheatCount() + value);
 	}
 
-	public void incrementNumHints(PuzzleControl pz, int value)
+	private void incrementNumHints(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setHintCount(pz.getStatistics().getHintCount() + value);
 	}	
 	
-	public void incrementNumProgress(PuzzleControl pz, int value)
+	private void incrementNumProgress(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setProgressCount(pz.getStatistics().getProgressCount() + value);
 	}	
 	
-	public void incrementTotalEmptyBoxes(PuzzleControl pz, int value)
+	private void incrementTotalEmptyBoxes(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setProgressCount(pz.getStatistics().getTotalEmptyBoxesCount() + value);
 	}	
 	
-	public void incrementNumEasyGames(PuzzleControl pz, int value)
+	private void incrementNumEasyGames(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setNumEasyGames(pz.getStatistics().getNumEasyGames() + value);
 	}
 	
-	public void incrementNumMediumGames(PuzzleControl pz, int value)
+	private void incrementNumMediumGames(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setNumMediumGames(pz.getStatistics().getNumMediumGames() + value);
 	}
 	
-	public void incrementNumHardGames(PuzzleControl pz, int value)
+	private void incrementNumHardGames(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setNumHardGames(pz.getStatistics().getNumHardGames() + value);
 	}
 	
-	public void incrementNumPuzzlesStarted(PuzzleControl pz, int value)
+	private void incrementNumPuzzlesStarted(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setNumPuzzlesStarted(pz.getStatistics().getNumPuzzlesStarted() + value);
 	}
 	
-	public void incrementNumPuzzlesFinished(PuzzleControl pz, int value)
+	private void incrementNumPuzzlesFinished(PuzzleControl pz, int value)
 	{
 		pz.getStatistics().setNumPuzzlesFinished(pz.getStatistics().getNumPuzzlesFinished() + value);
 	}

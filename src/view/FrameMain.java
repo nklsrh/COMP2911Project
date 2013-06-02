@@ -18,7 +18,7 @@ import java.io.File;
 import java.awt.FlowLayout;
 
 /**
- * The class that represents the GUI of the Sudoku puzzle game.
+ * Handles and displays the Main Menu screen
  * @author Nikhil Suresh, Ryan Tan, Nicholas Ho
  *
  */
@@ -36,6 +36,9 @@ public class FrameMain extends JFrame {
 	private final Color colorMedium = new Color(247,239,125);	
 	private final Color colorHard = new Color(249,205,185);
 	
+	/**
+	 * Main panel containing every other object in this frame
+	 */
 	private JPanel contentPane;
 
 	/**
@@ -84,13 +87,14 @@ public class FrameMain extends JFrame {
 		setupFrame(puzzleControl);
 	}
 	
+	/**
+	 * Sets up the Frame with elements that are populated with data from a PuzzleControl
+	 * @param puzzleControl A PuzzleControl object to generate data
+	 */
 	public void setupFrame(PuzzleControl puzzleControl)
 	{		
-		if (!puzzleControl.getStatistics().fileExists())
-		{
-			puzzleControl.getStatistics().makeFile();
-		}
-		puzzleControl.getStatistics().readFile();
+		// if available, load stats data
+		puzzleControl.loadSaveFile();
 				
 		JPanel panelHeader = new JPanel();
 		panelHeader.setBackground(colorBackground);
@@ -114,11 +118,17 @@ public class FrameMain extends JFrame {
 		createStatsObjects(puzzleControl);
 	}
 	
+	/**
+	 * Creates a header object with the title, subtitle and credits
+	 * @param panelHeader A panel to contain the elements created within
+	 */
 	private void createHeaderObject(JPanel panelHeader)
 	{
 		JLabel lblTitle = new JLabel("Sudoku");
 		lblTitle.setFont(fontThin.deriveFont(54f));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setVerticalTextPosition(JLabel.CENTER);
+		lblTitle.setHorizontalTextPosition(JLabel.CENTER);
 		
 		GridBagConstraints gridBagC = new GridBagConstraints();
 		gridBagC.gridheight = 2;
@@ -128,7 +138,7 @@ public class FrameMain extends JFrame {
 		gridBagC.gridy = 0;
 		panelHeader.add(lblTitle, gridBagC);
 		
-		JLabel lblSubtitle = new JLabel("by GROUP 04");
+		JLabel lblSubtitle = new JLabel("by GROUP 04 - Nikhil Suresh, Nicholas Ho, Ryan Tan");
 		lblSubtitle.setFont(fontItalic.deriveFont(17f));
 		lblSubtitle.setHorizontalAlignment(SwingConstants.CENTER);
 		gridBagC.insets = new Insets(0, 0, 12, 0);
@@ -145,6 +155,11 @@ public class FrameMain extends JFrame {
 		gridBagC.gridy = 2;
 		panelHeader.add(lblInstruction, gridBagC);
 	}
+	
+	/**
+	 * Creates buttons for Easy medium and Hard modes, also includes best times for each mode
+	 * @param puzzleControl A PuzzleControl object that generates puzzles
+	 */
 	private void createButtonObjects(PuzzleControl puzzleControl)
 	{
 		final FrameMain thisFrame = this;
@@ -352,10 +367,15 @@ public class FrameMain extends JFrame {
 		panelButtons.add(panelButtonHard);
 	}
 	
+	/**
+	 * Creates Statistics objects that are populated with stats saved by the PuzzleControl
+	 * @param puzzleControl A PuzzleControl object which generates puzzles
+	 */
 	private void createStatsObjects(PuzzleControl puzzleControl)
 	{
 		JPanel panelStats = new JPanel();
-		panelStats.setBackground(new Color(255, 255, 255));
+		panelStats.setBackground(Color.WHITE);
+		
 		GridBagConstraints gbc_panelStats = new GridBagConstraints();
 		gbc_panelStats.insets = new Insets(0, 0, 5, 0);
 		gbc_panelStats.fill = GridBagConstraints.BOTH;
@@ -365,7 +385,7 @@ public class FrameMain extends JFrame {
 		panelStats.setLayout(new GridLayout(1, 1, 0, 0));
 		
 		JPanel panelStatsContent = new JPanel();
-		panelStatsContent.setBackground(new Color(255, 255, 255));
+		panelStatsContent.setBackground(Color.WHITE);
 		panelStats.add(panelStatsContent);
 		panelStatsContent.setLayout(new BorderLayout(0, 0));
 		
@@ -379,7 +399,7 @@ public class FrameMain extends JFrame {
 		panelStatsTables.setLayout(new GridLayout(0, 3, 0, 0));
 		
 		JPanel panelStatsMode = new JPanel();
-		panelStatsMode.setBackground(new Color(255, 255, 255));
+		panelStatsMode.setBackground(Color.WHITE);
 		panelStatsTables.add(panelStatsMode);
 		panelStatsMode.setLayout(new GridLayout(2, 1, 0, 0));
 		
@@ -411,7 +431,7 @@ public class FrameMain extends JFrame {
 		lblStatsCompletion.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JPanel panelStatsAutofills = new JPanel();
-		panelStatsAutofills.setBackground(new Color(255, 255, 255));
+		panelStatsAutofills.setBackground(Color.WHITE);
 		panelStatsTables.add(panelStatsAutofills);
 		panelStatsAutofills.setLayout(new GridLayout(2, 1, 0, 0));
 		
@@ -427,6 +447,10 @@ public class FrameMain extends JFrame {
 		panelStatsAutofills.add(lblStatsAutofills);
 	}
 	
+	/**
+	 * Opens a new frame for a new game
+	 * @param frame The game's frame to go to
+	 */
 	private void goToGame(FrameGame frame)
 	{
 		frame.setVisible(true);
