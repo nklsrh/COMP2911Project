@@ -23,7 +23,7 @@ import java.awt.FlowLayout;
  *
  */
 public class FrameGame extends JFrame {
-	private JFrame f;
+	private JFrame mainFrameFinal;
 	
 	private Font font;
 	private Font fontMed;
@@ -99,11 +99,14 @@ public class FrameGame extends JFrame {
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
 	 * in an attractive and accessible manner
 	 */
-	public FrameGame(JFrame mainFrame, int difficulty) {
+	public FrameGame(JFrame mainFrame, int difficulty) 
+	{
+		
 		colorBackground = new Color(240,240,240);
 		
-		f = mainFrame;
-		
+		mainFrameFinal = mainFrame;
+		final JFrame thisFrame = this;
+				
 		numberOfRows = 9;
 		padding = 0; //6
 		textboxWidth = 42; // 28
@@ -126,6 +129,33 @@ public class FrameGame extends JFrame {
 
 		PuzzleControl puzzleControl = new PuzzleControl();
 		startNewGame(difficulty, puzzleControl);
+		
+
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowListener()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+            	if (JOptionPane.showOptionDialog(thisFrame, "You will lose all progress", "Exit puzzle?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null) 
+            			== 0)
+            	{
+                	goBackToMainMenu();
+            	}
+            }
+            public void windowOpened(WindowEvent e) {
+            }
+            public void windowClosed(WindowEvent e) {
+            }
+            public void windowIconified(WindowEvent e) {
+            }
+            public void windowDeiconified(WindowEvent e) {
+            }
+            public void windowActivated(WindowEvent e) {
+            }
+            public void windowDeactivated(WindowEvent e) {
+            }
+        });
+		
 	}
 	
 	private void setupFrame(PuzzleControl puzzleControl)
@@ -682,11 +712,18 @@ public class FrameGame extends JFrame {
 			 */ 		  
 			puzzleControl.getStatistics().makeFile();
 			
-			setVisible(false);
-			f.setVisible(true);
+			
+			goBackToMainMenu();
+			
 			return true;
 		}
 		return false;
+	}
+	
+	public void goBackToMainMenu()
+	{
+		setVisible(false);
+		mainFrameFinal.setVisible(true);
 	}
 
 	private void clearCell(int row, int col, PuzzleControl pz)

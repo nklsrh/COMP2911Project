@@ -28,8 +28,7 @@ public class FrameMain extends JFrame {
 	private Font fontLight;
 	private Font fontItalic;
 	private Font fontThin;
-	
-	
+
 	private final Color colorBackground = new Color(240,240,240); 	
 	private final Color colorSelected = new Color(149,235,255);
 	
@@ -38,8 +37,6 @@ public class FrameMain extends JFrame {
 	private final Color colorHard = new Color(249,205,185);
 	
 	private JPanel contentPane;
-	
-	
 
 	/**
 	 * Creates the frame of the GUI being used to display the Sudoku board and other supplementary information
@@ -159,19 +156,6 @@ public class FrameMain extends JFrame {
 		gbl_panelButtonEasy.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panelButtonEasy.setLayout(gbl_panelButtonEasy);
 		
-//		JButton btnStartGame = new JButton("Easy");
-//		panel_8.add(btnStartGame);
-//		btnStartGame.setBackground(colorEasy);
-//		btnStartGame.setBorder(BorderFactory.createEmptyBorder());
-//		btnStartGame.addActionListener(new ActionListener(){
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				FrameGame f = new FrameGame(1);
-//				f.setVisible(true);
-//				setVisible(false);
-//			}
-//		});
-		
 		final JPanel panelButtonEasyHeader = new JPanel();
 		FlowLayout fl_panelButtonEasyHeader = (FlowLayout) panelButtonEasyHeader.getLayout();
 		fl_panelButtonEasyHeader.setAlignment(FlowLayout.LEFT);
@@ -219,9 +203,7 @@ public class FrameMain extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				FrameGame f = new FrameGame(thisFrame, 1);
-				f.setVisible(true);
-				setVisible(false);
+				goToFrame(new FrameGame(thisFrame, 1));
 			}
 		});
 		
@@ -274,19 +256,6 @@ public class FrameMain extends JFrame {
 		panelButtonMediumFastestTime.setHorizontalAlignment(SwingConstants.LEFT);
 		panelButtonMediumStats.add(panelButtonMediumFastestTime);
 		
-//		JButton button = new JButton("Medium");
-//		panel_9.add(button);
-//		button.setBackground(colorMedium);
-//		button.setBorder(BorderFactory.createEmptyBorder());
-//		button.addActionListener(new ActionListener(){
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				FrameGame f = new FrameGame(2);
-//				f.setVisible(true);
-//				setVisible(false);
-//			}
-//		});
-		
 		panelButtonMedium.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -298,9 +267,7 @@ public class FrameMain extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				FrameGame f = new FrameGame(thisFrame, 2);
-				f.setVisible(true);
-				setVisible(false);
+				goToFrame(new FrameGame(thisFrame, 2));
 			}
 		});
 		
@@ -362,9 +329,7 @@ public class FrameMain extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				FrameGame f = new FrameGame(thisFrame, 3);
-				f.setVisible(true);
-				setVisible(false);
+				goToFrame(new FrameGame(thisFrame, 3));
 			}
 		});
 		
@@ -381,19 +346,6 @@ public class FrameMain extends JFrame {
 		gbc_panelWhitespace.gridx = 0;
 		gbc_panelWhitespace.gridy = 2;
 		contentPane.add(panelWhitespace, gbc_panelWhitespace);
-		
-//		JButton button_1 = new JButton("Hard");
-//		panel_10.add(button_1);
-//		button_1.setBackground(colorHard);
-//		button_1.setBorder(BorderFactory.createEmptyBorder());
-//		button_1.addActionListener(new ActionListener(){
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				FrameGame f = new FrameGame(3);
-//				f.setVisible(true);
-//				setVisible(false);
-//			}
-//		});
 		
 		JPanel panelStats = new JPanel();
 		panelStats.setBackground(new Color(255, 255, 255));
@@ -473,5 +425,11 @@ public class FrameMain extends JFrame {
 		gbc_panelWhitespace2.gridx = 0;
 		gbc_panelWhitespace2.gridy = 4;
 		contentPane.add(panelWhitespace2, gbc_panelWhitespace2);
+	}
+	
+	private void goToFrame(JFrame frame)
+	{
+		frame.setVisible(true);
+		setVisible(false);
 	}
 }
