@@ -51,7 +51,9 @@ public class FrameMain extends JFrame {
 		PuzzleControl puzzleControl = new PuzzleControl();//TODO
 		
 		if (!puzzleControl.getStatistics().fileExists())
+		{
 			puzzleControl.getStatistics().makeFile();
+		}
 		puzzleControl.getStatistics().readFile();
 		
 		setResizable(false);

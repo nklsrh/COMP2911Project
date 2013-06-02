@@ -57,7 +57,6 @@ public class Statistics
 		numPuzzlesStarted = 0;
 		numPuzzlesFinished = 0;
 		file = new File("./stats.txt");
-		acceptFile = new ReadFile();
 		saveFile = new SaveFile("./stats.txt", false);
 	}
 	
@@ -72,6 +71,7 @@ public class Statistics
 	
 	public void readFile()
 	{
+		acceptFile = new ReadFile();
 		bestEasyTime = acceptFile.getConsole().next();
 		bestMediumTime = acceptFile.getConsole().next();
 		bestHardTime = acceptFile.getConsole().next();
@@ -98,7 +98,6 @@ public class Statistics
 		try {
 			saveFile.writeToFile(text);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

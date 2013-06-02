@@ -319,12 +319,6 @@ public class FrameGame extends JFrame {
 		cheatStats.setVerticalAlignment(SwingConstants.CENTER);
 		cheatStats.setFont(font.deriveFont(17f));
 		tabStats.add(cheatStats);
-		
-//		progressStats = new JLabel("Your progress: " + puzzleControl.getStatistics().getProgressCount() + " correct");
-//		progressStats.setHorizontalAlignment(SwingConstants.LEFT);
-//		progressStats.setVerticalAlignment(SwingConstants.CENTER);
-//		progressStats.setFont(font.deriveFont(17f));
-//		tabStats.add(progressStats);
 	}
 	/**
 	 * @param thisX
@@ -662,11 +656,17 @@ public class FrameGame extends JFrame {
 			JOptionPane.showMessageDialog(this, "A WINNER IS YOU");
 
 			if (puzzleControl.getStatistics().getDifficulty() == 1)
+			{
 				updateBestEasyTime(puzzleControl);
+			}
 			else if (puzzleControl.getStatistics().getDifficulty() == 2)
+			{
 				updateBestMediumTime(puzzleControl);
+			}
 			else
+			{
 				updateBestHardTime(puzzleControl);
+			}
 			
 			puzzleControl.getStatistics().calculateTotalCheat();
 			
@@ -705,7 +705,7 @@ public class FrameGame extends JFrame {
 	 */
 	public void updateBestEasyTime(PuzzleControl pz)
 	{
-		if (timer.getText().compareTo(pz.getStatistics().getBestEasyTime()) < 0)
+		if (timer.getText().compareTo(pz.getStatistics().getBestEasyTime()) < 0 || pz.getStatistics().getBestEasyTime().equals("---"))
 		{
 			pz.getStatistics().setBestEasyTime(timer.getText());
 		}
@@ -713,7 +713,7 @@ public class FrameGame extends JFrame {
 	
 	public void updateBestMediumTime(PuzzleControl pz)
 	{
-		if (timer.getText().compareTo(pz.getStatistics().getBestMediumTime()) < 0)
+		if (timer.getText().compareTo(pz.getStatistics().getBestMediumTime()) < 0 || pz.getStatistics().getBestMediumTime().equals("---"))
 		{
 			pz.getStatistics().setBestMediumTime(timer.getText());
 		}
@@ -721,7 +721,7 @@ public class FrameGame extends JFrame {
 	
 	public void updateBestHardTime(PuzzleControl pz)
 	{
-		if (timer.getText().compareTo(pz.getStatistics().getBestHardTime()) < 0)
+		if (timer.getText().compareTo(pz.getStatistics().getBestHardTime()) < 0 || pz.getStatistics().getBestHardTime().equals("---"))
 		{
 			pz.getStatistics().setBestHardTime(timer.getText());
 		}
