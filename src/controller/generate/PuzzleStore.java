@@ -4,15 +4,15 @@ import java.util.LinkedList;
 import java.util.Random;
 // TODO: Auto-generated Javadoc
 /**
- * This Class is used to store 4 predefined completed Sudoku puzzles which are randomly chosen to be used to 
- * generate a new Sudoku puzzle.
+ * This Class is used to store 10 predefined completed Sudoku puzzles which are randomly 
+ * chosen to be used to generate a new Sudoku puzzle.
  * @author Ryan Tan, Nikhil Suresh, Nicholas Ho
  *
  */
 public class PuzzleStore {
 	
 	/**
-	 * A getter that randomly retrieves one of the 4 predefined completed Sudoku puzzles.
+	 * A getter that randomly retrieves one of the 10 predefined completed Sudoku puzzles.
 	 * @return one of the 4 predifined Sudoku puzzles.
 	 */
 	public static String getPuzzle(){

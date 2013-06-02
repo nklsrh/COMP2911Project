@@ -28,8 +28,6 @@ public class Cell {
 	 */
 	public Cell() throws NullPointerException
 	{
-//		this.number = ;
-//		this.solution = number;
 		this.isFixed = true;
 		this.isEmpty = false;
 		resetPossibilties();
@@ -133,7 +131,7 @@ public class Cell {
 		
 		this.isEmpty = false;
 		this.number = num;
-//		removePossibilties();
+
 		removeNeighbourPossibles(num);		
 	}
 	
@@ -187,14 +185,13 @@ public class Cell {
 	}
 	
 	public void addPossibilties(Integer value){
-		if(!this.possibilities.contains(value)){
+		if(!this.possibilities.contains(value) && isEmpty == true){
 			this.possibilities.add(value);
-//			this.possibilities.add(this.possibilities.indexOf(value), element)
 		}
 	}
 	
 	public void removePossibilties(int value){
-		if(this.possibilities.contains(value)){
+		if(this.possibilities.contains(value) && isEmpty == true){
 			this.possibilities.remove(possibilities.indexOf(value));
 		}
 	}
@@ -210,17 +207,13 @@ public class Cell {
 		Iterator<Cell> rit = row.getList().iterator();
 		while(rit.hasNext()){
 			Cell rowCell = rit.next();
-			if(this != rowCell){
-				rowCell.removePossibilties(num);
-			}
+			rowCell.removePossibilties(num);
 		}
 		
 		Iterator<Cell> cit = column.getList().iterator();
 		while(cit.hasNext()){
 			Cell columnCell = cit.next();
-			if(this != columnCell){
-				columnCell.removePossibilties(num);
-			}
+			columnCell.removePossibilties(num);
 		}
 		
 		Iterator<ArrayList<Cell>> git = grid.getGridTable().iterator();
@@ -228,9 +221,7 @@ public class Cell {
 			Iterator<Cell> gRow = git.next().iterator(); 
 			while(gRow.hasNext()){
 				Cell gridCell = gRow.next();
-				if(this != gridCell){
-					gridCell.removePossibilties(num);
-				}
+				gridCell.removePossibilties(num);
 			}
 		}
 	}
@@ -239,17 +230,13 @@ public class Cell {
 		Iterator<Cell> rit = row.getList().iterator();
 		while(rit.hasNext()){
 			Cell rowCell = rit.next();
-			if(this != rowCell){
-				rowCell.addPossibilties(num);
-			}
+			rowCell.addPossibilties(num);
 		}
 		
 		Iterator<Cell> cit = column.getList().iterator();
 		while(cit.hasNext()){
 			Cell columnCell = cit.next();
-			if(this != columnCell){
-				columnCell.addPossibilties(num);
-			}
+			columnCell.addPossibilties(num);
 		}
 		
 		Iterator<ArrayList<Cell>> git = grid.getGridTable().iterator();
@@ -257,9 +244,7 @@ public class Cell {
 			Iterator<Cell> gRow = git.next().iterator(); 
 			while(gRow.hasNext()){
 				Cell gridCell = gRow.next();
-				if(this != gridCell){
-					gridCell.addPossibilties(num);
-				}
+				gridCell.addPossibilties(num);
 			}
 		}
 	}

@@ -4,8 +4,9 @@ import java.util.Comparator;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class implements the comparator interface to compare the columns of Square objects and determine their
- * order.
+ * This class implements the comparator interface to compare the columns of Square 
+ * objects and determine their order.
+ * 
  * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
  *
  */

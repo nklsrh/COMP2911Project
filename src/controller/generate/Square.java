@@ -1,9 +1,8 @@
 package controller.generate;
 
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class Square.
+ * Square Class, simplified version of a cell with a different architecture purposed
+ * of storing for row and col swaps.
  */
 public class Square {
 	
@@ -17,7 +16,7 @@ public class Square {
 	public int value;
 	
 	/**
-	 * Instantiates a new square.
+	 * Instantiates a new square of row, col and value.
 	 *
 	 * @param row the row
 	 * @param col the col

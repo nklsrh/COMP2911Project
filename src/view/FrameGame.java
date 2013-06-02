@@ -19,8 +19,8 @@ import java.awt.FlowLayout;
 
 /**
  * The class that represents the GUI of the Sudoku puzzle game.
+ * 
  * @author Nikhil Suresh, Ryan Tan, Nicholas Ho
- *
  */
 public class FrameGame extends JFrame {
 	private JFrame f;
@@ -46,8 +46,6 @@ public class FrameGame extends JFrame {
 	private JLabel buttonStats;
 	private JLabel winStats;
 	private JLabel cheatStats;
-	private JLabel hintStats;
-	private JLabel progressStats;
 	private JPanel tabTimer;
 	private JPanel tabStats;
 	private JPanel keypadPanel;
@@ -260,6 +258,8 @@ public class FrameGame extends JFrame {
 				autoFill(pz);
 			}
 		});
+		
+		
 		btnAutofill.addMouseListener(new MouseAdapter(){
 			@Override
             public void mouseEntered(MouseEvent evt)

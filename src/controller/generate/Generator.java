@@ -10,9 +10,21 @@ import model.Cell;
 import model.Puzzle;
 import model.Row;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Generator.
+ *  Generator Class, This is a Sudoku puzzle generator. It creates a full puzzle through 
+ *  transformations of rows and columns across grids of stored sudoku puzzles. 
+ *  Idea taken from [http://ljkrakauer.com/Sudoku/transformations.htm]. 
+ *  To not have confusion between java files, this generator is separate from the sudoku 
+ *  playing classes, the only interaction is the Generator.packageUp(Puzzle) function which 
+ *  takes in a puzzle and fill in the square. Cells in Sudoku are named Squares here to not 
+ *  cause confusion, being the same but different. 
+ *  
+ *  Initialization is done by first filling up an empty puzzle with one of the ten stored 
+ *  puzzles. The 81 square are placed into 18 groups of 9 rows and 9 columns as references, 
+ *  one square Swap operations are done by swapping either the row or column index per turn, then a 
+ *  Collection.sort operation is applied to align the square within the other group.
+ *  
+ *  @author Ryan Tan
  */
 public class Generator {
 	
@@ -22,23 +34,25 @@ public class Generator {
 	/** The col groups. */
 	private LinkedList<LinkedList<Square>> colGroups;
 	
-	/** The rc. */
+	/** The rc for sorting squares according to row index. */
 	private RowsComparator rc;
 	
-	/** The cc. */
+	/** The cc for sorting squares according to column index. */
 	private ColsComparator cc;
 	
-	/** The cells. */
-	private Square[] cells;
+	/** The squares . */
+	private Square[] squares;
 	
-	/** The rand. */
+	/** The random number generator for nextInt()s. */
 	private Random rand;
 	
-	/** The Constant NUM_SHUFFLES. */
-	private final static int NUM_SHUFFLES = 5;
+	/** The Constant NUM_SHUFFLES for the fixed number of row and shuffles 
+	 * applied to a puzzle. */
+	private final static int NUM_SHUFFLES = 25;
 	
 	/**
-	 * Instantiates a new generator.
+	 * Instantiates a new generator, creates the new squares 
+	 * and stores references into the row and column lists.
 	 */
 	public Generator(){
 		rc = new RowsComparator();
@@ -46,20 +60,20 @@ public class Generator {
 		this.rowGroups = new LinkedList<LinkedList<Square>>();
 		this.colGroups = new LinkedList<LinkedList<Square>>();
 		this.rand = new Random();
-		this.cells = new Square[81];
-		int[] cellInts = new int[81];
+		this.squares = new Square[81];
+		int[] squareInts = new int[81];
 		
-		//randomly select one of four puzzles
+		//randomly select one of ten puzzles
 		String randPuzzle = PuzzleStore.getPuzzle();
 		
 		int i = 0;
 	    for(String substr : randPuzzle.split(" ")) {
-	    	cellInts[i++] = Integer.parseInt(substr);
+	    	squareInts[i++] = Integer.parseInt(substr);
 	    }
 		
 	    i=0;
 		for(int j=0;  j < 81; j++){
-			cells[i] = new Square(j/9, j%9, cellInts[i++]);
+			squares[i] = new Square(j/9, j%9, squareInts[i++]);
 		}
 		
 		//Add references to lists that contain the groups
@@ -73,15 +87,16 @@ public class Generator {
         
 		int row, col;
 		for(i=0; i<81; i++){
-			row = cells[i].row;
-			col = cells[i].col;
-			this.rowGroups.get(row).add(cells[i]);
-			this.colGroups.get(col).add(cells[i]);
+			row = squares[i].row;
+			col = squares[i].col;
+			this.rowGroups.get(row).add(squares[i]);
+			this.colGroups.get(col).add(squares[i]);
 		}
 	}
 	
 	/**
-	 * Shuffle puzzle.
+	 * Shuffles the puzzle first in rows and then grids by the 
+	 * constant number of shuffles. Checks sanity of board values after. 
 	 */
 	public void shufflePuzzle(){
 		for(int i=0; i<NUM_SHUFFLES; i++){
@@ -89,6 +104,8 @@ public class Generator {
 			shuffleColsInGrid();
 		}
 		
+		//sanity checker to check if values do not clash
+		//from the numerous swaps
 		try {
 			this.checkSanity();
 		} catch (IllegalArgumentException e) {
@@ -97,7 +114,9 @@ public class Generator {
 	}
 	
 	/**
-	 * Shuffle rows in grid.
+	 * Shuffle rows between the 3 rows within a grid. It swaps the 
+	 * row square objects first, updates the row & col indexes and then 
+	 * it sorts the columns after according to the index.
 	 */
 	private void shuffleRowsInGrid(){
 		//random 2 row ints
@@ -111,23 +130,24 @@ public class Generator {
 		LinkedList<Square> fstRows = this.rowGroups.get(fst); //gets first row
 		LinkedList<Square> sndRows = this.rowGroups.get(snd); //gets second row
 		
-		//swap
+		//swaps
 		for(int i=0; i<9; i++){
 			Square temp = fstRows.get(i);
 			fstRows.set(i, sndRows.get(i));
 			sndRows.set(i, temp);
 			
-			//change colNumbers first
+			//change colNumbers
 			int tempCol = fstRows.get(i).col;
 			fstRows.get(i).col = sndRows.get(i).col;
 			sndRows.get(i).col = tempCol;
 			
-			//change rowNumbers first
+			//change rowNumbers to coincide with the squares
 			int tempRow = fstRows.get(i).row;
 			fstRows.get(i).row = sndRows.get(i).row;
 			sndRows.get(i).row = tempRow;
 		}
 		
+		//Sorts the 
 		Iterator<LinkedList<Square>> colit = colGroups.iterator();
 		while(colit.hasNext()){
 			Collections.sort(colit.next(), rc);
@@ -136,7 +156,9 @@ public class Generator {
 	}
 	
 	/**
-	 * Shuffle cols in grid.
+	 * Shuffle columns between the 3 rows within a grid. It swaps the 
+	 * row square objects first, updates the row & col indexes and then 
+	 * it sorts the row after according to the index.
 	 */
 	private void shuffleColsInGrid(){
 		//random 2 row ints
@@ -176,7 +198,10 @@ public class Generator {
 	
 	
 	/**
-	 * Check sanity.
+	 * Check sanity, if every group of row and column has the square 
+	 * numbers from 1..9. Sudoku generate is correct in all cases thus far, but breaking 
+	 * the program would be essential to prevent an invalid sudoku. Thus throwing an 
+	 * IllegalArguementException exception. 
 	 *
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
@@ -204,10 +229,12 @@ public class Generator {
 			}
 		}
 		
+		
 	}
 	
 	/**
-	 * Gets the required.
+	 * Helper function for checkSanity(), populates the "Required" list from
+	 * 1..9 so it wont have to be done twice.
 	 *
 	 * @return the required
 	 */
@@ -220,7 +247,7 @@ public class Generator {
 	}
 	
 	/**
-	 * Package up.
+	 * Packages up a puzzle object and fills all cell solutions.  
 	 *
 	 * @param puzzle the puzzle
 	 * @return the puzzle
@@ -233,16 +260,15 @@ public class Generator {
 			LinkedList<Square> sqList = rowGroups.get(i);
 			for(int j=0; j<cellList.size(); j++){
 				int number = sqList.get(j).value;
-				//cellList.get(j).setNumber(number);	
 				cellList.get(j).setSolution(number);
 			}
 		}
-		
 		return puzzle;
 	}
 	
 	/**
-	 * Puzzle pretty print by groups.
+	 * Puzzle pretty prints only row or col groups. Used for printing out
+	 * and checking if the row puzzle rotates to col puzzle.
 	 *
 	 * @param type the type
 	 * @return the string
@@ -282,25 +308,4 @@ public class Generator {
 		}
 		return result;
 	}
-	
-	/**
-	 * Puzzle pretty print.
-	 *
-	 * @return the string
-	 */
-	public String puzzlePrettyPrint(){
-        String result = "";
-        int i = 0;
-        for (int j = 1; j < 10; j++) {
-            for (int k = 1; k < 10; k++){
-                result += " "+cells[i++].value; 
-                if ((k % 3)== 0 && k < 9)
-                    result += " |";
-            }
-            result += "\n";
-            if ((j % 3)== 0 && j < 9)
-                result += "-------+-------+-------\n";
-        }
-        return result;
-    }
 }
