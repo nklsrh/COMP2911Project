@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="11.5.1">
-  <zoom_level>10</zoom_level>
+  <zoom_level>9</zoom_level>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>120</x>
-      <y>50</y>
-      <w>190</w>
-      <h>80</h>
+      <x>234</x>
+      <y>9</y>
+      <w>171</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>FrameMain
 --
@@ -20,10 +20,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>0</x>
-      <y>240</y>
-      <w>320</w>
-      <h>240</h>
+      <x>126</x>
+      <y>180</y>
+      <w>288</w>
+      <h>216</h>
     </coordinates>
     <panel_attributes>FrameGame
 --
@@ -46,10 +46,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>490</x>
-      <y>90</y>
-      <w>100</w>
-      <h>20</h>
+      <x>567</x>
+      <y>45</y>
+      <w>90</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>JLabel</panel_attributes>
     <additional_attributes/>
@@ -57,10 +57,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>440</x>
-      <y>190</y>
-      <w>100</w>
-      <h>40</h>
+      <x>522</x>
+      <y>135</y>
+      <w>90</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Interface&gt;&gt;
 ActionListener</panel_attributes>
@@ -69,50 +69,50 @@ ActionListener</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>270</x>
-      <y>80</y>
-      <w>240</w>
-      <h>180</h>
+      <x>369</x>
+      <y>36</y>
+      <w>215</w>
+      <h>161</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=   *
 m2=  1
 </panel_attributes>
-    <additional_attributes>220;30;30;160</additional_attributes>
+    <additional_attributes>198;27;27;144</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>280</x>
-      <y>70</y>
-      <w>230</w>
-      <h>50</h>
+      <x>378</x>
+      <y>27</y>
+      <w>206</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>210;30;30;30</additional_attributes>
+    <additional_attributes>189;27;27;27</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>290</x>
-      <y>180</y>
-      <w>170</w>
-      <h>130</h>
+      <x>387</x>
+      <y>126</y>
+      <w>152</w>
+      <h>116</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>150;30;30;110</additional_attributes>
+    <additional_attributes>135;27;27;99</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>170</x>
-      <y>100</y>
-      <w>50</w>
-      <h>160</h>
+      <x>279</x>
+      <y>54</y>
+      <w>44</w>
+      <h>143</h>
     </coordinates>
     <panel_attributes>lt=&lt;-&gt;
 m1= 1
 m2=  1</panel_attributes>
-    <additional_attributes>30;30;30;140</additional_attributes>
+    <additional_attributes>27;27;27;126</additional_attributes>
   </element>
 </diagram>
