@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * This class handles all statistics that are present and displayed in the game.
  * 
@@ -12,31 +13,71 @@ import java.io.IOException;
  */
 public class Statistics
 {	
+	
+	/** The difficulty. */
 	private int difficulty;
+	
+	/** The action count. */
 	private int actionCount;
+	
+	/** The button count. */
 	private int buttonCount;
+	
+	/** The cheat count. */
 	private int cheatCount;
+	
+	/** The hint count. */
 	private int hintCount;
+	
+	/** The progress count. */
 	private int progressCount;
+	
+	/** The empty boxes count. */
 	private int emptyBoxesCount;
 	
+	/** The best easy time. */
 	private String bestEasyTime;
+	
+	/** The best medium time. */
 	private String bestMediumTime;
+	
+	/** The best hard time. */
 	private String bestHardTime;
+	
+	/** The num easy games. */
 	private int numEasyGames;
+	
+	/** The num medium games. */
 	private int numMediumGames;
+	
+	/** The num hard games. */
 	private int numHardGames;
+	
+	/** The total cheat. */
 	private int totalCheat;
+	
+	/** The num puzzles started. */
 	private int numPuzzlesStarted;
+	
+	/** The num puzzles finished. */
 	private int numPuzzlesFinished;
 	
+	/** The file. */
 	private File file;
 	
+	/** The accept file. */
 	private ReadFile acceptFile;
+	
+	/** The save file. */
 	private SaveFile saveFile;
 	
+	/** The Constant EASY. */
 	private static final int EASY = 1;
+	
+	/** The Constant MEDIUM. */
 	private static final int MEDIUM = 2;
+	
+	/** The Constant HARD. */
 	private static final int HARD = 3;
 	
 	/**
@@ -170,7 +211,9 @@ public class Statistics
 	}
 	
 	/**
-	 * Sets the difficulty field, based on difficulty chosen by the player.	 * 
+	 * Sets the difficulty field, based on difficulty chosen by the player.	 *
+	 *
+	 * @param difficulty the new difficulty
 	 */
 	public void setDifficulty (int difficulty)
 	{
@@ -181,8 +224,8 @@ public class Statistics
 	 * Translates difficulty from an int to a String, where<br>
 	 * 1 == Easy<br>
 	 * 2 == Medium<br>
-	 * 3 == Hard<br>
-	 * 
+	 * 3 == Hard<br>.
+	 *
 	 * @param difficulty the difficulty, in int format.
 	 * @return the difficulty, in String format.
 	 */
@@ -223,141 +266,281 @@ public class Statistics
 		return difficultyString;
 	}
 	
+	/**
+	 * Sets the action count.
+	 *
+	 * @param numActions the new action count
+	 */
 	public void setActionCount(int numActions)
 	{
 		actionCount = numActions;
 	}
 	
+	/**
+	 * Sets the button count.
+	 *
+	 * @param numButtons the new button count
+	 */
 	public void setButtonCount(int numButtons)
 	{
 		buttonCount = numButtons;
 	}
 	
+	/**
+	 * Sets the cheat count.
+	 *
+	 * @param numCheat the new cheat count
+	 */
 	public void setCheatCount(int numCheat)
 	{
 		cheatCount = numCheat;
 	}
 	
+	/**
+	 * Sets the hint count.
+	 *
+	 * @param numHints the new hint count
+	 */
 	public void setHintCount(int numHints)
 	{
 		hintCount = numHints;
 	}
 	
+	/**
+	 * Sets the progress count.
+	 *
+	 * @param numProgress the new progress count
+	 */
 	public void setProgressCount(int numProgress)
 	{
 		progressCount = numProgress;
 	}
 	
+	/**
+	 * Sets the total empty boxes count.
+	 *
+	 * @param numBoxes the new total empty boxes count
+	 */
 	public void setTotalEmptyBoxesCount(int numBoxes)
 	{
 		emptyBoxesCount = numBoxes;
 	}
 	
+	/**
+	 * Sets the best easy time.
+	 *
+	 * @param bestEasyTime the new best easy time
+	 */
 	public void setBestEasyTime(String bestEasyTime)
 	{
 		this.bestEasyTime = bestEasyTime; 
 	}
 	
+	/**
+	 * Sets the best medium time.
+	 *
+	 * @param bestMediumTime the new best medium time
+	 */
 	public void setBestMediumTime(String bestMediumTime)
 	{
 		this.bestMediumTime = bestMediumTime; 
 	}
 	
+	/**
+	 * Sets the best hard time.
+	 *
+	 * @param bestHardTime the new best hard time
+	 */
 	public void setBestHardTime(String bestHardTime)
 	{
 		this.bestHardTime = bestHardTime;
 	}
 	
+	/**
+	 * Sets the num easy games.
+	 *
+	 * @param numEasyGames the new num easy games
+	 */
 	public void setNumEasyGames(int numEasyGames)
 	{
 		this.numEasyGames = numEasyGames;
 	}
 	
+	/**
+	 * Sets the num medium games.
+	 *
+	 * @param numMediumGames the new num medium games
+	 */
 	public void setNumMediumGames(int numMediumGames)
 	{
 		this.numMediumGames = numMediumGames;
 	}
 	
+	/**
+	 * Sets the num hard games.
+	 *
+	 * @param numHardGames the new num hard games
+	 */
 	public void setNumHardGames(int numHardGames)
 	{
 		this.numHardGames = numHardGames;
 	}
 	
+	/**
+	 * Sets the total cheat.
+	 *
+	 * @param totalCheat the new total cheat
+	 */
 	public void setTotalCheat(int totalCheat)
 	{
 		this.totalCheat = totalCheat;
 	}
 	
+	/**
+	 * Sets the num puzzles started.
+	 *
+	 * @param numPuzzles the new num puzzles started
+	 */
 	public void setNumPuzzlesStarted(int numPuzzles)
 	{
 		numPuzzlesStarted = numPuzzles;
 	}
 	
+	/**
+	 * Sets the num puzzles finished.
+	 *
+	 * @param numPuzzles the new num puzzles finished
+	 */
 	public void setNumPuzzlesFinished(int numPuzzles)
 	{
 		numPuzzlesFinished = numPuzzles;
 	}
 	
+	/**
+	 * Gets the action count.
+	 *
+	 * @return the action count
+	 */
 	public int getActionCount()
 	{
 		return actionCount;
 	}
 	
+	/**
+	 * Gets the button count.
+	 *
+	 * @return the button count
+	 */
 	public int getButtonCount()
 	{
 		return buttonCount;
 	}
 	
+	/**
+	 * Gets the cheat count.
+	 *
+	 * @return the cheat count
+	 */
 	public int getCheatCount()
 	{
 		return cheatCount;
 	}
 	
+	/**
+	 * Gets the hint count.
+	 *
+	 * @return the hint count
+	 */
 	public int getHintCount()
 	{
 		return hintCount;
 	}
 	
+	/**
+	 * Gets the progress count.
+	 *
+	 * @return the progress count
+	 */
 	public int getProgressCount()
 	{
 		return progressCount;
 	}
 	
+	/**
+	 * Gets the total empty boxes count.
+	 *
+	 * @return the total empty boxes count
+	 */
 	public int getTotalEmptyBoxesCount()
 	{
 		return emptyBoxesCount;
 	}
 	
+	/**
+	 * Gets the difficulty.
+	 *
+	 * @return the difficulty
+	 */
 	public int getDifficulty()
 	{
 		return difficulty;
 	}	
 	
+	/**
+	 * Gets the num puzzles finished.
+	 *
+	 * @return the num puzzles finished
+	 */
 	public int getNumPuzzlesFinished()
 	{
 		return numPuzzlesFinished;
 	}
 	
+	/**
+	 * Gets the num puzzles started.
+	 *
+	 * @return the num puzzles started
+	 */
 	public int getNumPuzzlesStarted()
 	{
 		return numPuzzlesStarted;
 	}
 	
+	/**
+	 * Gets the total cheat.
+	 *
+	 * @return the total cheat
+	 */
 	public int getTotalCheat()
 	{
 		return totalCheat;
 	}
 	
+	/**
+	 * Gets the num hard games.
+	 *
+	 * @return the num hard games
+	 */
 	public int getNumHardGames()
 	{
 		return numHardGames;
 	}
 	
+	/**
+	 * Gets the num medium games.
+	 *
+	 * @return the num medium games
+	 */
 	public int getNumMediumGames()
 	{
 		return numMediumGames;
 	}
 	
+	/**
+	 * Gets the num easy games.
+	 *
+	 * @return the num easy games
+	 */
 	public int getNumEasyGames()
 	{
 		return numEasyGames;

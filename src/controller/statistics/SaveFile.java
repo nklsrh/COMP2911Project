@@ -11,10 +11,17 @@ import java.io.PrintWriter;
  * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
  */
 public class SaveFile {
+	
+	/** The path. */
 	private String path;
+	
+	/** The append to file. */
 	private boolean appendToFile;
 	
 	/**
+	 * Instantiates a new save file.
+	 *
+	 * @param filePath the file path
 	 * @param appendToFile for our purposes, appendToFile is always false, so that the file is overwritten
 	 * every time.
 	 */
@@ -25,8 +32,9 @@ public class SaveFile {
 	
 	/**
 	 * This method writes a string to the newly-produced file.
-	 * 
+	 *
 	 * @param text the contents to be written to the file.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void writeToFile(String text) throws IOException {
 		FileWriter write = new FileWriter(path, appendToFile);

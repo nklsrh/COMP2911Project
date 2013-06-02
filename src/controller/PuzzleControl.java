@@ -33,7 +33,7 @@ public class PuzzleControl {
 	/** The timer running */
 	private TimerLabel timer;
 	
-	/** The statistics. */
+	/** The statistics Object. */
 	private Statistics statistics;
 	
 	/**
@@ -45,7 +45,7 @@ public class PuzzleControl {
 	}
 	
 	/**
-	 * Creates the puzzle, using the generator first instanciates it, 
+	 * Creates the puzzle, using the generator first instantiates it, 
 	 * shuffles and packages it all up by setting all cell values
 	 *
 	 * @param difficulty the difficulty
@@ -126,7 +126,8 @@ public class PuzzleControl {
 	
 	
 	/**
-	 * Creates the puzzle and solution.
+	 * Creates the puzzle and solution, references the missingCells to 
+	 * point to which cell needs to be made empty.
 	 *
 	 * @param s the s
 	 * @param missingCells the missing cells
@@ -158,7 +159,8 @@ public class PuzzleControl {
 	
 	
 	/**
-	 * Populate solution from array string.
+	 * Populate solution from array string, used in testing to populate a 
+	 * fixed puzzle string of 81 spaced values representing a sudoku puzzle.
 	 *
 	 * @param gridsStrings the grids strings
 	 * @return the puzzle
@@ -252,7 +254,9 @@ public class PuzzleControl {
 	}
 	
 	/**
-	 * Returns the first empty cell with a single possible solution.
+	 * Returns the first empty cell with a single possible solution, used for autofilling the Sudoku Board,
+	 * As AutoFill is made like a human, cell with remaining single possibles fill up that last one into the 
+	 * cell's number.
 	 *
 	 * @return An array [i,j,k] that corresponds to the [row,col] of the cell, as well as [k] which is the solution
 	 */
@@ -275,7 +279,7 @@ public class PuzzleControl {
 	}
 	
 	/**
-	 * Gets the timer.
+	 * Gets the current game time duration
 	 *
 	 * @return the timer
 	 */
@@ -285,7 +289,7 @@ public class PuzzleControl {
 	}
 	
 	/**
-	 * Gets the statistics.
+	 * Returns the statistics of the game.
 	 *
 	 * @return the statistics
 	 */
@@ -390,7 +394,8 @@ public class PuzzleControl {
 	}
 	
 	/**
-	 * Checks that every cell in the board is filled.
+	 * Checks that every cell in the board is filled, 
+	 * all 81 without nulls.
 	 *
 	 * @return true, if successful
 	 */
