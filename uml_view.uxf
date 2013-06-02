@@ -4,23 +4,164 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>100</x>
+      <x>280</x>
       <y>60</y>
-      <w>260</w>
-      <h>180</h>
+      <w>190</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>FrameMain
 --
 -contentPane : JPanel
--boxes : ArrayList&lt;ArrayList&lt;JTextField&gt;&gt;
--numberOfRows : Integer
--padding : Integer
--textboxWidth : Integer
--widthBetweenTextBoxes : Integer
--totalWidthOfGrid : Integer
--widthOfSidebar : Integer
 --
-+FrameMain()</panel_attributes>
++FrameMain()
+-goToFrame(JFrame) : void</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>160</x>
+      <y>250</y>
+      <w>320</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>FrameGame
+--
+-mainFrameFinal : JFrame
+-cells : ArrayList&lt;ArrayList&lt;JButton&gt;
+-keypadButtons : ArrayList&lt;JButton&gt;
+-btnAutofill : JButton
+--
++FrameGame(JFrame,int)
+-startNewGame(int,PuzzleControl) : void
+-cellClicked(int,int,PuzzleControl) : void
+-keyPressed(int,PuzzleControl) : void
+-loadHint(int,int,PuzzleControl) : void
+-autoFill(PuzzleControl : void
+-checkIfPuzzleComplete(PuzzleControl) : boolean
++goBackToMainMenu() : void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>650</x>
+      <y>100</y>
+      <w>100</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>JLabel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>600</x>
+      <y>200</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+ActionListener</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>600</x>
+      <y>340</y>
+      <w>250</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>TimerLabel
+--
+-startTime : Long
+--
++TimerLabel()
++actionPerformed(ActionEvent) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>620</x>
+      <y>210</y>
+      <w>50</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;30;30;130</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>690</x>
+      <y>90</y>
+      <w>50</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;250</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>360</x>
+      <y>110</y>
+      <w>50</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>30;140;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>430</x>
+      <y>90</y>
+      <w>240</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=   *
+m2=  1
+</panel_attributes>
+    <additional_attributes>220;30;30;160</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>450</x>
+      <y>340</y>
+      <w>170</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=  1
+m2= 1</panel_attributes>
+    <additional_attributes>150;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>440</x>
+      <y>80</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>210;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>450</x>
+      <y>190</y>
+      <w>170</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>150;30;30;110</additional_attributes>
   </element>
 </diagram>
