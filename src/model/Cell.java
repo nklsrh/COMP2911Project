@@ -25,19 +25,19 @@ public class Cell {
 	/** The is empty. */
 	private boolean isEmpty;
 	
-	/** The row. */
+	/** The row of itself. */
 	private Row row;
 	
-	/** The column. */
+	/** The column of itself. */
 	private Column column;
 	
-	/** The grid. */
+	/** The grid of itself. */
 	private Grid grid;
 	
 	/** The possibilities. */
 	private ArrayList<Integer> possibilities = new ArrayList<Integer>();
 	
-	/** The reset possibilties. */
+	/** The reset possibilities. */
 	public Object resetPossibilties;
 	
 	/**
@@ -53,7 +53,7 @@ public class Cell {
 	}
 	
 	/**
-	 * Gets the column.
+	 * Gets the column it represents.
 	 *
 	 * @return the column
 	 */
@@ -62,7 +62,7 @@ public class Cell {
 	}
 	
 	/**
-	 * Sets the column.
+	 * Stores the collumn that this is represented in
 	 *
 	 * @param column the new column
 	 */
@@ -71,7 +71,7 @@ public class Cell {
 	}
 	
 	/**
-	 * Gets the row.
+	 * Gets the row it represents.
 	 *
 	 * @return the row
 	 */
@@ -80,7 +80,7 @@ public class Cell {
 	}
 	
 	/**
-	 * Sets the row.
+	 * Stores the row that this is represented in
 	 *
 	 * @param row the new row
 	 */
@@ -89,7 +89,7 @@ public class Cell {
 	}
 	
 	/**
-	 * Gets the grid.
+	 * Gets the grid it represents.
 	 *
 	 * @return the grid
 	 */
@@ -99,7 +99,7 @@ public class Cell {
 	
 	
 	/**
-	 * Sets the grid.
+	 * Stores the grids that this is represented in
 	 *
 	 * @param grid the new grid
 	 */
