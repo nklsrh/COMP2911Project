@@ -3,10 +3,13 @@ package controller.statistics;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
-import view.FrameMain;
 
+/**
+ * This class handles all statistics that are present and displayed in the game.
+ * 
+ * @author Ryan Tan, Nikhil Suresh and Nicholas Ho
+ */
 public class Statistics
 {	
 	private int difficulty;
@@ -37,6 +40,9 @@ public class Statistics
 	private static final int MEDIUM = 2;
 	private static final int HARD = 3;
 	
+	/**
+	 * This constructor initialises all integer values to 0, and times to an arbitrarily large number.
+	 */
 	public Statistics()
 	{
 		difficulty = 0;
@@ -60,7 +66,11 @@ public class Statistics
 		saveFile = new SaveFile("./stats.txt", false);
 	}
 	
-	
+	/**
+	 * A boolean method that checks if the stats.txt file exists in the project directory.
+	 * 
+	 * @return true if the file exists, false if it is missing.
+	 */
 	public boolean fileExists()
 	{
 		if (file.exists())
@@ -69,6 +79,10 @@ public class Statistics
 			return false;
 	}
 	
+	/**
+	 * This method takes all information in the saved stats.txt file and initialises all statistics with
+	 * the saved values.
+	 */
 	public void readFile()
 	{
 		acceptFile = new ReadFile();
@@ -83,6 +97,10 @@ public class Statistics
 		numPuzzlesFinished = acceptFile.getConsole().nextInt();
 	}
 	
+	/**
+	 * This method gathers all relevant statistics information that requires saving, and writes it to 
+	 * a text file as a String, where the data is separated by spaces for easy reading.
+	 */
 	public void makeFile()
 	{
 		String text = getBestEasyTime()+" "+
@@ -102,6 +120,12 @@ public class Statistics
 		}
 	}
 	
+	/**
+	 * This method calculates a value representing the number of games started versus the number of games
+	 * finished, as a percentage value.
+	 * 
+	 * @return player's percentage success in completing the puzzles
+	 */
 	public int calculateCompletionRate()
 	{
 		int percentage = 100;
@@ -112,11 +136,22 @@ public class Statistics
 		return percentage;
 	}
 	
+	/**
+	 * A method that simply calculates the total number of times that a player has used the autofill
+	 * button. 
+	 */
 	public void calculateTotalCheat()
 	{		
 		totalCheat = totalCheat + cheatCount;
 	}
 	
+	/**
+	 * A method that determines which difficulty is the most-played mode by comparing the number of games
+	 * played of each difficulty.
+	 * 
+	 * @return the most-played difficulty mode, in String format. If all games are played equally, returns
+	 * "none"
+	 */
 	public String findFavouriteDifficulty()
 	{
 		int favouriteDifficulty = 0;
@@ -137,11 +172,23 @@ public class Statistics
 		return favDiffString;	
 	}
 	
+	/**
+	 * Sets the difficulty field, based on difficulty chosen by the player.	 * 
+	 */
 	public void setDifficulty (int difficulty)
 	{
 		this.difficulty = difficulty;
 	}
 	
+	/**
+	 * Translates difficulty from an int to a String, where<br>
+	 * 1 == Easy<br>
+	 * 2 == Medium<br>
+	 * 3 == Hard<br>
+	 * 
+	 * @param difficulty the difficulty, in int format.
+	 * @return the difficulty, in String format.
+	 */
 	public String difficultyToString(int difficulty)
 	{
 		String difficultyString = null;
@@ -156,6 +203,15 @@ public class Statistics
 		return difficultyString;
 	}
 	
+	/**
+	 * A variant of the difficultyToString method that does not take in arguments.<br>
+	 * Translates difficulty from an int to a String, where<br>
+	 * 1 == Easy<br>
+	 * 2 == Medium<br>
+	 * 3 == Hard<br>
+	 * 
+	 * @return the difficulty, in String format.
+	 */
 	public String difficultyToString()
 	{
 		String difficultyString = null;
@@ -320,6 +376,11 @@ public class Statistics
 		return numEasyGames;
 	}
 	
+	/**
+	 * Gets the fastest time that the player has spent finishing a Hard puzzle.
+	 * 
+	 * @return the fastest time spent to complete a Hard puzzle, "---" if non-existent
+	 */
 	public String getBestHardTime()
 	{
 		if (bestHardTime.equals("99:00"))
@@ -328,6 +389,11 @@ public class Statistics
 			return bestHardTime;
 	}
 	
+	/**
+	 * Gets the fastest time that the player has spent finishing an Easy puzzle.
+	 * 
+	 * @return the fastest time spent to complete an Easy puzzle, "---" if non-existent
+	 */
 	public String getBestEasyTime()
 	{
 		if (bestEasyTime.equals("99:00"))
@@ -336,6 +402,11 @@ public class Statistics
 			return bestEasyTime;
 	}
 	
+	/**
+	 * Gets the fastest time that the player has spent finishing a Medium puzzle.
+	 * 
+	 * @return the fastest time spent to complete a Medium puzzle, "---" if non-existent
+	 */
 	public String getBestMediumTime()
 	{
 		if (bestMediumTime.equals("99:00"))
