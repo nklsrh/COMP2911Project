@@ -26,7 +26,7 @@ import model.Row;
  *  
  *  @author Ryan Tan
  */
-public class Generator {
+public class Generator implements GeneratorInterface{
 	
 	/** The row groups. */
 	private LinkedList<LinkedList<Square>> rowGroups;
