@@ -4,10 +4,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>406</x>
-      <y>315</y>
-      <w>189</w>
-      <h>140</h>
+      <x>434</x>
+      <y>434</y>
+      <w>217</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>Grid
 --
@@ -20,24 +20,26 @@ _-NUM_GRID_SIDE : int_
 +getGridIndex() : int
 +getCell(int,int) : Cell
 +getCell(int) : Cell
++setCell(int,Cell) : void
 +contains(int) : boolean
-+toString() : String
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>497</x>
-      <y>28</y>
-      <w>119</w>
-      <h>119</h>
+      <x>546</x>
+      <y>0</y>
+      <w>224</w>
+      <h>322</h>
     </coordinates>
-    <panel_attributes>
-Cell
+    <panel_attributes>Cell
 --
 -number : Integer
+-solution : Integer
 -isFixed : boolean
+-isEmpty : boolean
+-possibilities : ArrayList&lt;Integer&gt;
 --
 +Cell(int)
 +Cell()
@@ -45,16 +47,30 @@ Cell
 +setFixed(boolean) : void
 +getNumber() : int
 +setNumber(int) : int
-</panel_attributes>
++getColumn() : Column
++setColumn() : void
++getRow() : Row
++setRow() : void
++getGrid() : Grid
++setGrid() : void
++checkNumberSolution : boolean
++nullCell() : void
++getPossibilities : void
++resetPossibilities: void
++addPossibilities(Integer) : void
++removePossibilities(Integer) : void
++removePossibilities() : void
+-removeNeighbourPossibles(int) : void
+-addNeighbourPossibles(int) : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>189</x>
-      <y>21</y>
-      <w>133</w>
-      <h>77</h>
+      <x>217</x>
+      <y>70</y>
+      <w>154</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>Column
 --
@@ -62,15 +78,15 @@ _-NUM_COLUMN_SIDE : int_
 --
 +Column()
 +getColumn() : ArrayList&lt;Cell&gt;
-+addCell(int,Cell) : Void</panel_attributes>
++addToList(Cell) : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>21</x>
-      <y>301</y>
-      <w>245</w>
+      <x>7</x>
+      <y>427</y>
+      <w>259</w>
       <h>217</h>
     </coordinates>
     <panel_attributes>Puzzle
@@ -98,10 +114,10 @@ _-NUM_COLUMNS : int_
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>266</x>
-      <y>161</y>
-      <w>133</w>
-      <h>77</h>
+      <x>308</x>
+      <y>301</y>
+      <w>140</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>Row
 --
@@ -109,113 +125,194 @@ _-NUM_ROW_SIDE : int_
 --
 +Row()
 +getRow() : ArrayList&lt;Cell&gt;
++addToList(Cell) : void
 +toString() : String</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>14</x>
-      <y>21</y>
-      <w>133</w>
-      <h>98</h>
+      <x>0</x>
+      <y>189</y>
+      <w>189</w>
+      <h>119</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Interface&gt;&gt;
 PuzzleInterface
 --
++getGridList() : ArrayList&lt;Grid&gt;
++getRowList() : ArrayList&lt;Row&gt;
++getColumnList() : ArrayList&lt;Column&gt;
 +getCell(int,int) : Cell
-+getDifficulty() : int
-+getGrid(int) : Grid</panel_attributes>
++setCell(int,int,int) : void
++setCellAsEmpty(int,int) : void
++setRow(int,ArrayList&lt;Cell&gt;) : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>49</x>
-      <y>98</y>
+      <x>63</x>
+      <y>287</y>
       <w>34</w>
-      <h>216</h>
+      <h>153</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>21;21;21;203</additional_attributes>
+    <additional_attributes>21;21;21;140</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>210</x>
-      <y>217</y>
-      <w>125</w>
-      <h>97</h>
+      <x>189</x>
+      <y>133</y>
+      <w>76</w>
+      <h>307</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=  9
-m2=  1</panel_attributes>
-    <additional_attributes>112;21;21;84</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>378</x>
-      <y>84</y>
-      <w>132</w>
-      <h>132</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m1=  9
-m2=  1</panel_attributes>
-    <additional_attributes>119;21;21;119</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>301</x>
-      <y>42</y>
-      <w>209</w>
-      <h>34</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m1=9
-m2=1 </panel_attributes>
-    <additional_attributes>196;21;21;21</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>161</x>
-      <y>77</y>
-      <w>90</w>
-      <h>237</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-m1=   9
-m2=    1
-</panel_attributes>
-    <additional_attributes>77;21;21;224</additional_attributes>
+m1= 1..9
+m2= 1</panel_attributes>
+    <additional_attributes>63;21;21;294</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>245</x>
-      <y>378</y>
-      <w>174</w>
-      <h>34</h>
+      <y>364</y>
+      <w>76</w>
+      <h>83</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=   9
-m2=  1</panel_attributes>
-    <additional_attributes>161;21;21;21</additional_attributes>
+m1= 1..9
+m2= 1</panel_attributes>
+    <additional_attributes>63;21;21;70</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>245</x>
+      <y>476</y>
+      <w>202</w>
+      <h>41</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 1..9
+m2= 1</panel_attributes>
+    <additional_attributes>189;28;21;21</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>504</x>
-      <y>126</y>
-      <w>34</w>
-      <h>202</h>
+      <y>301</y>
+      <w>76</w>
+      <h>146</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=  9
-m2=  1</panel_attributes>
-    <additional_attributes>21;21;21;189</additional_attributes>
+m1=0..1
+m2=0..1
+</panel_attributes>
+    <additional_attributes>49;133;21;77;63;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>553</x>
+      <y>301</y>
+      <w>76</w>
+      <h>146</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 1..9
+m2= 1</panel_attributes>
+    <additional_attributes>42;21;63;84;21;133</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>427</x>
+      <y>252</y>
+      <w>132</w>
+      <h>83</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 0..1
+m2= 0..1</panel_attributes>
+    <additional_attributes>21;70;84;70;119;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>406</x>
+      <y>224</y>
+      <w>153</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 1..9
+m2= 1</panel_attributes>
+    <additional_attributes>140;21;63;21;21;77</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>350</x>
+      <y>35</y>
+      <w>209</w>
+      <h>62</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 0..1
+m2= 0..1</panel_attributes>
+    <additional_attributes>21;49;112;21;196;35</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>350</x>
+      <y>77</y>
+      <w>209</w>
+      <h>62</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1= 1..9
+m2= 1</panel_attributes>
+    <additional_attributes>196;21;105;49;21;28</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>301</x>
+      <y>189</y>
+      <w>133</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+RowColumnInterface
+--
++getList() : ArrayList&lt;Cell&gt;
++addToList(Cell) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>336</x>
+      <y>133</y>
+      <w>34</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>21;56;21;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>336</x>
+      <y>238</y>
+      <w>34</w>
+      <h>76</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>21;21;21;63</additional_attributes>
   </element>
 </diagram>
