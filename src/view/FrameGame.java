@@ -276,6 +276,7 @@ public class FrameGame extends JFrame {
 		btnAutofill = new JButton("Autofill a cell");
 		fullPanel.add(btnAutofill);
 		btnAutofill.setBounds(606, 157, 269, 84);
+		btnAutofill.setOpaque(true);
 		btnAutofill.setBackground(Color.WHITE);
 		btnAutofill.setFont(font.deriveFont(24f));
 		btnAutofill.setEnabled(true);
@@ -424,6 +425,7 @@ public class FrameGame extends JFrame {
 		JButton btnGetHint = new JButton("Get hint");
 		btnGetHint.setBackground(new Color(251,251,251));
 		btnGetHint.setFont(font.deriveFont(24f));
+		btnGetHint.setOpaque(true);
 		btnGetHint.setBorder(BorderFactory.createEmptyBorder());	
 		btnGetHint.addActionListener(new ActionListener(){
 			@Override
@@ -441,6 +443,7 @@ public class FrameGame extends JFrame {
 			keypadButtons.add(new JButton(String.valueOf(i + 1)));	// set value of number according to position (like telephone buttons
 			keypadButtons.get(i).setFont(fontItalic.deriveFont(24f));	
 			keypadButtons.get(i).setBackground(colorHoverCell);
+			keypadButtons.get(i).setOpaque(true);
 			keypadButtons.get(i).setForeground(new Color(200,100,100));
 			keypadButtons.get(i).setBorder(BorderFactory.createEmptyBorder());
 			
@@ -513,6 +516,7 @@ public class FrameGame extends JFrame {
 				cells.get(row).get(col).setBounds(padding + (col * widthBetweenTextBoxes), padding + (row * widthBetweenTextBoxes), textboxWidth, textboxWidth);
 				cells.get(row).get(col).setBorder(BorderFactory.createEmptyBorder());
 				
+				cells.get(row).get(col).setOpaque(true);
 				GridBagConstraints gbc_button = new GridBagConstraints();
 				gbc_button.fill = GridBagConstraints.BOTH;
 				gbc_button.insets = new Insets(5,5,5,5);
